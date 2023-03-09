@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "595911903784",
+    "project_id": "tapper-d2575",
+    "storage_bucket": "tapper-d2575.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:595911903784:android:0ec408bed34ad26ece831d",
+        "android_client_info": {
+          "package_name": "com.group4.tapper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "595911903784-indu35as0b470bqltf8nlb3mboba6tj8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDq4gS2yZEoqVRt4B6tX7zM9OrTaOgp6yw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "595911903784-indu35as0b470bqltf8nlb3mboba6tj8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
