@@ -8,7 +8,4 @@ class Game( rounds: Int) {
     var puzzle: Puzzle = Puzzle()
         get() = field
 
-    var rounds: Int = rounds;
-
-
 }
