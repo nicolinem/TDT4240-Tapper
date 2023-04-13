@@ -20,18 +20,12 @@ class MainView : View() {
         }
     }
 
-    override fun render() {
-        TODO("Not yet implemented")
-    }
-
     override fun dispose() {
         image.disposeSafely()
         batch.disposeSafely()
     }
-
     override fun update(dt: Float) {
         TODO("Not yet implemented")
     }
-
 
 }
