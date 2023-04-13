@@ -3,7 +3,7 @@ package com.group4.tapper.Model
 import java.util.concurrent.atomic.AtomicInteger
 class Player {
 
-    val id: Int = generatePlayerId()
+    var id: Int = generatePlayerId()
         get() = field
 
     // Increments the ID by 1 when an instance is made
