@@ -1,21 +1,31 @@
 package com.group4.tapper
 
 import com.group4.tapper.View.MainView
-import com.group4.tapper.View.ViewManager
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 
-class Tapper : KtxGame<KtxScreen>() {
+class Tapper(IF: FirebaseRepository) : KtxGame<KtxScreen>() {
 
-    private lateinit var viewManager: ViewManager
+    val FBIF = IF
+
     private lateinit var mainView: MainView
 
-    override fun create() {
 
-        addScreen(MainView())
+    public fun getInterface(): FirebaseRepository {
+        return FBIF
+    }
+
+    override fun create() {
+        System.out.println("test")
+        mainView = MainView(this)
+
+
+        addScreen(mainView)
         setScreen<MainView>()
 
     }
+
+
 }
 
 
