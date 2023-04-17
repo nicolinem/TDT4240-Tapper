@@ -18,10 +18,24 @@ class Game(private val rounds: Int) {
         return rounds
     }
 
-    fun gamePlay() {
 
+    /*Alternativ 1 jeg endrer poengsummen her
+    Alternativ 2 jeg returnerer en poengsum
+    */
+    fun generateScore(time: Double, player: Player, amountWrong: Int) {
+        val maxPoint = 100
+        val maxSeconds = 30
+
+        val timePoints = maxPoint/maxSeconds
+        val score = 100 - (time * timePoints).coerceAtMost(100.0) - 10 * amountWrong
+
+        player.score = score.coerceAtLeast(0.0)
     }
 
-
+    // Sorterer spillere fra høyest til lavest.
+    fun generateWinner(players: Array<Player>): Array<Player> {
+        val sortedPlayers = players.sortedByDescending { it.score }
+        return sortedPlayers.toTypedArray()
+    }
 
 }
