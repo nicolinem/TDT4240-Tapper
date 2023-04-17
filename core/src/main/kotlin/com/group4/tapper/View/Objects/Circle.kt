@@ -27,7 +27,7 @@ class Circle(x:Float, y: Float, size:Float, number: Int) {
 
         //Draw font
         font.setColor(Color.BLACK)
-        font.getData().setScale(2f)
+        font.getData().setScale(6f)
         font.draw(batch, number.toString(), x - font.xHeight / 2f, y + font.capHeight / 2f)
     }
 
