@@ -2,7 +2,7 @@ package com.group4.tapper.Model
 
 class Game(private val rounds: Int) {
 
-    var players: Array<Player> = emptyArray<Player>()
+    private var players: Array<Player> = emptyArray<Player>()
         get() = field
 
     var puzzle: Puzzle = Puzzle()
@@ -31,6 +31,7 @@ class Game(private val rounds: Int) {
 
         player.score = score.coerceAtLeast(0.0)
     }
+
 
     // Sorterer spillere fra høyest til lavest.
     fun generateWinner(players: Array<Player>): Array<Player> {
