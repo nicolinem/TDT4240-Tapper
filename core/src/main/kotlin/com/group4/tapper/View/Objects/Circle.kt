@@ -9,9 +9,14 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.FrameBuffer
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.InputListener
+import com.badlogic.gdx.scenes.scene2d.ui.Image
+import jdk.jfr.Event
+import java.util.EventListener
 
 
-class Circle(x:Float, y: Float, size:Float, number: Int) {
+class Circle(x:Float, y: Float, size:Float, number: Int, clickable:Boolean) {
 
 
     private val x:Float = x
@@ -22,6 +27,16 @@ class Circle(x:Float, y: Float, size:Float, number: Int) {
     private val texture:Texture = Texture("Circle.png")
 
     fun draw(batch: SpriteBatch){
+
+        val image:Image = Image(texture)
+        image.addListener(object :InputListener(){
+            fun onCLick(event:InputEvent,x:Float,y:Float,pointer:Int,buttin:Int):Boolean{
+                //Handle click event.
+                println("click")
+                return true
+            }
+        })
+
         //Draw circle
         batch.draw(texture,x-size,y-size,size*2,size*2)
 

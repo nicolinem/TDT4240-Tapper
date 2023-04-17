@@ -22,12 +22,14 @@ class GameView : View(){
     private var width:Int = 0
 
     //Circle object with default values.
-    private var circle:Circle = Circle(100f,750f,30f,2)
+    private var circle:Circle = Circle(100f,750f,30f,2,false)
 
     //tmp wait for puzzle code
     private var count:Boolean = true
     private var circleList: MutableList<Int> = (1..6).toMutableList()
     private var puzzleList: MutableList<Int> = circleList.shuffled() as MutableList<Int>
+    private val coordinates: MutableList<Pair<Float, Float>> = mutableListOf()
+
 
 
 
@@ -59,7 +61,7 @@ class GameView : View(){
         shape.rectLine(0f,height*0.75f,width*1f,height*0.75f,10f)
 
         shape.end()
-        points-=15
+        points-=1
 
     }
 
@@ -76,8 +78,18 @@ class GameView : View(){
         val minX: Float = width * 0.05.toFloat()
         val maxY: Float = height * 0.6.toFloat()
         val minY: Float = height * 0.05.toFloat()
-        val coordinates: MutableList<Pair<Float, Float>> = mutableListOf()
+
         val circleRadius = 70f
+
+        if(coordinates.isNotEmpty()){
+            var index = 0
+            for (pair in coordinates){
+                circle = Circle(pair.first,pair.second,circleRadius,puzzleList.get(index),true)
+                index +=1
+                circle.draw(batch)
+            }
+            return
+        }
 
         for (i in puzzleList) {
             var randomX: Float
@@ -100,7 +112,8 @@ class GameView : View(){
 
             val pair: Pair<Float, Float> = Pair(randomX, randomY)
             coordinates.add(pair)
-            val circle: Circle = Circle(randomX, randomY, circleRadius, i)
+            val circle: Circle = Circle(randomX, randomY, circleRadius, i,true)
+
             circle.draw(batch)
         }
     }
@@ -114,32 +127,9 @@ class GameView : View(){
     fun drawTopCircles(amount:Int){
         //populate a list of random numbers
         for (i in 1..amount){
-            circle = Circle(-width*0.06f+width*0.16f*i,0.8f*height,70f,circleList.get(i-1))
+            circle = Circle(-width*0.06f+width*0.16f*i,0.8f*height,70f,circleList.get(i-1),false)
             circle.draw(batch)
         }
-        /*
-        //draw the circles
-        //boolean to not make them random every tick, but stay the same after the first iteration.
-        if(count){
-            for (i in 1..amount){
-                var randomInteger = numberList.random()
-                numberList.remove(randomInteger)
-                circleList.add(randomInteger)
-                circle = Circle(0f+75f*i,750f,30f,randomInteger)
-                circle.draw(batch)
-            }
-            count=false
-            println(circleList)
-        }
-        else{
-            for (i in 1..amount){
-                circle = Circle(0f+75f*i,750f,30f,circleList.get(i-1))
-                circle.draw(batch)
-            }
-        }
-
-
-         */
 
     }
 
