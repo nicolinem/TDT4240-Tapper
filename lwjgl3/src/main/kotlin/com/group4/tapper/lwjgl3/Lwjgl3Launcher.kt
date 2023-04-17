@@ -10,7 +10,7 @@ import com.group4.tapper.Tapper
 fun main() {
     Lwjgl3Application(Tapper(), Lwjgl3ApplicationConfiguration().apply {
         setTitle("Tapper")
-        setWindowedMode(640, 480)
+        setWindowedMode(1080/2, 1920/2)
         setWindowIcon(*(arrayOf(128, 64, 32, 16).map { "libgdx$it.png" }.toTypedArray()))
     })
 }
