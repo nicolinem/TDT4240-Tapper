@@ -14,9 +14,6 @@ import ktx.scene2d.*
 
 class NewGameView(game: Tapper): View(game) {
 
-
-
-
      override fun setupUI() {
         val screenWidth = Gdx.graphics.width.toFloat()
 
@@ -45,15 +42,15 @@ class NewGameView(game: Tapper): View(game) {
                 row().left()
                 buttonGroup(1,1){
                     it.fillX().expandX()
-                    textButton("2") {
+                    textButton("2", "toggle") {
                         pad(25f, 50f, 25f, 50f)
                     }
-                    textButton("3") {
+                    textButton("3", "toggle") {
                         pad(25f, 50f, 25f, 50f)
                         it.padLeft(50f)
                         it.padRight(50f)
                     }
-                    textButton("4") {
+                    textButton("4", "toggle") {
                         pad(25f, 50f, 25f, 50f)
                     }.addListener(object : ChangeListener() {
                         override fun changed(event: ChangeEvent?, actor: Actor?) {
@@ -69,15 +66,15 @@ class NewGameView(game: Tapper): View(game) {
                 // Difficulty-buttons
                 row().left()
                 buttonGroup(1,1){
-                    textButton("easy") {
+                    textButton("easy", "toggle") {
                         pad(25f, 50f, 25f, 50f)
                     }
-                    textButton("medium") {
+                    textButton("medium", "toggle") {
                         pad(25f, 50f, 25f, 50f)
                         it.padLeft(50f)
                         it.padRight(50f)
                     }
-                    textButton("hard") {
+                    textButton("hard", "toggle") {
                         pad(25f, 50f, 25f, 50f)
                     }
                 }
@@ -96,7 +93,6 @@ class NewGameView(game: Tapper): View(game) {
             }
         }
     }
-
 
     override fun update(dt: Float) {
         TODO("Not yet implemented")
