@@ -1,20 +1,33 @@
 package com.group4.tapper
 
-import com.badlogic.gdx.assets.AssetManager
-import com.group4.tapper.View.LoadingView
 import com.group4.tapper.View.MainView
 import com.group4.tapper.View.NewGameView
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 
-class Tapper : KtxGame<KtxScreen>() {
+class Tapper(IF: FirebaseRepository) : KtxGame<KtxScreen>() {
+
+    val FBIF = IF
+
+    private lateinit var mainView: MainView
+
+
+    public fun getInterface(): FirebaseRepository {
+        return FBIF
+    }
 
     override fun create() {
-        addScreen(NewGameView(this))
+
+
+
+
         addScreen(MainView(this))
-        addScreen(LoadingView(this, AssetManager()))
-        setScreen<LoadingView>()
+        addScreen(NewGameView(this))
+        setScreen<NewGameView>()
+
     }
+
+
 }
 
 
