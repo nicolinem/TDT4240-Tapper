@@ -1,6 +1,7 @@
 package com.group4.tapper
 
 import com.group4.tapper.View.MainView
+import com.group4.tapper.View.NewGameView
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 
@@ -17,11 +18,12 @@ class Tapper(IF: FirebaseRepository) : KtxGame<KtxScreen>() {
 
     override fun create() {
 
-        mainView = MainView()
 
 
-        addScreen(mainView)
-        setScreen<MainView>()
+
+        addScreen(MainView(this))
+        addScreen(NewGameView(this))
+        setScreen<NewGameView>()
 
     }
 

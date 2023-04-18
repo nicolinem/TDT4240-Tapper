@@ -4,13 +4,14 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.group4.tapper.Tapper
 import com.group4.tapper.View.Objects.Circle
 import ktx.app.clearScreen
 import kotlin.random.Random
 import kotlin.math.sqrt
 import kotlin.math.pow
 
-class GameView : View(){
+class GameView(game: Tapper) : View(game){
 
 
     private val pointsFont : BitmapFont = BitmapFont()
@@ -30,9 +31,9 @@ class GameView : View(){
     private var puzzleList: MutableList<Int> = circleList.shuffled() as MutableList<Int>
     private val coordinates: MutableList<Pair<Float, Float>> = mutableListOf()
 
-
-
-
+    override fun setupUI() {
+        TODO("Not yet implemented")
+    }
 
 
     override fun render(dt:Float) {
@@ -68,6 +69,8 @@ class GameView : View(){
     override fun update(dt: Float) {
         TODO("Not yet implemented")
     }
+
+
 
     fun drawClickCircles(amount: Int) {
         val maxX: Float = width * 0.95.toFloat()
