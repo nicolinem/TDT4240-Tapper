@@ -2,6 +2,11 @@ package com.group4.tapper.Model
 
 class Game(private val rounds: Int) {
 
+    var difficultyLevel: String = "Low"
+        set(value) {
+            field = value
+        }
+
     private var players: Array<Player> = emptyArray<Player>()
         get() = field
 
