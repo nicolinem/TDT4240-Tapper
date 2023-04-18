@@ -3,6 +3,11 @@ package com.group4.tapper.Model
 import java.util.concurrent.atomic.AtomicInteger
 class Player {
 
+    var nickname: String = ""
+        set(value) {
+            field = value
+        }
+
     var id: Int = generatePlayerId()
         get() = field
 
