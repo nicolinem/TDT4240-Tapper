@@ -7,5 +7,7 @@ dependencies {
   api "io.github.libktx:ktx-assets:$ktxVersion"
   api "io.github.libktx:ktx-scene2d:$ktxVersion"
   api "io.github.libktx:ktx-graphics:$ktxVersion"
+  api "io.github.libktx:ktx-style:$ktxVersion"
+  api "io.github.libktx:ktx-actors:$ktxVersion"
   api "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 }

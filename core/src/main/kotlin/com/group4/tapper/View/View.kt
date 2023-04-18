@@ -26,6 +26,5 @@ abstract class View() : KtxScreen {
     }
 
     abstract fun update(dt: Float)
-    abstract fun render()
 
 }
