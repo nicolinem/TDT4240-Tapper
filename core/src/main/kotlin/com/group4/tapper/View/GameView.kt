@@ -69,10 +69,6 @@ class GameView : View(){
         TODO("Not yet implemented")
     }
 
-    override fun render() {
-
-    }
-
     fun drawClickCircles(amount: Int) {
         val maxX: Float = width * 0.95.toFloat()
         val minX: Float = width * 0.05.toFloat()
