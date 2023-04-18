@@ -31,9 +31,9 @@ class GameView(game: Tapper) : View(game){
     private var puzzleList: MutableList<Int> = circleList.shuffled() as MutableList<Int>
     private val coordinates: MutableList<Pair<Float, Float>> = mutableListOf()
 
-
-
-
+    override fun setupUI() {
+        TODO("Not yet implemented")
+    }
 
 
     override fun render(dt:Float) {

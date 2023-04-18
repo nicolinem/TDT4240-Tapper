@@ -20,15 +20,17 @@ import ktx.scene2d.Scene2DSkin
 
 
 abstract class View(val game: Tapper) : KtxScreen {
-    private var skin: Skin = Skin(Gdx.files.internal("tapper_skin/tapper_skin.json"))
+    var skin: Skin = Skin(Gdx.files.internal("tapper_skin/tapper_skin.json"))
     val stage = Stage(FitViewport(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat()))
 
     protected val batch = SpriteBatch()
 
     init {
         Scene2DSkin.defaultSkin = skin
-
+        setupUI()
     }
+
+    abstract fun setupUI()
 
     override fun show() {
         Gdx.input.inputProcessor = stage
@@ -40,8 +42,9 @@ abstract class View(val game: Tapper) : KtxScreen {
         stage.draw()
     }
 
-    override fun dispose() {
-        batch.disposeSafely()
+    fun uiDispose(){
+        skin.dispose()
+        stage.dispose()
     }
 
     abstract fun update(dt: Float)

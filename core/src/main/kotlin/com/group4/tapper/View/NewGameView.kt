@@ -15,12 +15,9 @@ import ktx.scene2d.*
 class NewGameView(game: Tapper): View(game) {
 
 
-    init {
-        setupUI()
-    }
 
 
-    private fun setupUI() {
+     override fun setupUI() {
         val screenWidth = Gdx.graphics.width.toFloat()
 
         stage.actors {
@@ -107,5 +104,6 @@ class NewGameView(game: Tapper): View(game) {
 
     override fun dispose() {
         stage.disposeSafely()
+        uiDispose()
     }
 }
