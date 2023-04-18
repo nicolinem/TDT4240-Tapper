@@ -16,8 +16,8 @@ class Tapper(IF: FirebaseRepository) : KtxGame<KtxScreen>() {
     }
 
     override fun create() {
-        System.out.println("test")
-        mainView = MainView(this)
+
+        mainView = MainView()
 
 
         addScreen(mainView)
