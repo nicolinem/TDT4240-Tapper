@@ -1,12 +1,13 @@
 package com.group4.tapper.View
 
 import com.badlogic.gdx.graphics.Texture
+import com.group4.tapper.Tapper
 import ktx.app.clearScreen
 import ktx.assets.disposeSafely
 import ktx.assets.toInternalFile
 import ktx.graphics.use
 
-class MainView : View() {
+class MainView(game: Tapper) : View(game) {
     private val image = Texture("logo.png".toInternalFile(), true).apply { setFilter(
         Texture.TextureFilter.Linear,
         Texture.TextureFilter.Linear

@@ -9,7 +9,8 @@ import ktx.app.KtxScreen
 class Tapper : KtxGame<KtxScreen>() {
 
     override fun create() {
-        addScreen(NewGameView())
+        addScreen(NewGameView(this))
+        addScreen(MainView(this))
         setScreen<NewGameView>()
     }
 }
