@@ -1,31 +1,20 @@
 package com.group4.tapper.View
 
-import ktx.app.clearScreen
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.badlogic.gdx.scenes.scene2d.ui.Button
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.utils.viewport.FitViewport
+import ktx.app.clearScreen
 import ktx.assets.disposeSafely
 import ktx.scene2d.*
 
 
 class NewGameView: View() {
-    lateinit var skin: Skin
-    private val scale = 6f
-    private var stage = Stage(FitViewport(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat()))
-    private val createGameButton = ImageButton(TextureRegionDrawable(
-        TextureRegion(Texture(Gdx.files.internal("create_game_button.png")))))
+    private var skin: Skin
+    private val stage = Stage(FitViewport(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat()))
 
     init {
-        skin = Skin(Gdx.files.internal("skin.json"))
-        skin.getAll(Texture::class.java).values().forEach { texture ->
-            texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
-        }
+        skin = Skin(Gdx.files.internal("tapper_skin/tapper_skin.json"))
         Scene2DSkin.defaultSkin = skin
         Gdx.input.inputProcessor = stage
         setupUI()
@@ -33,43 +22,32 @@ class NewGameView: View() {
 
 
     private fun setupUI() {
-        val screenHeight = Gdx.graphics.height.toFloat()
         val screenWidth = Gdx.graphics.width.toFloat()
-        val buttonpadding = 50f
-        val buttonWidth = screenWidth/3 - buttonpadding
 
-        /*stage.actors {
-            table{
-                setFillParent(true)
-                defaults().fillX().expandX()
-                defaults().pad(50f)
-                row().expand().bottom().left()
-                button("easy", skin) {
-
-                }
-            }
-        }*/
         stage.actors {
+            // Start of table
             table {
                 defaults().fillX().expandX()
                 defaults().pad(50f)
 
+                // Pin
                 row().expand().bottom().left()
-                label("Pin: "){
-                    style.font.data.setScale(scale/2)
-                    setFontScale(scale)
-                    setColor(255f,255f,255f,1f)
+                label("Pin: 1234"){
+                    setFontScale(2f)
                 }
 
+                // Nickname-field
                 row().size(screenWidth/2, 150f).left()
                 textField("Nickname"){
                 }
 
+                // Rounds-label
                 row()
-                label("Rounds").setFontScale(scale/1.5f)
+                label("Rounds")
 
+                // Rounds-buttons
                 row().left()
-                buttonGroup(0,1){
+                buttonGroup(1,1){
                     it.fillX().expandX()
                     textButton("2") {
                         pad(25f, 50f, 25f, 50f)
@@ -84,9 +62,11 @@ class NewGameView: View() {
                     }
                 }
 
-                row()
-                label("Difficulty").setFontScale(scale/1.5f)
+                // Difficulty-label
+                row().left()
+                label("Difficulty")
 
+                // Difficulty-buttons
                 row().left()
                 buttonGroup(1,1){
                     textButton("easy") {
@@ -102,11 +82,14 @@ class NewGameView: View() {
                     }
                 }
 
+                // Create game-button
                 row()
-                textButton("Create Game") {
+                textButton("Create Game", "selection") {
                     it.padTop(400f)
                     it.height(150f)
                 }
+
+                // Table-options
                 setFillParent(true)
                 top()
                 pack()
