@@ -11,11 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
+import com.group4.tapper.Controller.MenuController
 import com.group4.tapper.Tapper
 import ktx.assets.disposeSafely
 import ktx.scene2d.*
 
-class WaitingView(game: Tapper) : View(game) {
+class WaitingView(val controller:MenuController) : View() {
 
 
 

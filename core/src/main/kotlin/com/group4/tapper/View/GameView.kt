@@ -21,7 +21,7 @@ import kotlin.random.Random
 import kotlin.math.sqrt
 import kotlin.math.pow
 
-class GameView(game: Tapper) : View(game){
+class GameView(game: Tapper) : View(){
 
 
     private val pointsFont : BitmapFont
