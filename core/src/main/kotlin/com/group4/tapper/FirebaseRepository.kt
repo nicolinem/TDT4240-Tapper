@@ -1,5 +1,6 @@
 package com.group4.tapper
 
+import com.group4.tapper.Model.Player
 
 
 interface FirebaseRepository {
