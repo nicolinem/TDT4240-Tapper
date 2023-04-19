@@ -2,10 +2,13 @@ package com.group4.tapper
 
 import com.group4.tapper.View.MainView
 import com.group4.tapper.View.NewGameView
+import com.group4.tapper.View.WaitingView
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
 
+
 class Tapper(IF: FirebaseRepository) : KtxGame<KtxScreen>() {
+
 
     val FBIF = IF
 
@@ -18,12 +21,13 @@ class Tapper(IF: FirebaseRepository) : KtxGame<KtxScreen>() {
 
     override fun create() {
 
-
-
-
         addScreen(MainView(this))
+
         addScreen(NewGameView(this))
-        setScreen<NewGameView>()
+        addScreen(WaitingView(this))
+
+
+        setScreen<MainView>()
 
     }
 

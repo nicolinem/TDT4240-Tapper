@@ -55,12 +55,12 @@ class NewGameView(game: Tapper): View(game) {
                     }
                     textButton("4") {
                         pad(25f, 50f, 25f, 50f)
-                    }.addListener(object : ChangeListener() {
-                        override fun changed(event: ChangeEvent?, actor: Actor?) {
-                            game.setScreen<MainView>()
-                        }
-                    })
-                }
+                    }
+                }.addListener(object : ChangeListener() {
+                    override fun changed(event: ChangeEvent?, actor: Actor?) {
+                        System.out.println(actor.toString())
+                    }
+                })
 
                 // Difficulty-label
                 row().left()
