@@ -28,7 +28,12 @@ class MainView(val controller: MenuController) : View() {
                 defaults().pad(50f)
 
                 row().width(screenWidth/2.5f).right()
-                textButton("How to play?")
+                textButton("How to play?") {
+                }.addListener(object : ClickListener() {
+                    override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                        controller.handleChangeToHowToView()
+                    }
+                })
 
                 row().width(screenWidth/1.5f).height(screenWidth/1.5f).padTop(screenHeight/8f)
                 image(Texture(Gdx.files.internal("images/logoFixed.png"))){

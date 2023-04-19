@@ -3,10 +3,7 @@ package com.group4.tapper.Controller
 import com.group4.tapper.Model.Game
 import com.group4.tapper.Model.Player
 import com.group4.tapper.Tapper
-import com.group4.tapper.View.JoinGameView
-import com.group4.tapper.View.LoadingView
-import com.group4.tapper.View.MainView
-import com.group4.tapper.View.NewGameView
+import com.group4.tapper.View.*
 
 class MenuController(tapper: Tapper) {
 
@@ -49,6 +46,10 @@ class MenuController(tapper: Tapper) {
 
      fun handleChangeToNewGameView(){
         tapper.setScreen<NewGameView>()
+    }
+
+    fun handleChangeToHowToView() {
+        tapper.setScreen<HowToView>()
     }
 
 
