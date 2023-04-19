@@ -3,6 +3,7 @@ package com.group4.tapper.Model
 import com.group4.tapper.FirebaseRepository
 import java.math.BigInteger
 import java.security.SecureRandom
+import java.util.*
 
 class Game(private val rounds: Int, private val FirebaseRepository: FirebaseRepository) {
 
@@ -10,6 +11,7 @@ class Game(private val rounds: Int, private val FirebaseRepository: FirebaseRepo
     private val gameID: String = generateRandID()
         get() = field
 
+   // private val pin: Int
     private var difficultyLevel: String = "Low"
         set(value) {
             field = value
@@ -20,7 +22,7 @@ class Game(private val rounds: Int, private val FirebaseRepository: FirebaseRepo
     var puzzle: Puzzle = Puzzle()
         get() = field
 
-
+/**
     //Hva skal jeg ha med her egnt? Skjønner ikke hvordan denne er koblet opp
     fun createGame(diffLevel: String, player: Player, game: Game) {
         //trenger jeg denne
@@ -36,6 +38,8 @@ class Game(private val rounds: Int, private val FirebaseRepository: FirebaseRepo
 
 
     }
+
+    */
 
     // Vet ikke om vi trenger denne
     fun getRounds(): Int {
@@ -66,6 +70,26 @@ class Game(private val rounds: Int, private val FirebaseRepository: FirebaseRepo
         val numBytes = 10 * 5 / 8 + 1
         val id = BigInteger(50, random).toString(32)
         return id.substring(0, 10)
+    }
+
+    //Static method in companion object.
+    companion object{
+        fun generatePin() : String{
+            val letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+            val sb = StringBuilder()
+            val random = Random()
+
+            while (sb.length < 4) {
+                val index = random.nextInt(letters.length)
+                val character = letters[index]
+
+                if (!sb.contains(character)) {
+                    sb.append(character)
+                }
+            }
+
+            return sb.toString()
+        }
     }
 
 }

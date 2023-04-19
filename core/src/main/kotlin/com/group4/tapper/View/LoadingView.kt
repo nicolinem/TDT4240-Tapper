@@ -1,6 +1,7 @@
 package com.group4.tapper.View
 
 import com.badlogic.gdx.assets.AssetManager
+import com.group4.tapper.Controller.MenuController
 import com.group4.tapper.Tapper
 import com.group4.tapper.assets.MusicAssets
 import com.group4.tapper.assets.TextureAtlasAssets
@@ -9,8 +10,8 @@ import ktx.app.KtxScreen
 import ktx.scene2d.actors
 import ktx.scene2d.label
 
-class LoadingView(  game: Tapper,
-                private val assets: AssetManager): View(game) {
+class LoadingView( val  controller: MenuController,
+                private val assets: AssetManager): View() {
 
     override fun setupUI() {
         stage.actors {
