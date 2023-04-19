@@ -5,7 +5,9 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.firestore
+import com.group4.tapper.Model.Player
 
 data class Game(
     val gameId: String,
@@ -57,19 +59,18 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
 
 
 
-    override fun subscribeToGame(gameId: String) {
+    override fun subscribeToGame(gameId: String, onUpdate: () -> Player) {
         val gameRef = db.collection("games").document(gameId)
 
-        gameRef.addSnapshotListener { snapshot: DocumentSnapshot?, error: FirebaseFirestoreException? ->
+         gameRef.addSnapshotListener { snapshot: DocumentSnapshot?, error: FirebaseFirestoreException? ->
             if (error != null) {
                 Log.w("GameSubscription", "Failed to subscribe to game", error)
             }
 
-/*            if (snapshot != null && snapshot.exists()) {
-*//*
-                onUpdate(snapshot)
-*//*
-            }*/
+            if (snapshot != null && snapshot.exists()) {
+                onUpdate()
+
+            }
         }
     }
 

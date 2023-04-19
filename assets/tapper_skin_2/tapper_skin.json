@@ -1,6 +1,6 @@
 {
 com.badlogic.gdx.graphics.g2d.BitmapFont: {
-	Montserrat_SemiBold: {
+	Montserrat: {
 		file: Montserrat.fnt
 		scaledSize: -1
 		markupEnabled: false
@@ -43,53 +43,77 @@ com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 	default: {
 		up: button_ up
 		down: button_down
+	}
+	toggle: {
+		up: button_ up
+		down: button_down
 		checked: button_down
+	}
+	return_white: {
+		up: return_white
+	}
+	return_black: {
+		up: return
+	}
+	round: {
+		up: rund_knapp
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {
-		font: Montserrat_SemiBold
+		font: Montserrat
 	}
 	black: {
-		font: Montserrat_SemiBold
+		font: Montserrat
 		fontColor: BLACK
 	}
 	pink: {
-		font: Montserrat_SemiBold
+		font: Montserrat
 		fontColor: PINK
 	}
 	light_pink: {
-		font: Montserrat_SemiBold
+		font: Montserrat
 		fontColor: LIGHT_PINK
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 	default: {
-		font: Montserrat_SemiBold
+		font: Montserrat
+		fontColor: LIGHT_PINK
+		up: button_ up
+		down: button_down
+	}
+	toggle: {
+		font: Montserrat
 		fontColor: LIGHT_PINK
 		up: button_ up
 		down: button_down
 		checked: button_down
 	}
 	selection: {
-		font: Montserrat_SemiBold
+		font: Montserrat
 		fontColor: SELECTION_COLOR
-		up: new_game
+		up: select
 	}
 	new_game: {
-		font: Montserrat_SemiBold
+		font: Montserrat
 		fontColor: LIGHT_PINK
 		up: new_game
 	}
 	join_game: {
-		font: Montserrat_SemiBold
+		font: Montserrat
 		fontColor: LIGHT_PINK
 		up: join_game
+	}
+	round: {
+		font: Montserrat
+		fontColor: WHITE
+		up: rund_knapp
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
 	default: {
-		font: Montserrat_SemiBold
+		font: Montserrat
 		fontColor: WHITE
 		background: input
 	}

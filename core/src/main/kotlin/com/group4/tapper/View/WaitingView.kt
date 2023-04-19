@@ -4,16 +4,22 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.ui.Button
+import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane
+import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.group4.tapper.Tapper
-import ktx.app.clearScreen
 import ktx.assets.disposeSafely
-import ktx.assets.toInternalFile
-import ktx.graphics.use
 import ktx.scene2d.*
 
-class MainView(game: Tapper) : View(game) {
+class WaitingView(game: Tapper) : View(game) {
+
+
+
+
 
     override fun setupUI() {
 
@@ -37,20 +43,12 @@ class MainView(game: Tapper) : View(game) {
                 // New Game button
                 row()/*.padTop(screenHeight/3f)*/
                 textButton("New Game", "new_game"){
-                }.addListener(object : ClickListener() {
-                    override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                        game.setScreen<NewGameView>()
-                    }
-                })
+                }
 
                 // Join Game button
                 row()
                 textButton("Join Game", "join_game") {
-                }.addListener(object : ClickListener() {
-                    override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                        game.setScreen<JoinGameView>()
-                    }
-                })
+                }
                 setFillParent(true)
                 top()
                 pack()
