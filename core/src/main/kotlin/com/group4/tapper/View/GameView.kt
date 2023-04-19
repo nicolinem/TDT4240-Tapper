@@ -14,13 +14,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.utils.viewport.FitViewport
+import com.group4.tapper.Tapper
 import com.group4.tapper.View.Objects.Circle
 import ktx.app.clearScreen
 import kotlin.random.Random
 import kotlin.math.sqrt
 import kotlin.math.pow
 
-class GameView : View(){
+class GameView(game: Tapper) : View(game){
 
 
     private val pointsFont : BitmapFont
@@ -189,6 +190,10 @@ class GameView : View(){
         })
     }
 
+    override fun setupUI() {
+        TODO("Not yet implemented")
+    }
+
     override fun show() {
         Gdx.input.inputProcessor = stage
         stage.addActor(textButton1)
@@ -234,9 +239,7 @@ class GameView : View(){
         TODO("Not yet implemented")
     }
 
-    override fun render() {
 
-    }
 
     fun drawClickCircles(amount: Int) {
 

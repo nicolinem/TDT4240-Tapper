@@ -2,9 +2,11 @@ package com.group4.tapper.View
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.Actor
+import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.group4.tapper.Tapper
 import ktx.app.clearScreen
@@ -23,15 +25,23 @@ class NewGameView(game: Tapper): View(game) {
                 defaults().fillX().expandX()
                 defaults().pad(50f)
 
+                row().width(screenWidth/10f).height(screenWidth/10f).expand().left().top()
+                button("return_white").addListener(object : ClickListener() {
+                    override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                        game.setScreen<MainView>()
+                    }
+                })
+
                 // Pin
-                row().expand().bottom().left()
+                row().expand()
                 label("Pin: 1234"){
                     setFontScale(2f)
                 }
 
                 // Nickname-field
-                row().size(screenWidth/2, 150f).left()
+                row().width(screenWidth/2f).left()
                 textField("Nickname"){
+                    style.background.leftWidth += 40
                 }
 
                 // Rounds-label

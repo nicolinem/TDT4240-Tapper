@@ -1,11 +1,12 @@
 package com.group4.tapper.View
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.group4.tapper.Tapper
 import ktx.scene2d.*
 
-class joinGame(game: Tapper): View(game) {
+class JoinGameView(game: Tapper): View(game) {
 
     override fun setupUI() {
         val screenHeight = Gdx.graphics.height.toFloat()
@@ -17,7 +18,11 @@ class joinGame(game: Tapper): View(game) {
                 defaults().pad(50f)
 
                 row().width(screenWidth/10f).height(screenWidth/10f).expand().left().top()
-                button("return_white")
+                button("return_white").addListener(object : ClickListener() {
+                    override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                        game.setScreen<MainView>()
+                    }
+                })
 
                 row().width(screenWidth/2f)
                 textField("Pin"){
