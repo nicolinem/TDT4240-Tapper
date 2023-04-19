@@ -1,0 +1,162 @@
+{
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	Montserrat: {
+		file: Montserrat.fnt
+		scaledSize: -1
+		markupEnabled: false
+		flip: false
+	}
+	Montserrat_big: {
+		file: Montserrat_big.fnt
+		scaledSize: -1
+		markupEnabled: false
+		flip: false
+	}
+	Montserrat_bigger: {
+		file: Montserrat_bigger.fnt
+		scaledSize: -1
+		markupEnabled: false
+		flip: false
+	}
+	montserrat_fixed: {
+		file: montserrat_better.fnt
+		scaledSize: -1
+		markupEnabled: false
+		flip: false
+	}
+}
+com.badlogic.gdx.graphics.Color: {
+	BLACK: {
+		r: 0
+		g: 0
+		b: 0
+		a: 1
+	}
+	LIGHT_PINK: {
+		r: 0.9490196
+		g: 0.7607843
+		b: 0.84705883
+		a: 1
+	}
+	PINK: {
+		r: 0.90588236
+		g: 0.050980393
+		b: 0.5921569
+		a: 1
+	}
+	SELECTION_COLOR: {
+		r: 1
+		g: 0.8980392
+		b: 0.94509804
+		a: 1
+	}
+	WHITE: {
+		r: 1
+		g: 1
+		b: 1
+		a: 1
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+	default: {
+		up: button_ up
+		down: button_down
+	}
+	toggle: {
+		up: button_ up
+		down: button_down
+		checked: button_down
+	}
+	return_white: {
+		up: return_white
+	}
+	return_black: {
+		up: return
+	}
+	round: {
+		up: rund_knapp
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+	default: {
+		font: Montserrat
+	}
+	black: {
+		font: Montserrat
+		fontColor: BLACK
+	}
+	pink: {
+		font: Montserrat
+		fontColor: PINK
+	}
+	light_pink: {
+		font: Montserrat
+		fontColor: LIGHT_PINK
+	}
+	white_bigger: {
+		font: montserrat_fixed
+		fontColor: WHITE
+	}
+	pink_bigger: {
+		font: montserrat_fixed
+		fontColor: PINK
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+	default: {
+		font: Montserrat
+		fontColor: LIGHT_PINK
+		up: button_ up
+		down: button_down
+	}
+	toggle: {
+		font: Montserrat
+		fontColor: LIGHT_PINK
+		up: button_ up
+		down: button_down
+		checked: button_down
+	}
+	selection: {
+		font: Montserrat
+		fontColor: SELECTION_COLOR
+		up: select
+	}
+	new_game: {
+		font: Montserrat
+		fontColor: LIGHT_PINK
+		up: new_game
+	}
+	join_game: {
+		font: Montserrat
+		fontColor: LIGHT_PINK
+		up: join_game
+	}
+	round: {
+		font: Montserrat
+		fontColor: WHITE
+		up: rund_knapp
+	}
+	round_big: {
+		font: Montserrat_big
+		fontColor: WHITE
+		up: rund_knapp
+	}
+	round_bigger: {
+		font: montserrat_fixed
+		fontColor: WHITE
+		up: rund_knapp
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
+	default: {
+		font: Montserrat
+		fontColor: WHITE
+		background: input
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
+	default: {
+		label: default
+	}
+}
+}
