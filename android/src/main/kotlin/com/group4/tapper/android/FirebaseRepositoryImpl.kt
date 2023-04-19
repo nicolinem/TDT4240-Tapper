@@ -27,14 +27,14 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
         db.collection("games").document(gameId).set(game)
     }
 
-    override fun addPlayer(gameId: String, playerId: String, callback: () -> Boolean) {
+    override fun addPlayer(gameId: String, playerId: String) {
         val gameRef = db.collection("games").document(gameId)
 
         gameRef.update("playerId", FieldValue.arrayUnion(playerId))
             .addOnSuccessListener {
                 gameRef.update("playerScores.$playerId", 0)
                     .addOnSuccessListener {
-                        callback()
+
                     }
                     .addOnFailureListener { e ->
                         Log.w(TAG, "Error adding player score", e)
@@ -45,12 +45,12 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
             }
     }
 
-    override fun updatePlayerScore(gameId: String, playerId: String, newScore: Int, callback: () -> Unit) {
+    override fun updatePlayerScore(gameId: String, playerId: String, newScore: Double) {
         val gameRef = db.collection("games").document(gameId)
 
         gameRef.update("playerScores.$playerId", newScore)
             .addOnSuccessListener {
-                callback()
+
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error updating player score", e)

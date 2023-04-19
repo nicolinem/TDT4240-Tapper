@@ -1,20 +1,39 @@
 package com.group4.tapper.Model
 
-class Game(private val rounds: Int) {
+import com.group4.tapper.FirebaseRepository
+import java.math.BigInteger
+import java.security.SecureRandom
 
-    var difficultyLevel: String = "Low"
+class Game(private val rounds: Int, private val FirebaseRepository: FirebaseRepository) {
+
+
+    private val gameID: String = generateRandID()
+        get() = field
+
+    private var difficultyLevel: String = "Low"
         set(value) {
             field = value
         }
-
     private var players: Array<Player> = emptyArray<Player>()
         get() = field
 
     var puzzle: Puzzle = Puzzle()
         get() = field
 
-    fun addPlayers(player: Player) {
+
+    //Hva skal jeg ha med her egnt? Skjønner ikke hvordan denne er koblet opp
+    fun createGame(diffLevel: String, player: Player, game: Game) {
+        //trenger jeg denne
+        difficultyLevel = diffLevel
+        FirebaseRepository.createGame(game.gameID, player.id)
+    }
+
+    fun addPlayers(player: Player, game: Game) {
+        //Add to list, trenger vi denne hvis vi kan hente den fra database
         players[players.size - 1] = player
+        //Add to database
+        FirebaseRepository.addPlayer( game.gameID, player.id, )
+
 
     }
 
@@ -24,10 +43,7 @@ class Game(private val rounds: Int) {
     }
 
 
-    /*Alternativ 1 jeg endrer poengsummen her
-    Alternativ 2 jeg returnerer en poengsum
-    */
-    fun generateScore(time: Double, player: Player, amountWrong: Int) {
+    fun generateScore(time: Double, player: Player, amountWrong: Int, game: Game) {
         val maxPoint = 100
         val maxSeconds = 30
 
@@ -35,6 +51,7 @@ class Game(private val rounds: Int) {
         val score = 100 - (time * timePoints).coerceAtMost(100.0) - 10 * amountWrong
 
         player.score = score.coerceAtLeast(0.0)
+        FirebaseRepository.updatePlayerScore(game.gameID, player.id, player.score)
     }
 
 
@@ -42,6 +59,13 @@ class Game(private val rounds: Int) {
     fun generateWinner(players: Array<Player>): Array<Player> {
         val sortedPlayers = players.sortedByDescending { it.score }
         return sortedPlayers.toTypedArray()
+    }
+
+    private fun generateRandID(): String {
+        val random = SecureRandom()
+        val numBytes = 10 * 5 / 8 + 1
+        val id = BigInteger(50, random).toString(32)
+        return id.substring(0, 10)
     }
 
 }
