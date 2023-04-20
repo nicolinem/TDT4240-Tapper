@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.TextField
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
@@ -21,6 +22,8 @@ class NewGameView(val controller:MenuController): View() {
     private var rounds: Int = 2
     private var nickname: String = ""
     private var difficulty: String = "easy"
+    private lateinit var feedback: Label
+
 
      override fun setupUI() {
         val screenWidth = Gdx.graphics.width.toFloat()
@@ -46,6 +49,8 @@ class NewGameView(val controller:MenuController): View() {
                // }
 
 
+
+
                 // Nickname-field
                 label("Nickname")
                 row().width(screenWidth/2f).left()
@@ -55,8 +60,8 @@ class NewGameView(val controller:MenuController): View() {
 
                 }.addListener(object : ChangeListener() {
                     override fun changed(event: ChangeEvent?, actor: Actor?) {
-                        nickname = actor?.let { (it as TextField).text }.toString()
-
+                            nickname = actor?.let { (it as TextField).text }.toString()
+                            prompt("")
                     }
                 })
 
@@ -112,19 +117,31 @@ class NewGameView(val controller:MenuController): View() {
                     }
                 })
 
+                row().padTop(100f)
+                feedback = label("")
+
                 // Create game-button
-                row()
+                row().expand()
                 textButton("Create Game", "selection") {
-                    it.padTop(400f)
+                    it.bottom()
                     it.height(150f)
                 }.addListener(object : ClickListener() {
                     override fun clicked(event: InputEvent?, x: Float, y: Float) {
                         //System.out.println(actor.toString())
-                        controller.createNewGame(nickname,rounds,difficulty)
+                        if(nickname.equals("")){
+                            prompt("You need to choose a nickname!")
+                        }
+
+                        else{
+                            controller.createNewGame(nickname,rounds,difficulty)
+                        }
+
+
                         //TODO ADD CHANGE VIEW
                        // TODO("Change view")
                     }
                 })
+
 
                 // Table-options
                 setFillParent(true)
@@ -132,6 +149,11 @@ class NewGameView(val controller:MenuController): View() {
                 pack()
             }
         }
+    }
+
+    private fun prompt(input:String){
+        feedback.setAlignment(1)
+        feedback.setText(input)
     }
 
     override fun update(dt: Float) {
