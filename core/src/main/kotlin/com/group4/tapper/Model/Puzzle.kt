@@ -4,12 +4,19 @@ import kotlin.math.sqrt
 import kotlin.random.Random
 class Puzzle {
 
-    lateinit var randomNumbers : MutableList<Int>
+    private var randomNumbers : MutableList<Int> = createRandomNumbers()
     private val coordinates: MutableList<Pair<Float, Float>> = mutableListOf()
 
     fun createRandomNumbers(): MutableList<Int> {
-        randomNumbers = MutableList(6) { Random.nextInt(0, 9) }
-        return randomNumbers
+        val list = mutableListOf<Int>()
+        while (list.size < 6) {
+            val number = (1..9).random()
+            if (!list.contains(number)) {
+                list.add(number)
+            }
+        }
+
+        return list
     }
     fun createCoordinates(width:Int, height: Int, circleRadius:Float):  MutableList<Pair<Float, Float>>{
         println(width.toString())

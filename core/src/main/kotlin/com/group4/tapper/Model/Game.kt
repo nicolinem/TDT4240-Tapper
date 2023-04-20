@@ -1,35 +1,66 @@
 package com.group4.tapper.Model
 
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Preferences
 import com.group4.tapper.FirebaseRepository
+import com.group4.tapper.Tapper
 import java.math.BigInteger
 import java.security.SecureRandom
 import java.util.*
 
-class Game(private val rounds: Int, private val FirebaseRepository: FirebaseRepository) {
+class Game(private val tapper: Tapper, private val rounds: Int, private val nickname:String,private val difficulty:String, gameID:String ="") {
 
 
-    private val gameID: String = generateRandID()
-        get() = field
 
-   // private val pin: Int
-    private var difficultyLevel: String = "Low"
-        set(value) {
-            field = value
+    private val gameID:String
+    init{
+
+        if (gameID.equals("")){
+            this.gameID = generatePin()
         }
-    private var players: Array<Player> = emptyArray<Player>()
-        get() = field
+        else{
+            this.gameID = gameID
+        }
+    }
 
-    var puzzle: Puzzle = Puzzle()
-        get() = field
+    private val playerScores:MutableMap<String,Pair<String,Int>> = mutableMapOf()
 
+    private val firebaseRepository: FirebaseRepository = tapper.getInterface()
+    private val prefs : Preferences = Gdx.app.getPreferences("prefs")
 
-    // Vet ikke om vi trenger denne
-    fun getRounds(): Int {
-        return rounds
+    fun getGameID():String{
+        return gameID
+    }
+
+    fun createGame() {
+        val player = Player(nickname)
+        playerScores[player.id] = player.pair
+        firebaseRepository.createGame(gameID,playerScores,rounds,difficulty)
+        //Update context
+        prefs.putString("gameID",getGameID())
+        prefs.putString("rounds",rounds.toString())
+        prefs.putString("difficulty",difficulty)
+        prefs.flush()
+    }
+
+    fun addPlayer(gameID:String, nickname: String) {
+        val player = Player(nickname)
+        firebaseRepository.addPlayer(gameID, player.id,player.pair)
+        //Update context
+        prefs.putString("nickname",nickname)
+        prefs.putString("playerID",player.id)
+        prefs.flush()
+    }
+
+    fun updatePlayerScore(points:Int,playerID:String,nickname: String){
+        val player = Player(nickname)
+        player.setScore(points)
+        firebaseRepository.updatePlayerScore(gameID,playerID,player.pair)
     }
 
 
-    fun generateScore(time: Double, player: Player, amountWrong: Int,) {
+/**
+    fun generateScore(time: Int, player: Player, amountWrong: Int, game: Game) {
         val maxPoint = 100
         val maxSeconds = 30
 
@@ -37,8 +68,9 @@ class Game(private val rounds: Int, private val FirebaseRepository: FirebaseRepo
         val score = 100 - (time * timePoints).coerceAtMost(100.0) - 10 * amountWrong
 
         player.score = score.coerceAtLeast(0.0)
-        FirebaseRepository.updatePlayerScore(this.gameID, player.id, player.score)
+        FirebaseRepository.updatePlayerScore(game.gameID, player.id, player.score)
     }
+
 
 
     // Sorterer spillere fra høyest til lavest.
@@ -46,7 +78,7 @@ class Game(private val rounds: Int, private val FirebaseRepository: FirebaseRepo
         val sortedPlayers = players.sortedByDescending { it.score }
         return sortedPlayers.toTypedArray()
     }
-
+*/
     private fun generateRandID(): String {
         val random = SecureRandom()
         val numBytes = 10 * 5 / 8 + 1

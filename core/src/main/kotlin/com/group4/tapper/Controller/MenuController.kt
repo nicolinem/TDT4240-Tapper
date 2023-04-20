@@ -1,5 +1,7 @@
 package com.group4.tapper.Controller
 
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Preferences
 import com.group4.tapper.Model.Game
 import com.group4.tapper.Model.Player
 import com.group4.tapper.Tapper
@@ -10,30 +12,26 @@ class MenuController(tapper: Tapper) {
     private val tapper:Tapper
     private var numberOfRounds: Int
     private var difficulty:String
-    private val firebaseRepository = tapper.getInterface()
+    private var game:Game
+
 
 
     init{
         this.tapper = tapper
-        numberOfRounds = 0
-        difficulty = ""
+        numberOfRounds = 2
+        difficulty = "easy"
+        game = Game(tapper,numberOfRounds,"TEMP",difficulty,"TEMP")
 
     }
 
     fun createNewGame(nickname:String, rounds:Int, difficulty:String){
-        val player = Player()
-        player.nickname = nickname
-        val map = mutableMapOf<String,Pair<String,Double>>()
-        map[player.id] = Pair(nickname,player.score)
-        firebaseRepository.createGame(Game.generatePin(),map,rounds,difficulty)
+        game = Game(tapper,rounds,nickname,difficulty)
+        game.createGame()
 
     }
 
-    fun addPlayerToGame(pin:String,nickname: String){
-        val player = Player()
-        player.nickname = nickname
-        val pair = Pair(nickname,player.score)
-        firebaseRepository.addPlayer(pin,player.id,pair)
+    fun addPlayerToGame(gameID:String,nickname: String){
+        game.addPlayer(gameID,nickname)
     }
 
     fun handleChangeToMainView(){
@@ -50,6 +48,10 @@ class MenuController(tapper: Tapper) {
 
     fun handleChangeToHowToView() {
         tapper.setScreen<HowToView>()
+    }
+
+    fun handleChangeToGameView(){
+        tapper.setScreen<GameView>()
     }
 
 
