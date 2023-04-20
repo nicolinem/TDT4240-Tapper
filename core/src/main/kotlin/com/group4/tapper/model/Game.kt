@@ -22,24 +22,6 @@ class Game(private val rounds: Int, private val FirebaseRepository: FirebaseRepo
     var puzzle: Puzzle = Puzzle()
         get() = field
 
-/**
-    //Hva skal jeg ha med her egnt? Skjønner ikke hvordan denne er koblet opp
-    fun createGame(diffLevel: String, player: Player, game: Game) {
-        //trenger jeg denne
-        difficultyLevel = diffLevel
-        FirebaseRepository.createGame(game.gameID, player.id)
-    }
-
-    fun addPlayers(player: Player, game: Game) {
-        //Add to list, trenger vi denne hvis vi kan hente den fra database
-        players[players.size - 1] = player
-        //Add to database
-        FirebaseRepository.addPlayer( game.gameID, player.id, )
-
-
-    }
-
-    */
 
     // Vet ikke om vi trenger denne
     fun getRounds(): Int {
@@ -47,7 +29,7 @@ class Game(private val rounds: Int, private val FirebaseRepository: FirebaseRepo
     }
 
 
-    fun generateScore(time: Double, player: Player, amountWrong: Int, game: Game) {
+    fun generateScore(time: Double, player: Player, amountWrong: Int,) {
         val maxPoint = 100
         val maxSeconds = 30
 
@@ -55,7 +37,7 @@ class Game(private val rounds: Int, private val FirebaseRepository: FirebaseRepo
         val score = 100 - (time * timePoints).coerceAtMost(100.0) - 10 * amountWrong
 
         player.score = score.coerceAtLeast(0.0)
-        FirebaseRepository.updatePlayerScore(game.gameID, player.id, player.score)
+        FirebaseRepository.updatePlayerScore(this.gameID, player.id, player.score)
     }
 
 
