@@ -203,7 +203,7 @@ class GameView(private val controller: GameController) : View() {
 
                 // Add upper line
                 row().pad(0f)
-                image(Texture(Gdx.files.internal("Images/Line.png")))
+                image(Texture(Gdx.files.internal("images/Line.png")))
 
                 // Add circles
                 row()
@@ -219,7 +219,7 @@ class GameView(private val controller: GameController) : View() {
 
                 // Add lower line
                 row().pad(0f)
-                image(Texture(Gdx.files.internal("Images/Line.png")))
+                image(Texture(Gdx.files.internal("images/Line.png")))
             }
 
             // Add all number-buttons

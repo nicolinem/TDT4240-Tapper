@@ -15,7 +15,7 @@ class ResultView(val controller: MenuController): View() {
 
     private val tableN = Table(skin)
 
-    val gameId = "IcKG" // Replace this with the actual game id
+    val gameId = "dummy" // Replace this with the actual game id
     fun updatePlayerScoreList(players: List<Player>) {
         stage.clear()
         System.out.println("CALLED")
