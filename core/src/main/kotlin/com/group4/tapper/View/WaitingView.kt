@@ -4,17 +4,23 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.ui.Button
+import com.badlogic.gdx.scenes.scene2d.ui.Label
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane
+import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.group4.tapper.Controller.MenuController
 import com.group4.tapper.Tapper
-import ktx.app.clearScreen
 import ktx.assets.disposeSafely
-import ktx.assets.toInternalFile
-import ktx.graphics.use
 import ktx.scene2d.*
 
-class MainView(val controller: MenuController) : View() {
+class WaitingView(val controller:MenuController) : View() {
+
+
+
+
 
     override fun setupUI() {
 
@@ -28,12 +34,7 @@ class MainView(val controller: MenuController) : View() {
                 defaults().pad(50f)
 
                 row().width(screenWidth/2.5f).right()
-                textButton("How to play?") {
-                }.addListener(object : ClickListener() {
-                    override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                        controller.handleChangeToHowToView()
-                    }
-                })
+                textButton("How to play?")
 
                 row().width(screenWidth/1.5f).height(screenWidth/1.5f).padTop(screenHeight/8f)
                 image(Texture(Gdx.files.internal("images/logoFixed.png"))){
@@ -43,20 +44,12 @@ class MainView(val controller: MenuController) : View() {
                 // New Game button
                 row()/*.padTop(screenHeight/3f)*/
                 textButton("New Game", "new_game"){
-                }.addListener(object : ClickListener() {
-                    override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                        controller.handleChangeToNewGameView()
-                    }
-                })
+                }
 
                 // Join Game button
                 row()
                 textButton("Join Game", "join_game") {
-                }.addListener(object : ClickListener() {
-                    override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                      controller.handleChangeToJoinGameView()
-                    }
-                })
+                }
                 setFillParent(true)
                 top()
                 pack()

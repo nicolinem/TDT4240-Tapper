@@ -5,13 +5,23 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
+
 import com.group4.tapper.Model.Puzzle
 import com.group4.tapper.Tapper
 import ktx.assets.disposeSafely
 import ktx.scene2d.*
+
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
+import com.badlogic.gdx.utils.viewport.FitViewport
+import com.group4.tapper.Tapper
+import com.group4.tapper.View.Objects.Circle
+import ktx.app.clearScreen
+
 import kotlin.random.Random
 
+
 class GameView(game: Tapper) : View(game) {
+
 
     private var points: Int = 1000
     private var height:Int
@@ -132,6 +142,7 @@ class GameView(game: Tapper) : View(game) {
     }
 
     override fun setupUI() {
+
         stage.actors {
             table {
                 setFillParent(true)
@@ -149,6 +160,7 @@ class GameView(game: Tapper) : View(game) {
                         it.right()
                     }
                 }
+
 
                 // Add upper line
                 row().pad(0f)
@@ -198,6 +210,7 @@ class GameView(game: Tapper) : View(game) {
     override fun update(dt: Float) {
         TODO("Not yet implemented")
     }
+   
 
     fun triggerError(){
         Gdx.input.vibrate(500)

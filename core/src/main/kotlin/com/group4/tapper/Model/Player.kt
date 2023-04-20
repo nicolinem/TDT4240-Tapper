@@ -1,5 +1,8 @@
 package com.group4.tapper.Model
 
+import java.lang.Integer.min
+import java.math.BigInteger
+import java.security.SecureRandom
 import java.util.concurrent.atomic.AtomicInteger
 class Player {
 
@@ -8,7 +11,7 @@ class Player {
             field = value
         }
 
-    var id: Int = generatePlayerId()
+    var id: String = generateRandID()
         get() = field
 
     var score: Double = 0.0
@@ -18,11 +21,11 @@ class Player {
                 field = value
         }
 
-    // Increments the ID by 1 when an instance is made
-    companion object {
-        private val counter = AtomicInteger(0)
-        private fun generatePlayerId() = counter.incrementAndGet()
+    private fun generateRandID(): String {
+        val random = SecureRandom()
+        val numBytes = 10 * 5 / 8 + 1
+        val id = BigInteger(50, random).toString(32)
+        return id.substring(0, min(id.length, 10))
     }
-
 
 }
