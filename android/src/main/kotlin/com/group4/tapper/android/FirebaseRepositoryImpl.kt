@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.firebase.firestore.*
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.firestore.ktx.firestore
+import com.group4.tapper.Model.Player
 
 data class Game(
     val gameId: String,
@@ -47,40 +48,44 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
             }
     }
 
-    override fun updatePlayerScore(gameId: String, playerId: String, pair:Pair<String,Int>) {
+
+    override fun subscribeToGame(gameId: String, onGameUpdate: (List<Player>) -> Unit) {
         val gameRef = db.collection("games").document(gameId)
-        gameRef.get()
-            .addOnSuccessListener { documentSnapshot ->
-                var playerScores = documentSnapshot.get("playerScores") as MutableMap<String, Pair<String, Int>>?
-                    ?: mutableMapOf()
+        gameRef.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w(TAG, "Listen failed.", e)
+                return@addSnapshotListener
+            }
 
-                playerScores[playerId] = pair
+            if (snapshot != null && snapshot.exists()) {
+                Log.d(TAG, "Current data: ${snapshot.data}")
+                // Parse playerScores from the snapshot
+                val playerScores = snapshot["playerScores"] as? Map<String, Map<String, Any>> ?: emptyMap()
 
-                gameRef.set(mutableMapOf("playerScores" to playerScores), SetOptions.merge())
-                    .addOnSuccessListener {
-                        Log.d(TAG, "Player added successfully")
+                // Create a list of Player objects
+                val players = playerScores.map { (playerId, values) ->
+                    Player(values["first"] as? String ?: "").apply {
+                        id = playerId
+                        score = values["second"] as? Int ?: 0
                     }
-                    .addOnFailureListener { e ->
-                        Log.w(TAG, "Error adding player", e)
-                    }
+                }
+
+                // Pass the list of players to the callback
+                onGameUpdate(players)
+
+            } else {
+                Log.d(TAG, "Current data: null")
             }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error getting document", e)
-            }
-    }
-
-
-
-    override fun subscribeToGame(gameId: String) {
-        val gameRef = db.collection("games").document(gameId)
-
-         gameRef.addSnapshotListener { snapshot: DocumentSnapshot?, error: FirebaseFirestoreException? ->
-            if (error != null) {
-                Log.w("GameSubscription", "Failed to subscribe to game", error)
-            }
-
         }
+
     }
+
+    override fun updatePlayerScore(gameId: String, playerId: String, pair: Pair<String, Int>) {
+        TODO("Not yet implemented")
+    }
+
+
+
 
 
     override fun unsubscribeFromGame() {

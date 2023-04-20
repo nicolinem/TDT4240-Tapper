@@ -54,7 +54,6 @@ class Game(private val tapper: Tapper, private val rounds: Int, private val nick
 
     fun updatePlayerScore(points:Int,playerID:String,nickname: String){
         val player = Player(nickname)
-        player.setScore(points)
         firebaseRepository.updatePlayerScore(gameID,playerID,player.pair)
     }
 
@@ -84,6 +83,12 @@ class Game(private val tapper: Tapper, private val rounds: Int, private val nick
         val numBytes = 10 * 5 / 8 + 1
         val id = BigInteger(50, random).toString(32)
         return id.substring(0, 10)
+    }
+
+
+    fun subscribeToPlayerScoreUpdates(gameId: String, onPlayerScoreUpdate: (players: List<Player>) -> Unit) {
+        firebaseRepository.subscribeToGame(gameId, onPlayerScoreUpdate)
+
     }
 
     //Static method in companion object.
