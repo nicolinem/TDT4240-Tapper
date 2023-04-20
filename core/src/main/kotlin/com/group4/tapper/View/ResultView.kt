@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.group4.tapper.Controller.MenuController
 import com.group4.tapper.Model.Player
 import ktx.scene2d.actors
+import ktx.scene2d.label
 import ktx.scene2d.table
 import ktx.scene2d.textButton
 
@@ -20,9 +21,14 @@ class ResultView(val controller: MenuController): View() {
         stage.clear()
         System.out.println("CALLED")
         tableN.clear()
+        var num = 1
         for (p in players){
-            tableN.row().padBottom(20f)
-            tableN.add(Label("${p.nickname} ${p.score}", skin))
+            tableN.row().padBottom(20f).expandX().fillX()
+            var newTable = Table(skin)
+            newTable.add(Label("${num}. ${p.nickname}", skin)).left()
+            newTable.add(Label("${p.score}", skin)).right()
+            tableN.add(newTable)
+            num++
         }
         setupUI()
     }
@@ -43,13 +49,16 @@ class ResultView(val controller: MenuController): View() {
                 defaults().fillX().expandX()
                 defaults().pad(50f)
 
+                row().top().left().pad(100f, 100f, 0f, 0f)
+                label("Winner!", "white_bigger")
+
                 // Print player names on screen
-                row().padTop(screenHeight/6f).expand()
-                add(tableN)
+                row().expand().fillX()
+                add(tableN).top()
 
                 // Join Game button
                 row().bottom()
-                textButton("Start Game", "new_game") {
+                textButton("Finish", "new_game") {
                 }.addListener(object : ClickListener() {
                     override fun clicked(event: InputEvent?, x: Float, y: Float) {
                         controller.handleChangeToMainView()
