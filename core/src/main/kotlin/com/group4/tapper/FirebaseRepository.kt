@@ -9,4 +9,5 @@ interface FirebaseRepository {
     fun subscribeToGame(gameId: String, onGameUpdate: (List<Player>) -> Unit)
     fun updatePlayerScore(gameId: String, playerId: String, pair:Pair<String,Int>)
     fun unsubscribeFromGame()
+    fun checkIfGameExists(pin:String,method:(Boolean) -> Boolean)
 }

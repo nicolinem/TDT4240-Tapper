@@ -81,7 +81,7 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
     }
 
     override fun updatePlayerScore(gameId: String, playerId: String, pair: Pair<String, Int>) {
-        TODO("Not yet implemented")
+       // TODO("Not yet implemented")
     }
 
 
@@ -89,5 +89,15 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
 
 
     override fun unsubscribeFromGame() {
+    }
+
+    override fun checkIfGameExists(pin:String,method: (Boolean) -> Boolean) {
+        val gameRef = db.collection("games").document(pin)
+        gameRef.get().addOnSuccessListener { documentSnapshot ->
+            method(documentSnapshot.exists())
+        }
+            .addOnFailureListener{e ->
+                Log.w(TAG, "Listen failed.", e)
+            }
     }
 }
