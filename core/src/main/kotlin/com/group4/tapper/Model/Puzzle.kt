@@ -9,6 +9,7 @@ class Puzzle {
 
     fun createRandomNumbers(): MutableList<Int> {
         randomNumbers = MutableList(6) { Random.nextInt(0, 9) }
+        println(randomNumbers)
         return randomNumbers
     }
     fun createCoordinates(width:Int, height: Int, circleRadius:Float):  MutableList<Pair<Float, Float>>{

@@ -1,5 +1,6 @@
 package com.group4.tapper
 
+import com.group4.tapper.Controller.GameController
 import com.group4.tapper.Controller.MenuController
 import com.group4.tapper.View.*
 import ktx.app.KtxGame
@@ -21,6 +22,7 @@ class Tapper(IF: FirebaseRepository) : KtxGame<KtxScreen>() {
 
     override fun create() {
         val menuController = MenuController(this)
+        val gameController = GameController(this)
 
         addScreen(MainView(menuController))
 
@@ -29,10 +31,11 @@ class Tapper(IF: FirebaseRepository) : KtxGame<KtxScreen>() {
         addScreen(NewGameView(menuController))
         addScreen(WaitingView(menuController))
         addScreen(JoinGameView(menuController))
+        addScreen(GameView(gameController))
 
 
 
-        setScreen<MainView>()
+        setScreen<GameView>()
 
     }
 

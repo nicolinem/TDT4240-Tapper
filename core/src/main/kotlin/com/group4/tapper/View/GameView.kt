@@ -3,16 +3,17 @@ package com.group4.tapper.View
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.Actor
+import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 
 import com.group4.tapper.Model.Puzzle
-import com.group4.tapper.Tapper
 import ktx.assets.disposeSafely
 import ktx.scene2d.*
 
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.utils.viewport.FitViewport
+import com.group4.tapper.Controller.GameController
 import com.group4.tapper.Tapper
 import com.group4.tapper.View.Objects.Circle
 import ktx.app.clearScreen
@@ -20,7 +21,7 @@ import ktx.app.clearScreen
 import kotlin.random.Random
 
 
-class GameView(game: Tapper) : View(game) {
+class GameView(controller: GameController) : View() {
 
 
     private var points: Int = 1000
@@ -31,7 +32,7 @@ class GameView(game: Tapper) : View(game) {
     private var puzzleList: MutableList<Int>
     private var puzzleListCopy: MutableList<Int>
     private val coordinates: MutableList<Pair<Float, Float>>
-    private val puzzle: Puzzle = Puzzle()
+    private val puzzle: Puzzle
 
     private lateinit var textButton1:TextButton
     private lateinit var textButton2:TextButton
@@ -49,17 +50,25 @@ class GameView(game: Tapper) : View(game) {
 
     init {
         // Get a list of random numbers
-        puzzleList = MutableList(6) { Random.nextInt(0, 9) }
+        puzzle = Puzzle()
+        puzzleList = puzzle.createRandomNumbers()
+        while(puzzleList.isNullOrEmpty()){
+            //Do Nothing
+            val nothing = 0
+        }
         puzzleListCopy = puzzleList.toMutableList()
+        println(puzzleList)
 
         //Create coordinates for buttons
+
         height = Gdx.graphics.height
         width = Gdx.graphics.width
-        circleRadius = textButton1.width/2
+
+        circleRadius = 75f
         coordinates = puzzle.createCoordinates(width,height,circleRadius)
 
         // Draw UI
-        setupUI()
+        makeUI()
 
         //Add listeners to buttons. Make them clickable.
         numberButton1.addListener(object : ChangeListener() {
@@ -141,7 +150,7 @@ class GameView(game: Tapper) : View(game) {
         })
     }
 
-    override fun setupUI() {
+        fun makeUI() {
 
         stage.actors {
             table {
@@ -164,13 +173,12 @@ class GameView(game: Tapper) : View(game) {
 
                 // Add upper line
                 row().pad(0f)
-                image(Texture(Gdx.files.internal("Images/Line.png")))
+                image(Texture(Gdx.files.internal("images/Line.png")))
 
                 // Add circles
                 row()
                 table {
                     defaults().pad(0f, 10f, 0f, 10f)
-
                     textButton1 = textButton(puzzleListCopy[0].toString(), "round_bigger")
                     textButton2 = textButton(puzzleListCopy[1].toString(), "round_bigger")
                     textButton3 = textButton(puzzleListCopy[2].toString(), "round_bigger")
@@ -181,7 +189,7 @@ class GameView(game: Tapper) : View(game) {
 
                 // Add lower line
                 row().pad(0f)
-                image(Texture(Gdx.files.internal("Images/Line.png")))
+                image(Texture(Gdx.files.internal("images/Line.png")))
             }
 
             // Add all number-buttons
@@ -207,10 +215,14 @@ class GameView(game: Tapper) : View(game) {
         }
     }
 
+    override fun setupUI() {
+       // TODO("Not yet implemented")
+    }
+
     override fun update(dt: Float) {
         TODO("Not yet implemented")
     }
-   
+
 
     fun triggerError(){
         Gdx.input.vibrate(500)
