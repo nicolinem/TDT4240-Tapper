@@ -57,6 +57,10 @@ class Game(private val tapper: Tapper, private val rounds: Int, private val nick
         firebaseRepository.updatePlayerScore(gameID,playerID,player.pair)
     }
 
+    fun sendRefresh(pin:String,refreshMethod:(Boolean) -> Boolean){
+        firebaseRepository.checkIfGameExists(pin,refreshMethod)
+    }
+
 
 /**
     fun generateScore(time: Int, player: Player, amountWrong: Int, game: Game) {
