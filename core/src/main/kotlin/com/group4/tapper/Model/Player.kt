@@ -16,7 +16,7 @@ class Player ( nickname:String){
     var id: String = generateRandID()
         get() = field
 
-   private  var score: Int = 0
+   var score: Int = 0
 
 
 
@@ -25,12 +25,6 @@ class Player ( nickname:String){
             return field
         }
 
-    fun setScore(value: Int){
-        if(value >= 0.0){
-            score = value
-        }
-        updatePair()
-    }
 
     private fun updatePair(){
         pair = Pair(nickname,score)

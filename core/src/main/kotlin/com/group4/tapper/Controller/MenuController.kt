@@ -39,7 +39,7 @@ class MenuController(tapper: Tapper) {
     }
 
      fun handleChangeToJoinGameView(){
-        tapper.setScreen<JoinGameView>()
+        tapper.setScreen<WaitingView>()
     }
 
      fun handleChangeToNewGameView(){
@@ -54,13 +54,20 @@ class MenuController(tapper: Tapper) {
         tapper.setScreen<GameView>()
     }
 
-
-
+    fun subscribeToPlayerScoreUpdates(gameId: String, onPlayerScoreUpdate: (List<Player>) -> Unit) {
+        game.subscribeToPlayerScoreUpdates(gameId, onPlayerScoreUpdate)
+    }
 
 
 
     fun getTapper(): Tapper {
         return this.tapper
     }
+
+    fun getGameID(): String{
+        return game.getGameID()
+    }
+
+
 
 }

@@ -2,21 +2,39 @@ package com.group4.tapper.View
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.InputEvent
-import com.badlogic.gdx.scenes.scene2d.ui.Button
 import com.badlogic.gdx.scenes.scene2d.ui.Label
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane
 import com.badlogic.gdx.scenes.scene2d.ui.Table
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.group4.tapper.Controller.MenuController
+import com.group4.tapper.Model.Player
 import com.group4.tapper.Tapper
-import ktx.assets.disposeSafely
 import ktx.scene2d.*
 
-class WaitingView(val controller:MenuController) : View() {
+class WaitingView(val controller: MenuController) : View() {
+
+    private val tableN = Table(skin)
+
+
+    val gameId = "IcKG" // Replace this with the actual game id
+
+    fun updatePlayerScoreList(players: List<Player>) {
+        stage.clear()
+        System.out.println("CALLED")
+        tableN.clear()
+        for (p in players){
+            tableN.row()
+            tableN.add(Label("${p.nickname} ${p.score}", skin))
+        }
+        setupUI()
+    }
+
+    fun subscribeToPlayerScoreUpdates(gameId: String, updatePlayerScoreList: (List<Player>) -> Unit) {
+        controller.subscribeToPlayerScoreUpdates(gameId, updatePlayerScoreList)
+    }
+    override fun show() {
+        subscribeToPlayerScoreUpdates(gameId, ::updatePlayerScoreList)
+    }
 
 
 
@@ -27,6 +45,8 @@ class WaitingView(val controller:MenuController) : View() {
         val screenHeight = Gdx.graphics.height.toFloat()
         val screenWidth = Gdx.graphics.width.toFloat()
 
+
+
         stage.actors {
             // Start of table
             table {
@@ -36,20 +56,22 @@ class WaitingView(val controller:MenuController) : View() {
                 row().width(screenWidth/2.5f).right()
                 textButton("How to play?")
 
-                row().width(screenWidth/1.5f).height(screenWidth/1.5f).padTop(screenHeight/8f)
-                image(Texture(Gdx.files.internal("images/logoFixed.png"))){
+                /*  row().width(screenWidth/1.5f).height(screenWidth/1.5f).padTop(screenHeight/8f)*/
 
-                }
+                row().padTop(screenHeight/6f)
 
-                // New Game button
-                row()/*.padTop(screenHeight/3f)*/
-                textButton("New Game", "new_game"){
-                }
+
+
+                add(tableN)
 
                 // Join Game button
                 row()
                 textButton("Join Game", "join_game") {
-                }
+                }.addListener(object : ClickListener() {
+                    override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                        controller.handleChangeToMainView()
+                    }
+                })
                 setFillParent(true)
                 top()
                 pack()
