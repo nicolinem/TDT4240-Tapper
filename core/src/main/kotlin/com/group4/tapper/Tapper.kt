@@ -28,13 +28,13 @@ class Tapper(IF: FirebaseRepository) : KtxGame<KtxScreen>() {
 
         addScreen(HowToView(menuController))
         addScreen(NewGameView(menuController))
-        addScreen(WaitingView(menuController))
+        addScreen(ResultView(menuController))
         addScreen(JoinGameView(menuController))
         addScreen(GameView(gameController))
 
 
 
-        setScreen<MainView>()
+        setScreen<ResultView>()
 
     }
 

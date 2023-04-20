@@ -15,7 +15,6 @@ class WaitingView(val controller: MenuController) : View() {
 
     private val tableN = Table(skin)
 
-
     val gameId = "IcKG" // Replace this with the actual game id
 
     fun updatePlayerScoreList(players: List<Player>) {
@@ -23,7 +22,7 @@ class WaitingView(val controller: MenuController) : View() {
         System.out.println("CALLED")
         tableN.clear()
         for (p in players){
-            tableN.row()
+            tableN.row().padBottom(20f)
             tableN.add(Label("${p.nickname} ${p.score}", skin))
         }
         setupUI()
@@ -36,16 +35,10 @@ class WaitingView(val controller: MenuController) : View() {
         subscribeToPlayerScoreUpdates(gameId, ::updatePlayerScoreList)
     }
 
-
-
-
-
     override fun setupUI() {
 
         val screenHeight = Gdx.graphics.height.toFloat()
         val screenWidth = Gdx.graphics.width.toFloat()
-
-
 
         stage.actors {
             // Start of table
@@ -53,20 +46,13 @@ class WaitingView(val controller: MenuController) : View() {
                 defaults().fillX().expandX()
                 defaults().pad(50f)
 
-                row().width(screenWidth/2.5f).right()
-                textButton("How to play?")
-
-                /*  row().width(screenWidth/1.5f).height(screenWidth/1.5f).padTop(screenHeight/8f)*/
-
-                row().padTop(screenHeight/6f)
-
-
-
+                // Print player names on screen
+                row().padTop(screenHeight/6f).expand()
                 add(tableN)
 
                 // Join Game button
-                row()
-                textButton("Join Game", "join_game") {
+                row().bottom()
+                textButton("Start Game", "new_game") {
                 }.addListener(object : ClickListener() {
                     override fun clicked(event: InputEvent?, x: Float, y: Float) {
                         controller.handleChangeToMainView()

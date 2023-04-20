@@ -36,7 +36,7 @@ class MainView(val controller: MenuController) : View() {
                 })
 
                 row().width(screenWidth/1.5f).height(screenWidth/1.5f).padTop(screenHeight/8f)
-                image(Texture(Gdx.files.internal("images/logoFixed.png"))){
+                image(Texture(Gdx.files.internal("Images/tapper_logo.png"))){
 
                 }
 
