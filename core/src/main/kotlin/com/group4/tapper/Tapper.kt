@@ -1,11 +1,10 @@
 package com.group4.tapper
 
-import com.group4.tapper.Controller.GameController
-import com.group4.tapper.Controller.MenuController
-import com.group4.tapper.View.*
+import com.group4.tapper.controller.GameController
+import com.group4.tapper.controller.MenuController
+import com.group4.tapper.view.*
 import ktx.app.KtxGame
 import ktx.app.KtxScreen
-import java.awt.Menu
 
 
 class Tapper(IF: FirebaseRepository) : KtxGame<KtxScreen>() {
