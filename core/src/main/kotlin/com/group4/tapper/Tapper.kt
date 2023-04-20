@@ -15,10 +15,9 @@ class Tapper(IF: FirebaseRepository) : KtxGame<KtxScreen>() {
 
     private lateinit var mainView: MainView
 
-
-    public fun getInterface(): FirebaseRepository {
-        return FBIF
-    }
+        fun getInterface(): FirebaseRepository {
+            return FBIF
+        }
 
     override fun create() {
         val menuController = MenuController(this)
@@ -35,7 +34,7 @@ class Tapper(IF: FirebaseRepository) : KtxGame<KtxScreen>() {
 
 
 
-        setScreen<GameView>()
+        setScreen<MainView>()
 
     }
 

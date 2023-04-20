@@ -3,6 +3,7 @@ package com.group4.tapper.View
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.Actor
+import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
@@ -12,16 +13,20 @@ import ktx.assets.disposeSafely
 import ktx.scene2d.*
 
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
+
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.group4.tapper.Controller.GameController
 import com.group4.tapper.Tapper
 import com.group4.tapper.View.Objects.Circle
 import ktx.app.clearScreen
+import java.text.DecimalFormat
+import java.util.TimerTask
+import java.util.Timer
 
 import kotlin.random.Random
 
 
-class GameView(controller: GameController) : View() {
+class GameView(private val controller: GameController) : View() {
 
 
     private var points: Int = 1000
@@ -47,15 +52,34 @@ class GameView(controller: GameController) : View() {
     private lateinit var numberButton4:TextButton
     private lateinit var numberButton5:TextButton
     private lateinit var numberButton6:TextButton
+    private lateinit var pointsLabel :Label
+
+    private val df = DecimalFormat("#.##")
+
+    private var timerbool:Boolean = false
+    private val timer :Timer = Timer()
+    private val task = object :TimerTask(){
+        override fun run() {
+            points -= 1
+        }
+    }
+
+    override fun show() {
+        super.show()
+        //Start timer
+        if(!timerbool){
+            timer.scheduleAtFixedRate(task,0L,25L)
+            timerbool=true
+        }
+    }
 
     init {
+
+
         // Get a list of random numbers
         puzzle = Puzzle()
         puzzleList = puzzle.createRandomNumbers()
-        while(puzzleList.isNullOrEmpty()){
-            //Do Nothing
-            val nothing = 0
-        }
+
         puzzleListCopy = puzzleList.toMutableList()
         println(puzzleList)
 
@@ -76,6 +100,7 @@ class GameView(controller: GameController) : View() {
                 if(numberButton1.text.toString() == puzzleList[0].toString()){
                     puzzleList.removeAt(0)
                     stage.actors.removeValue(numberButton1,true)
+                    checkVictory()
 
                 }
                 else{
@@ -89,6 +114,7 @@ class GameView(controller: GameController) : View() {
                 if(numberButton2.text.toString() == puzzleList[0].toString()){
                     puzzleList.removeAt(0)
                     stage.actors.removeValue(numberButton2,true)
+                    checkVictory()
 
                 }
                 else{
@@ -102,6 +128,7 @@ class GameView(controller: GameController) : View() {
                 if(numberButton3.text.toString() == puzzleList[0].toString()){
                     puzzleList.removeAt(0)
                     stage.actors.removeValue(numberButton3,true)
+                    checkVictory()
 
                 }
                 else{
@@ -115,6 +142,7 @@ class GameView(controller: GameController) : View() {
                 if(numberButton4.text.toString() == puzzleList[0].toString()){
                     puzzleList.removeAt(0)
                     stage.actors.removeValue(numberButton4,true)
+                    checkVictory()
 
                 }
                 else{
@@ -128,6 +156,7 @@ class GameView(controller: GameController) : View() {
                 if(numberButton5.text.toString() == puzzleList[0].toString()){
                     puzzleList.removeAt(0)
                     stage.actors.removeValue(numberButton5,true)
+                    checkVictory()
 
                 }
                 else{
@@ -141,6 +170,7 @@ class GameView(controller: GameController) : View() {
                 if(numberButton6.text.toString() == puzzleList[0].toString()){
                     puzzleList.removeAt(0)
                     stage.actors.removeValue(numberButton6,true)
+                    checkVictory()
 
                 }
                 else{
@@ -165,7 +195,7 @@ class GameView(controller: GameController) : View() {
                     label("Round: 1", "white_bigger"){
                         it.left()
                     }
-                    label("1234", "pink_bigger"){
+                    pointsLabel = label(df.format(points).toString(), "pink_bigger"){
                         it.right()
                     }
                 }
@@ -223,16 +253,27 @@ class GameView(controller: GameController) : View() {
         TODO("Not yet implemented")
     }
 
+    override fun render(delta: Float) {
+        clearScreen(0.42f, 0.12f, 0.39f, 1f)
+        pointsLabel.setText(df.format(points).toString()    )
+        stage.act()
+        stage.draw()
+    }
+
 
     fun triggerError(){
         Gdx.input.vibrate(500)
+        points-= 10
     }
 
-    fun checkVictory(){
-        if(puzzleList.isNotEmpty()){
-            points -=1
+    private fun checkVictory(){
+        if(puzzleList.isEmpty()){
+            timer.cancel()
+            controller.handleVictory(points)
         }
+
     }
+
     override fun dispose() {
         batch.disposeSafely()
         uiDispose()

@@ -61,8 +61,7 @@ class JoinGameView(val controller: MenuController): View() {
                         controller.addPlayerToGame(pin,nickname)
 
 
-                            //TODO ADD CHANGE VIEW
-                            // TODO("Change view")
+                            controller.handleChangeToGameView()
                         }
                     })
 
