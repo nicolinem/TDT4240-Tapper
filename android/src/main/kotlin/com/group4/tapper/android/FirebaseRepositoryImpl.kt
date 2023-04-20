@@ -75,12 +75,15 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
 
                 // Create a list of Player objects
                 val players = playerScores.map { (playerId, values) ->
+                    Player()
                     Player().apply {
                         id = playerId
-                        nickname = values["nickname"] as? String ?: ""
-                        score = values["score"] as? Double ?: 0.0
+                        nickname = values["first"] as? String ?: ""
+                        score = values["second"] as? Double ?: 0.0
                     }
                 }
+
+                Log.d(TAG, "Current players: ${players[0].nickname}")
 
                 // Pass the list of players to the callback
                 onGameUpdate(players)

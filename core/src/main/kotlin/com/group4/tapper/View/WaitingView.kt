@@ -16,25 +16,30 @@ class WaitingView(game: Tapper) : View(game) {
     private val tableN = Table(skin)
 
 
-    val gameId = "ZS6E" // Replace this with the actual game id
+    val gameId = "yzgJ" // Replace this with the actual game id
 
     fun updatePlayerList(players: List<Player>) {
-        for (p in players){
-            tableN.add(Label("Current data: ${p.nickname}", skin))
+        stage.clear()
+        tableN.clear() // Clear the table to remove previous content
+        System.out.println(players[0].nickname)
+
+        for (p in players) {
+            tableN.row().padTop(60f)
+            tableN.add(Label(p.nickname, skin)).row() // Add the new content and create a new row for each player
         }
 
-
-
-
     /*    stage.addActor(tableN)*/
-
         setupUI()
+
+        /*    stage.addActor(tableN)*/
+
        /* for (player in players) {
             System.out.println("Current data: ${player.id}")
         }*/
     }
 
     override fun show() {
+        Gdx.input.inputProcessor = stage
         firebaseRepository.subscribeToGame(gameId, ::updatePlayerList)
     }
 
@@ -43,34 +48,27 @@ class WaitingView(game: Tapper) : View(game) {
         val screenHeight = Gdx.graphics.height.toFloat()
         val screenWidth = Gdx.graphics.width.toFloat()
 
-
-
         stage.actors {
             // Start of table
             table {
                 defaults().fillX().expandX()
                 defaults().pad(50f)
 
-                row().width(screenWidth/2.5f).right()
+                row().width(screenWidth / 2.5f).right()
                 textButton("How to play?")
 
-              /*  row().width(screenWidth/1.5f).height(screenWidth/1.5f).padTop(screenHeight/8f)*/
-
-                row().padTop(screenHeight/6f)
-
-
-
-                // New Game button
-                row().padTop(screenHeight/3f)
-                textButton("New Game", "new_game"){
-                }
-
-                // Join Game button
+                row().width(screenWidth / 1.2f).padTop(70f)
+                label("Waiting for players")
                 row()
-                textButton("Join Game", "join_game") {
+
+                add(tableN).colspan(2) // Add the tableN to the stage
+
+                row().padTop(screenHeight / 2f)
+
+                textButton("Start Game", "join_game") {
                 }.addListener(object : ClickListener() {
                     override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                        game.setScreen<WaitingView>()
+                        game.setScreen<MainView>()
                     }
                 })
                 setFillParent(true)
@@ -78,7 +76,6 @@ class WaitingView(game: Tapper) : View(game) {
                 pack()
             }
         }
-
     }
 
 
