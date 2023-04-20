@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
+import com.group4.tapper.Controller.MenuController
 import com.group4.tapper.Tapper
 import ktx.app.clearScreen
 import ktx.assets.disposeSafely
@@ -13,7 +14,7 @@ import ktx.assets.toInternalFile
 import ktx.graphics.use
 import ktx.scene2d.*
 
-class MainView(game: Tapper) : View(game) {
+class MainView(val controller: MenuController) : View() {
 
     override fun setupUI() {
 
@@ -27,7 +28,12 @@ class MainView(game: Tapper) : View(game) {
                 defaults().pad(50f)
 
                 row().width(screenWidth/2.5f).right()
-                textButton("How to play?")
+                textButton("How to play?") {
+                }.addListener(object : ClickListener() {
+                    override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                        controller.handleChangeToHowToView()
+                    }
+                })
 
                 row().width(screenWidth/1.5f).height(screenWidth/1.5f).padTop(screenHeight/8f)
                 image(Texture(Gdx.files.internal("images/logoFixed.png"))){
@@ -39,7 +45,7 @@ class MainView(game: Tapper) : View(game) {
                 textButton("New Game", "new_game"){
                 }.addListener(object : ClickListener() {
                     override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                        game.setScreen<NewGameView>()
+                        controller.handleChangeToNewGameView()
                     }
                 })
 
@@ -48,7 +54,7 @@ class MainView(game: Tapper) : View(game) {
                 textButton("Join Game", "join_game") {
                 }.addListener(object : ClickListener() {
                     override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                        game.setScreen<WaitingView>()
+                      controller.handleChangeToJoinGameView()
                     }
                 })
                 setFillParent(true)

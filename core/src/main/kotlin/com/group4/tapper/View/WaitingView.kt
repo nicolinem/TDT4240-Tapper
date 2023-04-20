@@ -10,7 +10,7 @@ import com.group4.tapper.Model.Player
 import com.group4.tapper.Tapper
 import ktx.scene2d.*
 
-class WaitingView(game: Tapper) : View(game) {
+class WaitingView(game: Tapper) : View() {
 
     private val firebaseRepository = game.getInterface()
     private val tableN = Table(skin)
@@ -28,14 +28,9 @@ class WaitingView(game: Tapper) : View(game) {
             tableN.add(Label(p.nickname, skin)).row() // Add the new content and create a new row for each player
         }
 
-    /*    stage.addActor(tableN)*/
         setupUI()
 
-        /*    stage.addActor(tableN)*/
 
-       /* for (player in players) {
-            System.out.println("Current data: ${player.id}")
-        }*/
     }
 
     override fun show() {
@@ -68,7 +63,7 @@ class WaitingView(game: Tapper) : View(game) {
                 textButton("Start Game", "join_game") {
                 }.addListener(object : ClickListener() {
                     override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                        game.setScreen<MainView>()
+
                     }
                 })
                 setFillParent(true)

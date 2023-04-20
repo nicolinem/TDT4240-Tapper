@@ -19,7 +19,7 @@ import ktx.graphics.use
 import ktx.scene2d.Scene2DSkin
 
 
-abstract class View(val game: Tapper) : KtxScreen {
+abstract class View() : KtxScreen {
     var skin: Skin = Skin(Gdx.files.internal("tapper_skin_2/tapper_skin.json"))
     val stage = Stage(FitViewport(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat()))
 
