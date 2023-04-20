@@ -10,7 +10,8 @@ class Player {
             field = value
         }
 
-    var id: String = generateRandID()
+
+    var id: String = "12345"
         get() = field
 
     var score: Double = 0.0

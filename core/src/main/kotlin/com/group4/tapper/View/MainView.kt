@@ -48,7 +48,7 @@ class MainView(game: Tapper) : View(game) {
                 textButton("Join Game", "join_game") {
                 }.addListener(object : ClickListener() {
                     override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                        game.setScreen<JoinGameView>()
+                        game.setScreen<WaitingView>()
                     }
                 })
                 setFillParent(true)

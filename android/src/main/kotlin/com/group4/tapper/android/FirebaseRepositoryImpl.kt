@@ -45,6 +45,7 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
             }
     }
 
+
     override fun updatePlayerScore(gameId: String, playerId: String, newScore: Double) {
         val gameRef = db.collection("games").document(gameId)
 
@@ -59,19 +60,36 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
 
 
 
-    override fun subscribeToGame(gameId: String, onUpdate: () -> Player) {
+    override fun subscribeToGame(gameId: String, onGameUpdate: (List<Player>) -> Unit) {
         val gameRef = db.collection("games").document(gameId)
-
-         gameRef.addSnapshotListener { snapshot: DocumentSnapshot?, error: FirebaseFirestoreException? ->
-            if (error != null) {
-                Log.w("GameSubscription", "Failed to subscribe to game", error)
+        gameRef.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w(TAG, "Listen failed.", e)
+                return@addSnapshotListener
             }
 
             if (snapshot != null && snapshot.exists()) {
-                onUpdate()
+                Log.d(TAG, "Current data: ${snapshot.data}")
+                // Parse playerScores from the snapshot
+                val playerScores = snapshot["playerScores"] as? Map<String, Map<String, Any>> ?: emptyMap()
 
+                // Create a list of Player objects
+                val players = playerScores.map { (playerId, values) ->
+                    Player().apply {
+                        id = playerId
+                        nickname = values["nickname"] as? String ?: ""
+                        score = values["score"] as? Double ?: 0.0
+                    }
+                }
+
+                // Pass the list of players to the callback
+                onGameUpdate(players)
+
+            } else {
+                Log.d(TAG, "Current data: null")
             }
         }
+
     }
 
 
