@@ -17,7 +17,11 @@ class ResultView(val controller: MenuController): View() {
 
     private val tableN = Table(skin)
 
-    val gameId = "dummy" // Replace this with the actual game id
+    val gameId = "1exQ" // Replace this with the actual game id
+    private var lastRound:Boolean = false
+
+
+
     fun updatePlayerScoreList(players: List<Player>) {
         stage.clear()
         System.out.println(players)
@@ -36,7 +40,9 @@ class ResultView(val controller: MenuController): View() {
         controller.subscribeToPlayerScoreUpdates(gameId, updatePlayerScoreList)
     }
     override fun show() {
+        controller.checkIfLastRound(::checkIfLastRound)
         subscribeToPlayerScoreUpdates(gameId, ::updatePlayerScoreList)
+
     }
     override fun setupUI(){
         val screenWidth = Gdx.graphics.width.toFloat()
@@ -108,19 +114,51 @@ class ResultView(val controller: MenuController): View() {
                     }
                 }
 
-                // Join Game button
-                row().bottom()
-                textButton("Finish", "new_game") {
-                }.addListener(object : ClickListener() {
-                    override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                        controller.handleChangeToMainView()
-                    }
-                })
+                //CHECK IF ITS THE LAST ROUND
+                if(lastRound){
+                    // Finish Game button
+                    row().bottom()
+                    textButton("Finish", "new_game") {
+                    }.addListener(object : ClickListener() {
+                        override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                            controller.handleChangeToMainView()
+                        }
+                    })
+
+                    row()
+                    textButton("Play Again", "selection") {
+                    }.addListener(object : ClickListener() {
+                        override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                            //HANDLE NEW GAME
+                        }
+                    })
+
+                }
+                else{
+                        // Resume Game button
+                        row().bottom()
+                        textButton("Next Round", "new_game") {
+                        }.addListener(object : ClickListener() {
+                            override fun clicked(event: InputEvent?, x: Float, y: Float) {
+
+                                //TODO HANDLE NEW ROUND
+                            }
+                        })
+                }
+
+
                 setFillParent(true)
                 top()
                 pack()
             }
         }
+    }
+
+    private fun checkIfLastRound(lastRound:Boolean){
+            println(this.lastRound)
+            this.lastRound = lastRound
+            println(this.lastRound)
+            setupUI()
     }
 
     override fun update(dt: Float) {

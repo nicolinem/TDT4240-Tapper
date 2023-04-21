@@ -62,6 +62,11 @@ class MenuController(tapper: Tapper) {
         game.sendRefresh(pin, refreshMethod)
     }
 
+    fun checkIfLastRound( method: (Boolean) -> Unit){
+        game.checkIfLastRound(method)
+    }
+
+
 
 
     fun getTapper(): Tapper {
