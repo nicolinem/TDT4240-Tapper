@@ -61,6 +61,10 @@ class Game(private val tapper: Tapper, private val rounds: Int, private val nick
         firebaseRepository.checkIfGameExists(pin,refreshMethod)
     }
 
+    fun checkIfLastRound(method:(Boolean) -> Unit){
+        firebaseRepository.checkIfLastRound(gameID,method)
+    }
+
 
 /**
     fun generateScore(time: Int, player: Player, amountWrong: Int, game: Game) {

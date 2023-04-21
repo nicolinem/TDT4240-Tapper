@@ -100,4 +100,23 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
                 Log.w(TAG, "Listen failed.", e)
             }
     }
+
+    override fun checkIfLastRound(gameID:String, method: (Boolean) -> Unit) {
+        val gameRef = db.collection("games").document(gameID)
+        gameRef.get().addOnSuccessListener { documentSnapshot ->
+            val rounds = documentSnapshot.get("rounds")
+            val currentRound = documentSnapshot.get("currentRound")
+            println(rounds)
+            println(currentRound)
+            if (rounds == currentRound) {
+                    method(true)
+                } else {
+                    method(false)
+                }
+            }
+            .addOnFailureListener{e ->
+                Log.w(TAG, "Listen failed.", e)
+            }
+    }
+
 }
