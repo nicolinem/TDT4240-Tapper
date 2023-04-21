@@ -1,29 +1,33 @@
-package com.group4.tapper.View
+package com.group4.tapper.View;
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.group4.tapper.Controller.MenuController
 import com.group4.tapper.Model.Player
-import com.group4.tapper.Tapper
-import ktx.scene2d.*
+import ktx.scene2d.actors
+import ktx.scene2d.label
+import ktx.scene2d.table
+import ktx.scene2d.textButton
+import ktx.style.skin
 
-class WaitingView(val controller: MenuController) : View() {
+class ResultView(val controller: MenuController): View() {
 
     private val tableN = Table(skin)
 
-    val gameId = "IcKG" // Replace this with the actual game id
-
+    val gameId = "dummy" // Replace this with the actual game id
     fun updatePlayerScoreList(players: List<Player>) {
         stage.clear()
-        System.out.println("CALLED")
+        System.out.println(players)
         tableN.clear()
+        var num = 1
         for (p in players){
-            tableN.row().padBottom(20f)
-            tableN.add(Label("${p.nickname}", skin))
+            tableN.row().padBottom(50f).expandX()
+            tableN.add(Label("${num}. ${p.nickname}", skin)).left()
+            tableN.add(Label("${p.score} pt", skin)).right()
+            num++
         }
         setupUI()
     }
@@ -34,11 +38,9 @@ class WaitingView(val controller: MenuController) : View() {
     override fun show() {
         subscribeToPlayerScoreUpdates(gameId, ::updatePlayerScoreList)
     }
-
-    override fun setupUI() {
-
-        val screenHeight = Gdx.graphics.height.toFloat()
+    override fun setupUI(){
         val screenWidth = Gdx.graphics.width.toFloat()
+        val screenHeight = Gdx.graphics.height.toFloat()
 
         stage.actors {
             // Start of table
@@ -46,55 +48,69 @@ class WaitingView(val controller: MenuController) : View() {
                 defaults().fillX().expandX()
                 defaults().pad(50f)
 
-                row().top().expandX().fillX().pad(100f, 100f, 100f, 100f)
-                table{
-                    row().expandX()
-                    label("Players", "white_bigger"){
-                        it.left()
-                    }
-                    label("A5F4", "pink_bigger"){
-                        it.right()
-                    }
-                }
+                row().top().left().pad(100f, 100f, 100f, 0f)
+                label("Results", "white_bigger")
 
                 // Print player names on screen
                 row().expand().fillX().pad(0f, 100f, 0f, 100f).top()
                 /*add(tableN).top()*/
                 table {
                     row().padBottom(50f).expandX()
-                    label("Alf Inge Wang") {
+                    label("1. Alf Inge Wang") {
                         it.left()
+                        setFontScale(1.25f)
+                    }
+                    label("845"){
+                        it.right()
                         setFontScale(1.25f)
                     }
 
                     row().padBottom(50f).expandX()
-                    label("Barack Obama") {
+                    label("2. Barack Obama") {
                         it.left()
+                        setFontScale(1.25f)
+                    }
+                    label("735"){
+                        it.right()
                         setFontScale(1.25f)
                     }
 
                     row().padBottom(50f).expandX()
-                    label("Tim Cook") {
+                    label("3. Tim Cook") {
                         it.left()
+                        setFontScale(1.25f)
+                        setColor(0.2f, 1f, 0.1f, 1f)
+                    }
+                    label("627"){
+                        it.right()
                         setFontScale(1.25f)
                         setColor(0.2f, 1f, 0.1f, 1f)
                     }
 
                     row().padBottom(50f).expandX()
-                    label("Mark Zuckerberg") {
+                    label("4. Mark Zuckerberg") {
                         it.left()
+                        setFontScale(1.25f)
+                    }
+                    label("524"){
+                        it.right()
                         setFontScale(1.25f)
                     }
 
                     row().padBottom(50f).expandX()
-                    label("Elon Musk") {
+                    label("5. Elon Musk") {
                         it.left()
                         setFontScale(1.25f)
                     }
+                    label("326"){
+                        it.right()
+                        setFontScale(1.25f)
+                    }
                 }
+
                 // Join Game button
                 row().bottom()
-                textButton("Start Game", "new_game") {
+                textButton("Finish", "new_game") {
                 }.addListener(object : ClickListener() {
                     override fun clicked(event: InputEvent?, x: Float, y: Float) {
                         controller.handleChangeToMainView()
@@ -107,9 +123,7 @@ class WaitingView(val controller: MenuController) : View() {
         }
     }
 
-
     override fun update(dt: Float) {
         TODO("Not yet implemented")
     }
-
 }
