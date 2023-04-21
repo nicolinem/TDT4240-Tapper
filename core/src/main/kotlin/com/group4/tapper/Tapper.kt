@@ -35,7 +35,7 @@ class Tapper(IF: FirebaseRepository) : KtxGame<KtxScreen>() {
 
 
 
-        setScreen<ResultView>()
+        setScreen<WaitingView>()
 
     }
 

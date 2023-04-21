@@ -23,7 +23,7 @@ class WaitingView(val controller: MenuController) : View() {
         tableN.clear()
         for (p in players){
             tableN.row().padBottom(20f)
-            tableN.add(Label("${p.nickname} ${p.score}", skin))
+            tableN.add(Label("${p.nickname}", skin))
         }
         setupUI()
     }
@@ -46,10 +46,52 @@ class WaitingView(val controller: MenuController) : View() {
                 defaults().fillX().expandX()
                 defaults().pad(50f)
 
-                // Print player names on screen
-                row().padTop(screenHeight/6f).expand()
-                add(tableN)
+                row().top().expandX().fillX().pad(100f, 100f, 100f, 100f)
+                table{
+                    row().expandX()
+                    label("Players", "white_bigger"){
+                        it.left()
+                    }
+                    label("A5F4", "pink_bigger"){
+                        it.right()
+                    }
+                }
 
+                // Print player names on screen
+                row().expand().fillX().pad(0f, 100f, 0f, 100f).top()
+                /*add(tableN).top()*/
+                table {
+                    row().padBottom(50f).expandX()
+                    label("Alf Inge Wang") {
+                        it.left()
+                        setFontScale(1.25f)
+                    }
+
+                    row().padBottom(50f).expandX()
+                    label("Barack Obama") {
+                        it.left()
+                        setFontScale(1.25f)
+                    }
+
+                    row().padBottom(50f).expandX()
+                    label("Tim Cook") {
+                        it.left()
+                        setFontScale(1.25f)
+                        setColor(0.2f, 1f, 0.1f, 1f)
+                    }
+
+                    row().padBottom(50f).expandX()
+                    label("Mark Zuckerberg") {
+                        it.left()
+                        setFontScale(1.25f)
+                    }
+
+                    row().padBottom(50f).expandX()
+                    label("Elon Musk") {
+                        it.left()
+                        setFontScale(1.25f)
+                    }
+                }
                 // Join Game button
                 row().bottom()
                 textButton("Start Game", "new_game") {
@@ -63,7 +105,6 @@ class WaitingView(val controller: MenuController) : View() {
                 pack()
             }
         }
-
     }
 
 
