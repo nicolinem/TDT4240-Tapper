@@ -1,6 +1,7 @@
 package com.group4.tapper.View
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.ui.Label
@@ -18,10 +19,7 @@ class HowToView(val controller: MenuController): View() {
         val screenHeight = Gdx.graphics.height.toFloat()
         val screenWidth = Gdx.graphics.width.toFloat()
 
-
-
-
-        stage.actors {
+        /*stage.actors {
             table {
                 defaults().fillX().expandX()
                 defaults().pad(50f)
@@ -34,68 +32,14 @@ class HowToView(val controller: MenuController): View() {
                 })
 
                 row()
-                label("How to play Tapper") {
-                    setFontScale(2f)
-                    setAlignment(center)
-                }
+                label("How to create game", "white_bigger")
 
-
-                row().padTop(200f).fill().expand()
+                row().pad(0f, 0f, 0f, 0f).fill().expand()
                 scrollPane {
                     table {
 
-
-                        defaults().fillY().expandY()
+                        defaults().fillX().expandX()
                         pad(50f)
-
-                        row()
-                        label("Welcome to the exciting world of Circle Tapping! " +
-                            "This game is designed to test your responsiveness and quick thinking skills across multiple levels of difficulty.") {
-                            wrap = true
-                            it.width(screenWidth -100f)
-                            setFontScale(1.5f)
-
-
-                        }
-
-                        row()
-                        label("In each level, you'll be presented with a line of circles at the top of the screen. " +
-                            "Your task is to tap the circles in the correct order as quickly as possible. The faster you are, the more points you'll earn.") {
-                            wrap = true
-                            it.width(screenWidth -60f)
-                            setFontScale(1.5f)
-
-                        }
-
-                        row()
-                        label("But be careful! If you tap the wrong circle, you'll lose 10 points." +
-                            " So make sure you stay focused and accurate!") {
-                            wrap = true
-                            it.width(screenWidth -100f)
-                            setFontScale(1.5f)
-
-                        }
-
-
-
-                        row()
-                        label("There are several levels of difficulty to choose from, each with its own unique challenges. " +
-                            "Can you make it to the highest level and become the ultimate Circle Tapping champion?") {
-                            wrap = true
-                            it.width(screenWidth -100f)
-                            setFontScale(1.5f)
-
-                        }
-
-                        row()
-                        label("Good luck and happy tapping!") {
-                            wrap = true
-                            it.width(screenWidth -100f)
-                            setFontScale(1.5f)
-
-
-                        }
-
                     }
                 }
 
@@ -103,6 +47,100 @@ class HowToView(val controller: MenuController): View() {
                 setFillParent(true)
                 top()
                 pack()
+            }
+        }*/
+
+        stage.actors {
+            scrollPane {
+                setFillParent(true)
+                setScrollingDisabled(true, false)
+                table{
+                    defaults().pad(40f)
+                    defaults().fillX().expandX()
+                    top()
+
+                    row().width(screenWidth / 10f).height(screenWidth / 10f).left().top()
+                    button("return_white").addListener(object : ClickListener() {
+                        override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                            controller.handleChangeToMainView()
+                        }
+                    })
+
+                    row().pad(25f, 0f, 50f, 0f)
+                    label("How to create game", "white_bigger"){
+                        setFontScale(0.9f)
+                        setAlignment(center)
+                    }
+
+                    row()
+                    label("1. Press \"Create Game\"", "white_bigger"){
+                        setFontScale(0.5f)
+                        setAlignment(center)
+                        wrap = true
+                    }
+
+                    row().fill(false, false)
+                    image(Texture(Gdx.files.internal("images/create_game.png")))
+
+                    row()
+                    label("2. Choose a nickname, number and difficulty", "white_bigger"){
+                        setFontScale(0.5f)
+                        setAlignment(center)
+                        wrap = true
+                    }
+
+                    row().fill(false, false)
+                    image(Texture(Gdx.files.internal("images/number_of_rounds.png")))
+
+                    row().pad(50f, 0f, 50f, 0f)
+                    label("How to join game", "white_bigger"){
+                        setFontScale(0.9f)
+                        setAlignment(center)
+                    }
+
+                    row()
+                    label("1. Press \"Join Game\"", "white_bigger"){
+                        setFontScale(0.5f)
+                        setAlignment(center)
+                        wrap = true
+                    }
+
+                    row().fill(false, false)
+                    image(Texture(Gdx.files.internal("images/join_game.png")))
+
+                    row()
+                    label("2. Enter game pin and nickname", "white_bigger"){
+                        setFontScale(0.5f)
+                        setAlignment(center)
+                        wrap = true
+                    }
+
+                    row().fill(false, false)
+                    image(Texture(Gdx.files.internal("images/pin-input.png")))
+
+                    row().pad(50f, 0f, 50f, 0f)
+                    label("How to play", "white_bigger"){
+                        setFontScale(0.9f)
+                        setAlignment(center)
+                    }
+
+                    row()
+                    label("Tap the buttons in correct order", "white_bigger"){
+                        setFontScale(0.5f)
+                        setAlignment(center)
+                        wrap = true
+                    }
+
+                    row().fill(false, false).pad(0f)
+                    image(Texture(Gdx.files.internal("images/game_tutorial.png")))
+
+                    row().pad(100f, 0f, 100f, 0f)
+                    label("Happy tapping!", "white_bigger"){
+                        setFontScale(0.7f)
+                        setAlignment(center)
+                        wrap = true
+                    }
+                }
             }
         }
    }
