@@ -52,7 +52,7 @@ class MenuController(tapper: Tapper) {
     }
 
     fun playAgain(players:List<Player>,gamepin: String){
-        game.resetPlayerStats(prefs.getString("playerID"))
+        game.playAgain()
         tapper.setScreen<WaitingView>()
     }
 

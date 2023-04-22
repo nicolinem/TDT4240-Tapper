@@ -82,6 +82,11 @@ class Game(private val firebaseRepository:
     fun checkIfLastRound(method:(Boolean) -> Unit){
         firebaseRepository.checkIfLastRound(gameID,method)
     }
+    fun playAgain(){
+        for ((key,value) in playerScores){
+            playerScores[key]?.resetStats()
+        }
+    }
 
 
 /**
