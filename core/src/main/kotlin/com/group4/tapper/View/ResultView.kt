@@ -62,6 +62,8 @@ class ResultView(val controller: MenuController): View() {
         if(playAgain && count > rounds+1){
             count = 0
             controller.handleChangeToWaitRoom()
+            localLastRound = false
+            lastRound = null
         }
 
 
