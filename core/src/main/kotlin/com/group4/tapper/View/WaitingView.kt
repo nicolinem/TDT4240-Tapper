@@ -1,6 +1,7 @@
 package com.group4.tapper.View
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.ui.Label
@@ -14,6 +15,8 @@ import ktx.scene2d.*
 class WaitingView(val controller: MenuController) : View() {
 
     private val tableN = Table(skin)
+    private var gameID:String = ""
+
 
 
 
@@ -35,6 +38,7 @@ class WaitingView(val controller: MenuController) : View() {
     override fun show() {
         super.show()
         subscribeToPlayerScoreUpdates(::updatePlayerScoreList)
+        controller.getGameID(::updateGameID)
     }
 
 
@@ -52,15 +56,20 @@ class WaitingView(val controller: MenuController) : View() {
                 defaults().fillX().expandX()
                 defaults().pad(50f)
 
-                row().width(screenWidth/2.5f).right()
-                textButton("How to play?")
+                row().padTop(100f)
+                if(gameID!=null){
+                    label("Pin: $gameID", "white_bigger").setAlignment(1    )
+                }
 
-                /*  row().width(screenWidth/1.5f).height(screenWidth/1.5f).padTop(screenHeight/8f)*/
+                row().padTop(100f)
 
-                row().padTop(screenHeight/6f)
+                label("Players")
+
+                row().pad(0f)
+                image(Texture(Gdx.files.internal("images/Line.png")))
 
 
-
+                row().expand().top()
                 add(tableN)
 
                 // Join Game button
@@ -77,6 +86,10 @@ class WaitingView(val controller: MenuController) : View() {
             }
         }
 
+    }
+
+    fun updateGameID(gameID:String){
+        this.gameID=gameID
     }
 
 

@@ -24,16 +24,19 @@ class MenuController(tapper: Tapper) {
         numberOfRounds = 2
         difficulty = "easy"
         game = Game(FB)
+
     }
 
     fun createNewGame(nickname:String, roundsNumber:Int, difficultySetting:String){
         game = Game(FB).apply {
             rounds = roundsNumber
             difficulty = difficultySetting
+
         }
         val player = Player(nickname)
         game.addPlayer(player)
         prefs.putString("playerID",player.id)
+
         prefs.flush()
 
         game.putGame()
@@ -108,6 +111,9 @@ class MenuController(tapper: Tapper) {
         tapper.setScreen<NewGameView>()
     }
 
+    fun getGameID(method: (String)-> Unit) {
+        method(game.gameID)
+    }
 
 
 

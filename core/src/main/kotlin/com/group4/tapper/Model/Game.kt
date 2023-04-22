@@ -17,7 +17,7 @@ class Game(private val firebaseRepository:
     var playerScoresList:List<Player> = listOf()
 
 
-    var gameID:String = ""
+    var gameID:String = generatePin()
         set(value) {
             field = value
             prefs.putString("gameID", value)
@@ -32,22 +32,7 @@ class Game(private val firebaseRepository:
 
 
 
-    init {
 
-        if (gameID.isNotEmpty()) {
-            this.gameID = gameID
-        } else {
-            this.gameID = generatePin()
-        }
-
-        with(prefs) {
-            clear()
-            putString("gameID", this@Game.gameID)
-            flush()
-        }
-
-
-    }
 
     fun putGame() {
         firebaseRepository.createGame(this)

@@ -81,9 +81,6 @@ class ResultView(val controller: MenuController): View() {
 
     }
     override fun setupUI(){
-        val screenWidth = Gdx.graphics.width.toFloat()
-        val screenHeight = Gdx.graphics.height.toFloat()
-
         stage.actors {
             // Start of table
             table {
