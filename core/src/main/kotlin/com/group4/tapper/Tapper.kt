@@ -10,6 +10,9 @@ import java.awt.Menu
 
 class Tapper(IF: FirebaseRepository) : KtxGame<KtxScreen>() {
 
+    lateinit var menuController: MenuController
+    lateinit var gameController: GameController
+
 
     val FBIF = IF
 
@@ -20,8 +23,9 @@ class Tapper(IF: FirebaseRepository) : KtxGame<KtxScreen>() {
         }
 
     override fun create() {
-        val menuController = MenuController(this)
-        val gameController = GameController(this)
+        menuController = MenuController(this)
+        gameController = GameController(this)
+
 
         addScreen(MainView(menuController))
 

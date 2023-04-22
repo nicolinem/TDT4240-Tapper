@@ -1,14 +1,16 @@
 package com.group4.tapper.android
 
+import android.app.Person
 import android.util.Log
 import com.google.firebase.firestore.*
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.firestore.ktx.firestore
+import com.group4.tapper.Model.Game
 import com.group4.tapper.Model.Player
 
 data class Game(
     val gameId: String,
-    val playerScores: MutableMap<String, Pair<String,Int>>,
+    val playerScores: MutableMap<String, Map<String,Int>>,
     val rounds: Int,
     val difficulty: String
 )
@@ -20,20 +22,22 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
 
     val db = Firebase.firestore
 
-    override fun createGame(gameId: String, map: MutableMap<String,Pair<String,Int>>, rounds: Int, difficulty :String) {
-        val game = Game(gameId, map,rounds,difficulty)
-        db.collection("games").document(gameId).set(game)
+    override fun createGame(game: Game) {
+        db.collection("games").document(game.gameID).set(game)
     }
 
-    override fun addPlayer(gameId: String, playerId: String,pair: Pair<String,Int>) {
+
+
+    override fun joinGame(gameId: String, player: Player, ) {
         val gameRef = db.collection("games").document(gameId)
+
 
         gameRef.get()
             .addOnSuccessListener { documentSnapshot ->
-                val playerScores = documentSnapshot.get("playerScores") as MutableMap<String, Pair<String, Int>>?
+                val playerScores = documentSnapshot.get("playerScores") as MutableMap<String, Player>?
                     ?: mutableMapOf()
 
-                playerScores[playerId] = pair
+                playerScores[player.id] = player
 
                 gameRef.set(hashMapOf("playerScores" to playerScores), SetOptions.merge())
                     .addOnSuccessListener {
@@ -62,11 +66,11 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
                 // Parse playerScores from the snapshot
                 val playerScores = snapshot["playerScores"] as? Map<String, Map<String, Any>> ?: emptyMap()
 
+                Log.d(TAG, "Current data: $playerScores")
                 // Create a list of Player objects
                 val players = playerScores.map { (playerId, values) ->
-                    Player(values["first"] as? String ?: "").apply {
-                        id = playerId
-                        score = values["second"] as? Int ?: 0
+                    Player((values["nickname"] ?: "") as String, playerId).apply {
+                        score = values["score"].toString().toInt()
                     }
                 }
 
@@ -80,9 +84,16 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
 
     }
 
-    override fun updatePlayerScore(gameId: String, playerId: String, pair: Pair<String, Int>) {
-        TODO("Not yet implemented")
-    }
+
+
+
+/*    override fun updatePlayerScore(gameId: String, playerID: String) {
+        val gameRef = db.collection("games").document(gameId)
+
+        gameRef.update(playerID, player.nickname, player.score)
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+    }*/
 
 
 
@@ -91,3 +102,5 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
     override fun unsubscribeFromGame() {
     }
 }
+
+

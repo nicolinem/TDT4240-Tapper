@@ -1,6 +1,7 @@
 package com.group4.tapper.View
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.ui.Label
@@ -16,24 +17,30 @@ class WaitingView(val controller: MenuController) : View() {
     private val tableN = Table(skin)
 
 
-    val gameId = "IcKG" // Replace this with the actual game id
 
-    fun updatePlayerScoreList(players: List<Player>) {
+    private val prefs : Preferences = Gdx.app.getPreferences("prefs") // Replace this with the actual game id
+
+    private fun updatePlayerScoreList(players: List<Player>) {
         stage.clear()
-        System.out.println("CALLED")
         tableN.clear()
+
         for (p in players){
+            System.out.println(p.nickname)
             tableN.row()
-            tableN.add(Label("${p.nickname} ${p.score}", skin))
+            tableN.add(Label(p.nickname, skin))
         }
         setupUI()
     }
 
-    fun subscribeToPlayerScoreUpdates(gameId: String, updatePlayerScoreList: (List<Player>) -> Unit) {
+    private fun subscribeToPlayerScoreUpdates(gameId: String, updatePlayerScoreList: (List<Player>) -> Unit) {
         controller.subscribeToPlayerScoreUpdates(gameId, updatePlayerScoreList)
     }
+
     override fun show() {
-        subscribeToPlayerScoreUpdates(gameId, ::updatePlayerScoreList)
+        System.out.println(prefs.get())
+        super.show()
+        System.out.println("GAMEID:  ${prefs.getString("gameID")}")
+        subscribeToPlayerScoreUpdates(prefs.getString("gameID"), ::updatePlayerScoreList)
     }
 
 
@@ -66,10 +73,10 @@ class WaitingView(val controller: MenuController) : View() {
 
                 // Join Game button
                 row()
-                textButton("Join Game", "join_game") {
+                textButton("Start Game", "join_game") {
                 }.addListener(object : ClickListener() {
                     override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                        controller.handleChangeToMainView()
+                        controller.handleChangeToGameView()
                     }
                 })
                 setFillParent(true)

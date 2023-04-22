@@ -17,7 +17,7 @@ import ktx.assets.disposeSafely
 import ktx.scene2d.*
 
 
-class NewGameView(val controller:MenuController): View() {
+class NewGameView(val controller: MenuController): View() {
 
     private var rounds: Int = 2
     private var nickname: String = ""
@@ -41,15 +41,7 @@ class NewGameView(val controller:MenuController): View() {
                     }
                 })
 
-
-                // Pin
                 row().expand()
-               // label("Pin: 1234"){
-              //      setFontScale(2f)
-               // }
-
-
-
 
                 // Nickname-field
                 label("Nickname")
@@ -82,7 +74,8 @@ class NewGameView(val controller:MenuController): View() {
                         it.padRight(50f)
                     }
                     textButton("4", "toggle") {
-                        pad(25f, 50f, 25f, 50f)
+                        pad(25f, 50f, 25f,
+                            50f)
                     }
                 }.addListener(object : ChangeListener() {
                     override fun changed(event: ChangeEvent?, actor: Actor?) {
@@ -133,15 +126,11 @@ class NewGameView(val controller:MenuController): View() {
                         }
 
                         else{
-                            controller.createNewGame(nickname,rounds,difficulty)
+                            controller.handleNewGame(nickname, rounds, difficulty)
+
                         }
-
-
-                        //TODO ADD CHANGE VIEW
-                       // TODO("Change view")
                     }
                 })
-
 
                 // Table-options
                 setFillParent(true)
