@@ -14,8 +14,6 @@ class Game(private val firebaseRepository:
 
     val playerScores:MutableMap<String,Player> = mutableMapOf()
 
-    var playerScoresList:List<Player> = listOf()
-
 
     var gameID:String = ""
         set(value) {
@@ -28,7 +26,6 @@ class Game(private val firebaseRepository:
     var rounds: Int = 3
 
     var difficulty:String = "medium"
-
 
 
     init {
@@ -50,7 +47,6 @@ class Game(private val firebaseRepository:
 
     fun putGame() {
         firebaseRepository.createGame(this)
-
     }
 
     fun addPlayer(player: Player){
@@ -102,7 +98,6 @@ class Game(private val firebaseRepository:
 */
 
 private fun getPlayers(players: List<Player>) {
-    this.playerScoresList = players
     for (p in players){
         for (p in players)
             playerScores[p.id] = p
