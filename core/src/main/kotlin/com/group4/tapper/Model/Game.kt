@@ -110,8 +110,7 @@ private fun getPlayers(players: List<Player>) {
 }
 
     fun subscribeToPlayerScoreUpdates(gameId: String, onPlayerScoreUpdate: (players: List<Player>) -> Unit) {
-        firebaseRepository.subscribeToGame(gameId, ::getPlayers)
-        onPlayerScoreUpdate(playerScoresList)
+        firebaseRepository.subscribeToGame(gameId, onPlayerScoreUpdate, ::getPlayers)
     }
 
 
