@@ -1,15 +1,24 @@
 package com.group4.tapper.Controller
 
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Preferences
 import com.group4.tapper.Model.Game
 import com.group4.tapper.Model.Player
 import com.group4.tapper.Tapper
 import com.group4.tapper.View.*
+import com.group4.tapper.assets.AudioService
+import com.group4.tapper.assets.MusicAsset
+import kotlinx.coroutines.CoroutineScope
+import ktx.assets.async.AssetStorage
 
-class MenuController(tapper: Tapper) {
+class MenuController(tapper: Tapper,
+                     val assets: AssetStorage,
+                     val audioService: AudioService  ) {
 
-    private val tapper:Tapper
+    val tapper:Tapper
+        get() {
+            return field
+        }
+
+
     private var numberOfRounds: Int
     private var difficulty:String
     internal lateinit var game:Game
@@ -68,6 +77,7 @@ class MenuController(tapper: Tapper) {
     }
 
     fun handleChangeToGameView(){
+        audioService.play(MusicAsset.GAME)
         tapper.setScreen<GameView>()
     }
 
@@ -89,7 +99,9 @@ class MenuController(tapper: Tapper) {
         tapper.setScreen<NewGameView>()
     }
 
+    fun playMusic() {
 
+    }
 
 
 }
