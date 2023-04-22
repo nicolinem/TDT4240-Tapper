@@ -53,7 +53,7 @@ enum class TextureAtlasAsset(
     directory: String = "tapper_skin_6",
     val descriptor: AssetDescriptor<Skin> = AssetDescriptor("$directory/$fileName", Skin::class.java)
 ) {
-    SKIN(true, "tapper_skin_7.json", "tapper_skin_6")
+    SKIN(true, "tapper_skin_13.json", "tapper_skin_6")
 }
 
 fun createSkin(assets: AssetStorage) {
