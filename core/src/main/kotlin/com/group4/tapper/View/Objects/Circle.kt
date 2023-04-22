@@ -32,7 +32,6 @@ class Circle(x:Float, y: Float, size:Float, number: Int, clickable:Boolean) {
         image.addListener(object :InputListener(){
             fun onCLick(event:InputEvent,x:Float,y:Float,pointer:Int,buttin:Int):Boolean{
                 //Handle click event.
-                println("click")
                 return true
             }
         })

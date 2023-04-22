@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Preferences
 import com.group4.tapper.Model.Game
 import com.group4.tapper.Tapper
+import com.group4.tapper.View.ResultView
 
 class GameController(val tapper:Tapper) {
 
@@ -15,8 +16,10 @@ class GameController(val tapper:Tapper) {
 /*
         val game = Game(tapper,prefs.getString("rounds").toInt(),prefs.getString("nickname"),prefs.getString("difficulty"),prefs.getString("gameID"))
 */
-        System.out.println(prefs.getString("playerID"))
+        println("handleVictory")
+
         tapper.menuController.game.updatePlayerScore(points, prefs.getString("playerID"))
+        tapper.setScreen<ResultView>()
     }
 
 }

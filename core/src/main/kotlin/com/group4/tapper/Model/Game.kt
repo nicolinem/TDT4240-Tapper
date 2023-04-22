@@ -17,7 +17,7 @@ class Game(private val firebaseRepository:
     var playerScoresList:List<Player> = listOf()
 
 
-    var gameID:String = ""
+    var gameID:String = generatePin()
         set(value) {
             field = value
             prefs.putString("gameID", value)
@@ -26,27 +26,13 @@ class Game(private val firebaseRepository:
 
 
     var rounds: Int = 3
+    var currentRound:Int = 1
 
     var difficulty:String = "medium"
 
 
 
-    init {
 
-        if (gameID.isNotEmpty()) {
-            this.gameID = gameID
-        } else {
-            this.gameID = generatePin()
-        }
-
-        with(prefs) {
-            clear()
-            putString("gameID", this@Game.gameID)
-            flush()
-        }
-
-
-    }
 
     fun putGame() {
         firebaseRepository.createGame(this)
@@ -55,8 +41,6 @@ class Game(private val firebaseRepository:
 
     fun addPlayer(player: Player){
         playerScores[player.id] = player
-        prefs.putString("playerID",player.id)
-        prefs.flush()
     }
 
     fun joinGame(player: Player) {
@@ -67,7 +51,12 @@ class Game(private val firebaseRepository:
     }
 
     fun updatePlayerScore(points:Int, playerID: String){
+        playerScores[playerID]?.incrementRound()
         playerScores[playerID]?.updateScore(points)
+        playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, it) }
+    }
+    fun resetPlayerStats(playerID: String){
+        playerScores[playerID]?.resetStats()
         playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, it) }
     }
 
@@ -77,6 +66,14 @@ class Game(private val firebaseRepository:
 
     fun checkIfLastRound(method:(Boolean) -> Unit){
         firebaseRepository.checkIfLastRound(gameID,method)
+    }
+    fun playAgain(){
+        for ((key,value) in playerScores){
+            println(key)
+            println(value.nickname)
+            playerScores[key]?.resetStats()
+        }
+        putGame()
     }
 
 
@@ -101,15 +98,16 @@ class Game(private val firebaseRepository:
     }
 */
 
-private fun getPlayers(players: List<Player>) {
-    this.playerScoresList = players
+private fun getPlayers(players: List<Player>, rounds:Int, diff:String) {
     for (p in players){
-        for (p in players)
             playerScores[p.id] = p
     }
+    this.rounds = rounds
+    this.difficulty = diff
 }
 
-    fun subscribeToPlayerScoreUpdates(gameId: String, onPlayerScoreUpdate: (players: List<Player>) -> Unit) {
+    fun subscribeToPlayerScoreUpdates(gameId: String, onPlayerScoreUpdate: (Int,Int, List<Player>) -> Unit) {
+
         firebaseRepository.subscribeToGame(gameId, onPlayerScoreUpdate, ::getPlayers)
     }
 
@@ -118,7 +116,7 @@ private fun getPlayers(players: List<Player>) {
     //Static method in companion object.
     companion object{
         fun generatePin() : String{
-            val letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+            val letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
             val sb = StringBuilder()
             val random = Random()
 

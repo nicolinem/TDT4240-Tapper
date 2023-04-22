@@ -14,21 +14,31 @@ class MenuController(tapper: Tapper) {
     private var difficulty:String
     internal lateinit var game:Game
     private val FB = tapper.getInterface()
+    private val prefs : Preferences = Gdx.app.getPreferences("prefs")
 
 
     init{
+
+
         this.tapper = tapper
         numberOfRounds = 2
         difficulty = "easy"
         game = Game(FB)
+
     }
 
     fun createNewGame(nickname:String, roundsNumber:Int, difficultySetting:String){
         game = Game(FB).apply {
             rounds = roundsNumber
             difficulty = difficultySetting
+
         }
-        game.addPlayer(Player(nickname))
+        val player = Player(nickname)
+        game.addPlayer(player)
+        prefs.putString("playerID",player.id)
+
+        prefs.flush()
+
         game.putGame()
     }
 
@@ -38,12 +48,24 @@ class MenuController(tapper: Tapper) {
 
         }
         game.joinGame(player)
+        prefs.putString("playerID",player.id)
+        prefs.flush()
         tapper.setScreen<WaitingView>()
 
     }
 
+    fun playAgain(){
+        game.playAgain()
+        tapper.setScreen<WaitingView>()
+    }
+
     fun addPlayerToGame(player: Player){
         game.joinGame(player)
+        tapper.setScreen<WaitingView>()
+    }
+
+    fun handleChangeToWaitRoom(){
+        game.resetPlayerStats(prefs.getString("playerID"))
         tapper.setScreen<WaitingView>()
     }
 
@@ -71,7 +93,7 @@ class MenuController(tapper: Tapper) {
         tapper.setScreen<GameView>()
     }
 
-    fun subscribeToPlayerScoreUpdates(onPlayerScoreUpdate: (List<Player>) -> Unit) {
+    fun subscribeToPlayerScoreUpdates(onPlayerScoreUpdate: (Int,Int,List<Player>) -> Unit) {
         game.subscribeToPlayerScoreUpdates(this.game.gameID, onPlayerScoreUpdate)
     }
 
@@ -88,6 +110,12 @@ class MenuController(tapper: Tapper) {
     fun handleChangeToNewGameView() {
         tapper.setScreen<NewGameView>()
     }
+
+
+    fun getGameID(method: (String)-> Unit) {
+        method(game.gameID)
+    }
+
 
     fun handleChangeToSettingsView() {
         tapper.setScreen<SettingsView>()
