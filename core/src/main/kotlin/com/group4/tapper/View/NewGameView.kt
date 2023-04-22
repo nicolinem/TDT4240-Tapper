@@ -34,14 +34,14 @@ class NewGameView(val controller: MenuController): View() {
                 defaults().fillX().expandX()
                 defaults().pad(50f)
 
-                row().width(screenWidth/10f).height(screenWidth/10f).expand().left().top()
+                row().expand().width(screenWidth/10f).height(screenWidth/10f).left().top()
                 button("return_white").addListener(object : ClickListener() {
                     override fun clicked(event: InputEvent?, x: Float, y: Float) {
                         controller.handleChangeToMainView()
                     }
                 })
 
-                row().expand()
+                row()
 
                 // Nickname-field
                 label("Nickname")
