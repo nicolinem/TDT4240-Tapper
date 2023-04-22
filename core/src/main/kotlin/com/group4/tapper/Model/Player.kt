@@ -47,4 +47,9 @@ class Player ( nickname:String){
         this.score += score
     }
 
+    fun resetStats(){
+        this.score = 0
+        this.currentRound = 0
+    }
+
 }

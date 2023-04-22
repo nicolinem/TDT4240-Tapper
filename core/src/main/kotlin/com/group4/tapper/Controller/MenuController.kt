@@ -52,19 +52,8 @@ class MenuController(tapper: Tapper) {
     }
 
     fun playAgain(players:List<Player>,gamepin: String){
-
-        val diff = game.difficulty
-        val r = game.rounds
-
-        game = Game(FB).apply {
-            gameID = gamepin
-            difficulty = diff
-            rounds = r
-        }
         for (p in players){
-            game.addPlayer(Player(p.nickname).apply {
-                id = p.id
-            })
+            game.resetPlayerStats(p.id)
         }
 
         game.putGame()

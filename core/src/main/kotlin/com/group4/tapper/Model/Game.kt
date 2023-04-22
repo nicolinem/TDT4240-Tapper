@@ -66,10 +66,12 @@ class Game(private val firebaseRepository:
     }
 
     fun updatePlayerScore(points:Int, playerID: String){
-
-
         playerScores[playerID]?.incrementRound()
         playerScores[playerID]?.updateScore(points)
+        playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, it) }
+    }
+    fun resetPlayerStats(playerID: String){
+        playerScores[playerID]?.resetStats()
         playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, it) }
     }
 
