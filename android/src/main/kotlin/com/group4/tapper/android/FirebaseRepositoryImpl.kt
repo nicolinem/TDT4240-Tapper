@@ -51,7 +51,7 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
     }
 
 
-    override fun subscribeToGame(gameId: String, onGameUpdate: (List<Player>) -> Unit) {
+    override fun subscribeToGame(gameId: String, onGameUpdate: (List<Player>) -> Unit, updateGame: (List<Player>) -> Unit): Unit {
         val gameRef = db.collection("games").document(gameId)
         gameRef.addSnapshotListener { snapshot, e ->
             if (e != null) {
@@ -74,6 +74,7 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
 
                 // Pass the list of players to the callback
                 onGameUpdate(players)
+
 
             } else {
                 Log.d(TAG, "Current data: null")
