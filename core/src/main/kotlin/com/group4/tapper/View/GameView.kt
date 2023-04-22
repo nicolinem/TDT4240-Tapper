@@ -22,8 +22,12 @@ import ktx.app.clearScreen
 import java.text.DecimalFormat
 import java.util.TimerTask
 import java.util.Timer
+import java.util.logging.Handler
 
 import kotlin.random.Random
+import java.util.*
+import kotlin.concurrent.schedule
+
 
 
 class GameView(private val controller: GameController) : View() {
@@ -101,10 +105,15 @@ class GameView(private val controller: GameController) : View() {
                     puzzleList.removeAt(0)
                     stage.actors.removeValue(numberButton1,true)
                     checkVictory()
-
+                    textButton1.isDisabled = false
+                    textButton2.isDisabled = true
                 }
                 else{
+                    numberButton1.isDisabled = true
                     triggerError()
+                    Timer().schedule(500){
+                        numberButton1.isDisabled = false
+                    }
                 }
             }
         })
@@ -115,10 +124,15 @@ class GameView(private val controller: GameController) : View() {
                     puzzleList.removeAt(0)
                     stage.actors.removeValue(numberButton2,true)
                     checkVictory()
-
+                    textButton2.isDisabled = false
+                    textButton3.isDisabled = true
                 }
                 else{
+                    numberButton2.isDisabled = true
                     triggerError()
+                    Timer().schedule(500){
+                        numberButton2.isDisabled = false
+                    }
                 }
             }
         })
@@ -129,10 +143,15 @@ class GameView(private val controller: GameController) : View() {
                     puzzleList.removeAt(0)
                     stage.actors.removeValue(numberButton3,true)
                     checkVictory()
-
+                    textButton3.isDisabled = false
+                    textButton4.isDisabled = true
                 }
                 else{
+                    numberButton3.isDisabled = true
                     triggerError()
+                    Timer().schedule(500){
+                        numberButton3.isDisabled = false
+                    }
                 }
             }
         })
@@ -143,10 +162,15 @@ class GameView(private val controller: GameController) : View() {
                     puzzleList.removeAt(0)
                     stage.actors.removeValue(numberButton4,true)
                     checkVictory()
-
+                    textButton4.isDisabled = false
+                    textButton5.isDisabled = true
                 }
                 else{
+                    numberButton4.isDisabled = true
                     triggerError()
+                    Timer().schedule(500){
+                        numberButton4.isDisabled = false
+                    }
                 }
             }
         })
@@ -157,10 +181,15 @@ class GameView(private val controller: GameController) : View() {
                     puzzleList.removeAt(0)
                     stage.actors.removeValue(numberButton5,true)
                     checkVictory()
-
+                    textButton5.isDisabled = false
+                    textButton6.isDisabled = true
                 }
                 else{
+                    numberButton5.isDisabled = true
                     triggerError()
+                    Timer().schedule(500){
+                        numberButton5.isDisabled = false
+                    }
                 }
             }
         })
@@ -174,7 +203,11 @@ class GameView(private val controller: GameController) : View() {
 
                 }
                 else{
+                    numberButton6.isDisabled = true
                     triggerError()
+                    Timer().schedule(500){
+                        numberButton6.isDisabled = false
+                    }
                 }
             }
         })
@@ -209,12 +242,13 @@ class GameView(private val controller: GameController) : View() {
                 row()
                 table {
                     defaults().pad(0f, 10f, 0f, 10f)
-                    textButton1 = textButton(puzzleListCopy[0].toString(), "round_bigger")
-                    textButton2 = textButton(puzzleListCopy[1].toString(), "round_bigger")
-                    textButton3 = textButton(puzzleListCopy[2].toString(), "round_bigger")
-                    textButton4 = textButton(puzzleListCopy[3].toString(), "round_bigger")
-                    textButton5 = textButton(puzzleListCopy[4].toString(), "round_bigger")
-                    textButton6 = textButton(puzzleListCopy[5].toString(), "round_bigger")
+                    textButton1 = textButton(puzzleListCopy[0].toString(), "round_top")
+                    textButton1.isDisabled = true
+                    textButton2 = textButton(puzzleListCopy[1].toString(), "round_top")
+                    textButton3 = textButton(puzzleListCopy[2].toString(), "round_top")
+                    textButton4 = textButton(puzzleListCopy[3].toString(), "round_top")
+                    textButton5 = textButton(puzzleListCopy[4].toString(), "round_top")
+                    textButton6 = textButton(puzzleListCopy[5].toString(), "round_top")
                 }
 
                 // Add lower line
@@ -223,23 +257,23 @@ class GameView(private val controller: GameController) : View() {
             }
 
             // Add all number-buttons
-            numberButton1 =  textButton(puzzleListCopy[5].toString(), "round_bigger"){
-                setPosition(coordinates[5].first, coordinates[5].second)
+            numberButton1 =  textButton(puzzleListCopy[0].toString(), "round_bottom"){
+                setPosition(coordinates[0].first, coordinates[0].second)
             }
-            numberButton2 =  textButton(puzzleListCopy[4].toString(), "round_bigger"){
-                setPosition(coordinates[4].first, coordinates[4].second)
-            }
-            numberButton3 =  textButton(puzzleListCopy[3].toString(), "round_bigger"){
-                setPosition(coordinates[3].first, coordinates[3].second)
-            }
-            numberButton4 =  textButton(puzzleListCopy[2].toString(), "round_bigger"){
-                setPosition(coordinates[2].first, coordinates[2].second)
-            }
-            numberButton5 =  textButton(puzzleListCopy[1].toString(), "round_bigger"){
+            numberButton2 =  textButton(puzzleListCopy[1].toString(), "round_bottom"){
                 setPosition(coordinates[1].first, coordinates[1].second)
             }
-            numberButton6 =  textButton(puzzleListCopy[0].toString(), "round_bigger"){
-                setPosition(coordinates[0].first, coordinates[0].second)
+            numberButton3 =  textButton(puzzleListCopy[2].toString(), "round_bottom"){
+                setPosition(coordinates[2].first, coordinates[2].second)
+            }
+            numberButton4 =  textButton(puzzleListCopy[3].toString(), "round_bottom"){
+                setPosition(coordinates[3].first, coordinates[3].second)
+            }
+            numberButton5 =  textButton(puzzleListCopy[4].toString(), "round_bottom"){
+                setPosition(coordinates[4].first, coordinates[4].second)
+            }
+            numberButton6 =  textButton(puzzleListCopy[5].toString(), "round_bottom"){
+                setPosition(coordinates[5].first, coordinates[5].second)
             }
 
         }

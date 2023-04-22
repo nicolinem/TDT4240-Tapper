@@ -1,5 +1,18 @@
 
-tapper_skin_7.png
+tapper_skin_10.png
+size: 2048, 2048
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+transparent_image
+  rotate: false
+  xy: 1, 839
+  size: 1920, 1080
+  orig: 1920, 1080
+  offset: 0, 0
+  index: -1
+
+tapper_skin_10-2.png
 size: 2048, 2048
 format: RGBA8888
 filter: Linear, Linear
@@ -82,70 +95,84 @@ Montserrat_bigger_3
   offset: 0, 0
   index: -1
 
-tapper_skin_7-2.png
+tapper_skin_10-3.png
 size: 2048, 2048
 format: RGBA8888
 filter: Linear, Linear
 repeat: none
 button_ up
   rotate: false
-  xy: 515, 599
+  xy: 515, 751
   size: 267, 115
   orig: 267, 115
   offset: 0, 0
   index: -1
 button_down
   rotate: false
-  xy: 1, 1
+  xy: 1, 153
   size: 267, 115
   orig: 267, 115
   offset: 0, 0
   index: -1
 input
   rotate: false
-  xy: 1029, 1523
+  xy: 1029, 1675
   size: 415, 135
   orig: 415, 135
   offset: 0, 0
   index: -1
 return
   rotate: false
-  xy: 515, 1146
+  xy: 515, 1298
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 return_white
   rotate: false
-  xy: 1, 118
+  xy: 1, 270
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 rund_knapp
   rotate: false
-  xy: 1029, 1371
+  xy: 1029, 1523
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
 montserrat_better_0
   rotate: false
-  xy: 1, 1146
+  xy: 1, 1298
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 montserrat_better_1
   rotate: false
-  xy: 1, 632
+  xy: 1, 784
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
+rund_knapp_aktiv
+  rotate: false
+  xy: 515, 599
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+rund_knapp_feil
+  rotate: false
+  xy: 1, 1
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
 Montserrat
   rotate: false
-  xy: 515, 716
+  xy: 515, 868
   size: 506, 428
   orig: 506, 428
   offset: 0, 0
