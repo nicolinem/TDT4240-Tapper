@@ -115,9 +115,7 @@ class Game(private val firebaseRepository:
 */
 
 private fun getPlayers(players: List<Player>) {
-    this.playerScoresList = players
     for (p in players){
-        for (p in players)
             playerScores[p.id] = p
     }
 }
