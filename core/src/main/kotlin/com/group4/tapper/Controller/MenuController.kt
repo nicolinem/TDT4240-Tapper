@@ -17,6 +17,8 @@ class MenuController(tapper: Tapper) {
 
 
     init{
+
+
         this.tapper = tapper
         numberOfRounds = 2
         difficulty = "easy"
@@ -42,8 +44,32 @@ class MenuController(tapper: Tapper) {
 
     }
 
+    fun playAgain(players:List<Player>,gamepin: String){
+
+        val diff = game.difficulty
+        val r = game.rounds
+
+        game = Game(FB).apply {
+            gameID = gamepin
+            difficulty = diff
+            rounds = r
+        }
+        for (p in players){
+            game.addPlayer(Player(p.nickname).apply {
+                id = p.id
+            })
+        }
+
+        game.putGame()
+        tapper.setScreen<WaitingView>()
+    }
+
     fun addPlayerToGame(player: Player){
         game.joinGame(player)
+        tapper.setScreen<WaitingView>()
+    }
+
+    fun handleChangeToWaitRoom(){
         tapper.setScreen<WaitingView>()
     }
 
@@ -71,7 +97,7 @@ class MenuController(tapper: Tapper) {
         tapper.setScreen<GameView>()
     }
 
-    fun subscribeToPlayerScoreUpdates(onPlayerScoreUpdate: (List<Player>) -> Unit) {
+    fun subscribeToPlayerScoreUpdates(onPlayerScoreUpdate: (Int,Int,List<Player>) -> Unit) {
         game.subscribeToPlayerScoreUpdates(this.game.gameID, onPlayerScoreUpdate)
     }
 

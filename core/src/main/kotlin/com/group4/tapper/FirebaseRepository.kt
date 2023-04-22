@@ -7,7 +7,7 @@ import com.group4.tapper.Model.Player
 interface FirebaseRepository {
     fun createGame(game: Game)
     fun joinGame(gameId: String, player: Player)
-    fun subscribeToGame(gameId: String, onGameUpdate: (List<Player>) -> Unit, updateGame: (List<Player>) -> Unit)
+    fun subscribeToGame(gameId: String, onGameUpdate: (Int,Int,List<Player>) -> Unit, updateGame: (List<Player>) -> Unit)
 /*
     fun updatePlayerScore(gameId: String, playerID: String)
 */

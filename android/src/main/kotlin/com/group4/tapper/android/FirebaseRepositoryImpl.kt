@@ -26,14 +26,15 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
     }
 
 
-    override fun joinGame(gameId: String, player: Player, ) {
+    override fun joinGame(gameId: String, player: Player ) {
         val gameRef = db.collection("games").document(gameId)
-
 
         gameRef.get()
             .addOnSuccessListener { documentSnapshot ->
                 val playerScores = documentSnapshot.get("playerScores") as MutableMap<String, Player>?
                     ?: mutableMapOf()
+                Log.d(TAG, "Current data: ${documentSnapshot.data}")
+
 
                 playerScores[player.id] = player
 
@@ -51,7 +52,7 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
     }
 
 
-    override fun subscribeToGame(gameId: String, onGameUpdate: (List<Player>) -> Unit, updateGame: (List<Player>) -> Unit): Unit {
+    override fun subscribeToGame(gameId: String, onGameUpdate: (Int,Int,List<Player>) -> Unit, updateGame: (List<Player>) -> Unit): Unit {
         val gameRef = db.collection("games").document(gameId)
         gameRef.addSnapshotListener { snapshot, e ->
             if (e != null) {
@@ -67,13 +68,19 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
                 Log.d(TAG, "Current data: $playerScores")
                 // Create a list of Player objects
                 val players = playerScores.map { (playerId, values) ->
-                    Player((values["nickname"] ?: "") as String, playerId).apply {
+                    Player((values["nickname"] ?: "") as String).apply {
                         score = values["score"].toString().toInt()
+                        currentRound = (values["currentRound"] as Long).toInt()
+                        id=playerId
                     }
                 }
+                val rounds = snapshot["rounds"] as Long
+                val currentRound = snapshot["currentRound"] as Long
+
 
                 // Pass the list of players to the callback
-                onGameUpdate(players)
+                onGameUpdate(rounds.toInt(),currentRound.toInt(),players)
+
 
 
             } else {
@@ -116,8 +123,7 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
         gameRef.get().addOnSuccessListener { documentSnapshot ->
             val rounds = documentSnapshot.get("rounds")
             val currentRound = documentSnapshot.get("currentRound")
-            println(rounds)
-            println(currentRound)
+
             if (rounds == currentRound) {
                     method(true)
                 } else {

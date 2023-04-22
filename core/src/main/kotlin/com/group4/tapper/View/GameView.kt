@@ -22,6 +22,7 @@ import ktx.app.clearScreen
 import java.text.DecimalFormat
 import java.util.TimerTask
 import java.util.Timer
+import kotlin.properties.Delegates
 
 import kotlin.random.Random
 
@@ -29,15 +30,15 @@ import kotlin.random.Random
 class GameView(private val controller: GameController) : View() {
 
 
-    private var points: Int = 1000
-    private var height:Int
-    private var width:Int
+    private var points by Delegates.notNull<Int>()
+    private var height by Delegates.notNull<Int>()
+    private var width by Delegates.notNull<Int>()
 
-    private var circleRadius:Float
-    private var puzzleList: MutableList<Int>
-    private var puzzleListCopy: MutableList<Int>
-    private val coordinates: MutableList<Pair<Float, Float>>
-    private val puzzle: Puzzle
+    private var circleRadius by Delegates.notNull<Float>()
+    private lateinit var puzzleList: MutableList<Int>
+    private lateinit var puzzleListCopy: MutableList<Int>
+    private lateinit var coordinates: MutableList<Pair<Float, Float>>
+    private lateinit var puzzle: Puzzle
 
     private lateinit var textButton1:TextButton
     private lateinit var textButton2:TextButton
@@ -57,15 +58,18 @@ class GameView(private val controller: GameController) : View() {
     private val df = DecimalFormat("#.##")
 
     private var timerbool:Boolean = false
-    private val timer :Timer = Timer()
-    private val task = object :TimerTask(){
-        override fun run() {
-            points -= 1
-        }
-    }
+    private var timer :Timer = Timer()
 
     override fun show() {
         super.show()
+        start()
+        timer = Timer()
+        val task = object :TimerTask(){
+            override fun run() {
+                points -= 1
+            }
+        }
+
         //Start timer
         if(!timerbool){
             timer.scheduleAtFixedRate(task,0L,25L)
@@ -73,8 +77,8 @@ class GameView(private val controller: GameController) : View() {
         }
     }
 
-    init {
-
+    fun start() {
+        points = 1000
 
         // Get a list of random numbers
         puzzle = Puzzle()
@@ -181,6 +185,7 @@ class GameView(private val controller: GameController) : View() {
     }
 
         fun makeUI() {
+        stage.clear()
 
         stage.actors {
             table {
@@ -267,8 +272,10 @@ class GameView(private val controller: GameController) : View() {
     }
 
     private fun checkVictory(){
+
         if(puzzleList.isEmpty()){
             timer.cancel()
+            timerbool = false
             controller.handleVictory(points)
         }
 

@@ -26,6 +26,7 @@ class Game(private val firebaseRepository:
 
 
     var rounds: Int = 3
+    var currentRound:Int = 1
 
     var difficulty:String = "medium"
 
@@ -67,6 +68,9 @@ class Game(private val firebaseRepository:
     }
 
     fun updatePlayerScore(points:Int, playerID: String){
+
+
+        playerScores[playerID]?.incrementRound()
         playerScores[playerID]?.updateScore(points)
         playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, it) }
     }
@@ -109,7 +113,7 @@ private fun getPlayers(players: List<Player>) {
     }
 }
 
-    fun subscribeToPlayerScoreUpdates(gameId: String, onPlayerScoreUpdate: (players: List<Player>) -> Unit) {
+    fun subscribeToPlayerScoreUpdates(gameId: String, onPlayerScoreUpdate: (Int,Int, List<Player>) -> Unit) {
         firebaseRepository.subscribeToGame(gameId, onPlayerScoreUpdate, ::getPlayers)
     }
 

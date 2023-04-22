@@ -17,9 +17,9 @@ class WaitingView(val controller: MenuController) : View() {
 
 
 
-    fun updatePlayerScoreList(players: List<Player>) {
+    fun updatePlayerScoreList(rounds:Int,currentRound:Int,players: List<Player>) {
         stage.clear()
-        System.out.println("CALLED")
+
         tableN.clear()
 
         for (p in players){
@@ -29,7 +29,7 @@ class WaitingView(val controller: MenuController) : View() {
         setupUI()
     }
 
-    fun subscribeToPlayerScoreUpdates(updatePlayerScoreList: (List<Player>) -> Unit) {
+    fun subscribeToPlayerScoreUpdates(updatePlayerScoreList: (Int,Int,List<Player>) -> Unit) {
         controller.subscribeToPlayerScoreUpdates(updatePlayerScoreList)
     }
     override fun show() {
