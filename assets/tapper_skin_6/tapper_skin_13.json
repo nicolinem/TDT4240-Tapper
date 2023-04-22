@@ -76,6 +76,13 @@ com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 	round: {
 		up: rund_knapp
 	}
+	settings: {
+		up: gear_pink
+	}
+	toggle_setting: {
+		up: toggle_off
+		checked: toggle_on
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {
@@ -105,6 +112,9 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
 	default: {
 		background: scrollpane
+	}
+	transparent: {
+		background: transparent_image
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
@@ -137,19 +147,31 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		up: join_game
 	}
 	round: {
-		font: Montserrat
-		fontColor: WHITE
-		up: rund_knapp
-	}
-	round_big: {
-		font: Montserrat_big
-		fontColor: WHITE
-		up: rund_knapp
-	}
-	round_bigger: {
 		font: montserrat_fixed
 		fontColor: WHITE
 		up: rund_knapp
+	}
+	round_red: {
+		font: montserrat_fixed
+		fontColor: WHITE
+		up: rund_knapp_feil
+	}
+	round_active: {
+		font: montserrat_fixed
+		fontColor: WHITE
+		up: rund_knapp_aktiv
+	}
+	round_top: {
+		font: montserrat_fixed
+		fontColor: WHITE
+		up: rund_knapp
+		disabled: rund_knapp_aktiv
+	}
+	round_bottom: {
+		font: montserrat_fixed
+		fontColor: WHITE
+		up: rund_knapp
+		disabled: rund_knapp_feil
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {

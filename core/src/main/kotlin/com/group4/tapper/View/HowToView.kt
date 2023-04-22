@@ -51,7 +51,7 @@ class HowToView(val controller: MenuController): View() {
         }*/
 
         stage.actors {
-            scrollPane {
+            scrollPane("transparent") {
                 setFillParent(true)
                 setScrollingDisabled(true, false)
                 table{

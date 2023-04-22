@@ -20,8 +20,10 @@ import ktx.scene2d.Scene2DSkin
 
 
 abstract class View() : KtxScreen {
-    var skin: Skin = Skin(Gdx.files.internal("tapper_skin_6/tapper_skin_7.json"))
+    var skin: Skin = Skin(Gdx.files.internal("tapper_skin_6/tapper_skin_13.json"))
     val stage = Stage(FitViewport(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat()))
+    var screenHeight = Gdx.graphics.height.toFloat()
+    var screenWidth = Gdx.graphics.width.toFloat()
 
     protected val batch = SpriteBatch()
 

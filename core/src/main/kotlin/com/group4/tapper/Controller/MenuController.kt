@@ -111,10 +111,15 @@ class MenuController(tapper: Tapper) {
         tapper.setScreen<NewGameView>()
     }
 
+
     fun getGameID(method: (String)-> Unit) {
         method(game.gameID)
     }
 
+
+    fun handleChangeToSettingsView() {
+        tapper.setScreen<SettingsView>()
+    }
 
 
 }
