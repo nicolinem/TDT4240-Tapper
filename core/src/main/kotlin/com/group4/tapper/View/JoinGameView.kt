@@ -8,8 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.group4.tapper.Controller.MenuController
+import com.group4.tapper.Model.Player
 import com.group4.tapper.Tapper
-import ktx.actors.centerPosition
 import ktx.scene2d.*
 import kotlin.properties.Delegates
 
@@ -88,8 +88,7 @@ class JoinGameView(val controller: MenuController): View() {
 
     fun refreshGoToGame(exists:Boolean):Boolean{
         if(exists){
-            controller.addPlayerToGame(pin,nickname)
-            controller.handleChangeToGameView()
+            controller.joinGame(Player(nickname), pin)
         }
         else{
             prompt("This game does not exists, try again.")

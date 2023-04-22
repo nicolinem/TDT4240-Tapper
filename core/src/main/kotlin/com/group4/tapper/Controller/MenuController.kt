@@ -12,26 +12,39 @@ class MenuController(tapper: Tapper) {
     private val tapper:Tapper
     private var numberOfRounds: Int
     private var difficulty:String
-    private var game:Game
-
+    internal lateinit var game:Game
+    private val FB = tapper.getInterface()
 
 
     init{
         this.tapper = tapper
         numberOfRounds = 2
         difficulty = "easy"
-        game = Game(tapper,numberOfRounds,"TEMP",difficulty,"TEMP")
+        game = Game(FB)
+    }
+
+    fun createNewGame(nickname:String, roundsNumber:Int, difficultySetting:String){
+        game = Game(FB).apply {
+            rounds = roundsNumber
+            difficulty = difficultySetting
+        }
+        game.addPlayer(Player(nickname))
+        game.putGame()
+    }
+
+    fun joinGame(player: Player, gamepin: String) {
+        game.apply {
+            gameID = gamepin
+
+        }
+        game.joinGame(player)
+        tapper.setScreen<WaitingView>()
 
     }
 
-    fun createNewGame(nickname:String, rounds:Int, difficulty:String){
-        game = Game(tapper,rounds,nickname,difficulty)
-        game.createGame()
-
-    }
-
-    fun addPlayerToGame(gameID:String,nickname: String){
-        game.addPlayer(gameID,nickname)
+    fun addPlayerToGame(player: Player){
+        game.joinGame(player)
+        tapper.setScreen<WaitingView>()
     }
 
     fun handleChangeToMainView(){
@@ -42,9 +55,13 @@ class MenuController(tapper: Tapper) {
         tapper.setScreen<JoinGameView>()
     }
 
-     fun handleChangeToNewGameView(){
-        tapper.setScreen<NewGameView>()
+
+     fun handleNewGame(nickname: String, rounds: Int, difficulty: String){
+         createNewGame(nickname, rounds, difficulty)
+        tapper.setScreen<WaitingView>()
     }
+
+
 
     fun handleChangeToHowToView() {
         tapper.setScreen<HowToView>()
@@ -54,8 +71,8 @@ class MenuController(tapper: Tapper) {
         tapper.setScreen<GameView>()
     }
 
-    fun subscribeToPlayerScoreUpdates(gameId: String, onPlayerScoreUpdate: (List<Player>) -> Unit) {
-        game.subscribeToPlayerScoreUpdates(gameId, onPlayerScoreUpdate)
+    fun subscribeToPlayerScoreUpdates(onPlayerScoreUpdate: (List<Player>) -> Unit) {
+        game.subscribeToPlayerScoreUpdates(this.game.gameID, onPlayerScoreUpdate)
     }
 
     fun sendRefresh(pin:String,refreshMethod:(Boolean) -> Boolean){
@@ -68,14 +85,10 @@ class MenuController(tapper: Tapper) {
 
 
 
-
-    fun getTapper(): Tapper {
-        return this.tapper
+    fun handleChangeToNewGameView() {
+        tapper.setScreen<NewGameView>()
     }
 
-    fun getGameID(): String{
-        return game.getGameID()
-    }
 
 
 

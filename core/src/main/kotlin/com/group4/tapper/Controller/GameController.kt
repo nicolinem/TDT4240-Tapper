@@ -12,8 +12,11 @@ class GameController(val tapper:Tapper) {
 
 
     fun handleVictory(points:Int){
+/*
         val game = Game(tapper,prefs.getString("rounds").toInt(),prefs.getString("nickname"),prefs.getString("difficulty"),prefs.getString("gameID"))
-        game.updatePlayerScore(points,prefs.getString("playerID"),prefs.getString("nickname"))
+*/
+        System.out.println(prefs.getString("playerID"))
+        tapper.menuController.game.updatePlayerScore(points, prefs.getString("playerID"))
     }
 
 }

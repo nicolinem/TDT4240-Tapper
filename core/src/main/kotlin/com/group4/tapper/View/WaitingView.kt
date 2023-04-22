@@ -15,12 +15,13 @@ class WaitingView(val controller: MenuController) : View() {
 
     private val tableN = Table(skin)
 
-    val gameId = "IcKG" // Replace this with the actual game id
+
 
     fun updatePlayerScoreList(players: List<Player>) {
         stage.clear()
         System.out.println("CALLED")
         tableN.clear()
+
         for (p in players){
             tableN.row().padBottom(20f)
             tableN.add(Label("${p.nickname}", skin))
@@ -28,12 +29,17 @@ class WaitingView(val controller: MenuController) : View() {
         setupUI()
     }
 
-    fun subscribeToPlayerScoreUpdates(gameId: String, updatePlayerScoreList: (List<Player>) -> Unit) {
-        controller.subscribeToPlayerScoreUpdates(gameId, updatePlayerScoreList)
+    fun subscribeToPlayerScoreUpdates(updatePlayerScoreList: (List<Player>) -> Unit) {
+        controller.subscribeToPlayerScoreUpdates(updatePlayerScoreList)
     }
     override fun show() {
-        subscribeToPlayerScoreUpdates(gameId, ::updatePlayerScoreList)
+        super.show()
+        subscribeToPlayerScoreUpdates(::updatePlayerScoreList)
     }
+
+
+
+
 
     override fun setupUI() {
 
@@ -46,58 +52,23 @@ class WaitingView(val controller: MenuController) : View() {
                 defaults().fillX().expandX()
                 defaults().pad(50f)
 
-                row().top().expandX().fillX().pad(100f, 100f, 100f, 100f)
-                table{
-                    row().expandX()
-                    label("Players", "white_bigger"){
-                        it.left()
-                    }
-                    label("A5F4", "pink_bigger"){
-                        it.right()
-                    }
-                }
+                row().width(screenWidth/2.5f).right()
+                textButton("How to play?")
 
-                // Print player names on screen
-                row().expand().fillX().pad(0f, 100f, 0f, 100f).top()
-                /*add(tableN).top()*/
-                table {
-                    row().padBottom(50f).expandX()
-                    label("Alf Inge Wang") {
-                        it.left()
-                        setFontScale(1.25f)
-                    }
+                /*  row().width(screenWidth/1.5f).height(screenWidth/1.5f).padTop(screenHeight/8f)*/
 
-                    row().padBottom(50f).expandX()
-                    label("Barack Obama") {
-                        it.left()
-                        setFontScale(1.25f)
-                    }
+                row().padTop(screenHeight/6f)
 
-                    row().padBottom(50f).expandX()
-                    label("Tim Cook") {
-                        it.left()
-                        setFontScale(1.25f)
-                        setColor(0.2f, 1f, 0.1f, 1f)
-                    }
 
-                    row().padBottom(50f).expandX()
-                    label("Mark Zuckerberg") {
-                        it.left()
-                        setFontScale(1.25f)
-                    }
 
-                    row().padBottom(50f).expandX()
-                    label("Elon Musk") {
-                        it.left()
-                        setFontScale(1.25f)
-                    }
-                }
+                add(tableN)
+
                 // Join Game button
                 row().bottom()
                 textButton("Start Game", "new_game") {
                 }.addListener(object : ClickListener() {
                     override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                        controller.handleChangeToMainView()
+                        controller.handleChangeToGameView()
                     }
                 })
                 setFillParent(true)
@@ -105,6 +76,7 @@ class WaitingView(val controller: MenuController) : View() {
                 pack()
             }
         }
+
     }
 
 

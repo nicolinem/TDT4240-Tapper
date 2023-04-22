@@ -11,7 +11,6 @@ import ktx.scene2d.actors
 import ktx.scene2d.label
 import ktx.scene2d.table
 import ktx.scene2d.textButton
-import ktx.style.skin
 
 class ResultView(val controller: MenuController): View() {
 
@@ -36,12 +35,12 @@ class ResultView(val controller: MenuController): View() {
         setupUI()
     }
 
-    fun subscribeToPlayerScoreUpdates(gameId: String, updatePlayerScoreList: (List<Player>) -> Unit) {
-        controller.subscribeToPlayerScoreUpdates(gameId, updatePlayerScoreList)
+    fun subscribeToPlayerScoreUpdates( updatePlayerScoreList: (List<Player>) -> Unit) {
+        controller.subscribeToPlayerScoreUpdates(updatePlayerScoreList)
     }
     override fun show() {
         controller.checkIfLastRound(::checkIfLastRound)
-        subscribeToPlayerScoreUpdates(gameId, ::updatePlayerScoreList)
+        subscribeToPlayerScoreUpdates(::updatePlayerScoreList)
 
     }
     override fun setupUI(){
