@@ -11,5 +11,6 @@ dependencies {
   api "io.github.libktx:ktx-style:$ktxVersion"
   api "io.github.libktx:ktx-actors:$ktxVersion"
   api "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-  implementation "io.github.libktx:ktx-assets-async:$ktxVersion"
+  implementation 'io.github.libktx:ktx-assets-async:1.10.0-b10'
+
 }

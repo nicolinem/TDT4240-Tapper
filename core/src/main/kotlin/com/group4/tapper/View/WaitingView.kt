@@ -22,12 +22,13 @@ import java.lang.System.currentTimeMillis
 class WaitingView(val controller: MenuController) : View() {
 
     private val tableN = Table(Scene2DSkin.defaultSkin)
+    private var gameID:String = ""
 
 
 
-    fun updatePlayerScoreList(players: List<Player>) {
+
+    fun updatePlayerScoreList(rounds:Int,currentRound:Int,players: List<Player>) {
         stage.clear()
-        System.out.println("CALLED")
         tableN.clear()
 
         for (p in players){
@@ -37,9 +38,16 @@ class WaitingView(val controller: MenuController) : View() {
         setupUI()
     }
 
-    fun subscribeToPlayerScoreUpdates(updatePlayerScoreList: (List<Player>) -> Unit) {
+    fun subscribeToPlayerScoreUpdates(updatePlayerScoreList: (Int,Int,List<Player>) -> Unit) {
         controller.subscribeToPlayerScoreUpdates(updatePlayerScoreList)
     }
+    override fun show() {
+        super.show()
+        subscribeToPlayerScoreUpdates(::updatePlayerScoreList)
+        controller.getGameID(::updateGameID)
+    }
+
+
 
 
 
@@ -54,15 +62,20 @@ class WaitingView(val controller: MenuController) : View() {
                 defaults().fillX().expandX()
                 defaults().pad(50f)
 
-                row().width(screenWidth/2.5f).right()
-                textButton("How to play?")
+                row().padTop(100f)
+                if(gameID!=null){
+                    label("Pin: $gameID", "white_bigger").setAlignment(1    )
+                }
 
-                /*  row().width(screenWidth/1.5f).height(screenWidth/1.5f).padTop(screenHeight/8f)*/
+                row().padTop(100f)
 
-                row().padTop(screenHeight/6f)
+                label("Players")
+
+                row().pad(0f)
+                image(Texture(Gdx.files.internal("images/Line.png")))
 
 
-
+                row().expand().top()
                 add(tableN)
 
                 // Join Game button
@@ -81,16 +94,15 @@ class WaitingView(val controller: MenuController) : View() {
 
     }
 
+    fun updateGameID(gameID:String){
+        this.gameID=gameID
+    }
+
 
     override fun update(dt: Float) {
         TODO("Not yet implemented")
     }
 
-    override fun show() {
-        super.show()
-        subscribeToPlayerScoreUpdates(::updatePlayerScoreList)
-
-    }
 
 
 

@@ -1,6 +1,7 @@
 package com.group4.tapper.View;
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
@@ -13,37 +14,70 @@ class ResultView(val controller: MenuController): View() {
 
     private val tableN = Table(Scene2DSkin.defaultSkin)
 
+
+
     val gameId = "1exQ" // Replace this with the actual game id
-    private var lastRound:Boolean = false
+    private var lastRound:Boolean? =null
+    private var localLastRound:Boolean =false
+    private lateinit var players:List<Player>
+    private var playAgain:Boolean = false
+    private var count:Int = 0
+
+    private val prefs : Preferences = Gdx.app.getPreferences("prefs")
 
 
-
-    fun updatePlayerScoreList(players: List<Player>) {
+    fun updatePlayerScoreList(rounds:Int,currentRound: Int, players: List<Player>) {
+        println("count")
+        println(count)
+        this.players = players
         stage.clear()
         System.out.println(players)
         tableN.clear()
         var num = 1
+
+        var roundsList = mutableListOf<Int>()
+        var scoreList = mutableListOf<Int>()
+
         for (p in players){
             tableN.row().padBottom(50f).expandX()
             tableN.add(Label("${num}. ${p.nickname}", Scene2DSkin.defaultSkin)).left()
             tableN.add(Label("${p.score} pt", Scene2DSkin.defaultSkin)).right()
             num++
+            roundsList.add(p.currentRound)
+            scoreList.add(p.score)
+
+            if(p.id.equals(prefs.getString("playerID"))){
+                if(p.currentRound == rounds){
+                    localLastRound = true
+                }
+            }
         }
+
+
+        //Check which buttons to load
+        lastRound = roundsList.sum() == rounds*roundsList.size
+        playAgain = scoreList.sum() == 0
+        if(playAgain && count > rounds+1){
+            count = 0
+            controller.handleChangeToWaitRoom()
+            localLastRound = false
+            lastRound = null
+        }
+
+
         setupUI()
+        count++
     }
 
-    fun subscribeToPlayerScoreUpdates( updatePlayerScoreList: (List<Player>) -> Unit) {
+    fun subscribeToPlayerScoreUpdates( updatePlayerScoreList: (Int,Int,List<Player>) -> Unit) {
         controller.subscribeToPlayerScoreUpdates(updatePlayerScoreList)
     }
     override fun show() {
-        controller.checkIfLastRound(::checkIfLastRound)
+        super.show()
         subscribeToPlayerScoreUpdates(::updatePlayerScoreList)
 
     }
     override fun setupUI(){
-        val screenWidth = Gdx.graphics.width.toFloat()
-        val screenHeight = Gdx.graphics.height.toFloat()
-
         stage.actors {
             // Start of table
             table {
@@ -55,69 +89,25 @@ class ResultView(val controller: MenuController): View() {
 
                 // Print player names on screen
                 row().expand().fillX().pad(0f, 100f, 0f, 100f).top()
-                /*add(tableN).top()*/
-                table {
-                    row().padBottom(50f).expandX()
-                    label("1. Alf Inge Wang") {
-                        it.left()
-                        setFontScale(1.25f)
-                    }
-                    label("845"){
-                        it.right()
-                        setFontScale(1.25f)
-                    }
+                add(tableN).top()
 
-                    row().padBottom(50f).expandX()
-                    label("2. Barack Obama") {
-                        it.left()
-                        setFontScale(1.25f)
-                    }
-                    label("735"){
-                        it.right()
-                        setFontScale(1.25f)
-                    }
-
-                    row().padBottom(50f).expandX()
-                    label("3. Tim Cook") {
-                        it.left()
-                        setFontScale(1.25f)
-                        setColor(0.2f, 1f, 0.1f, 1f)
-                    }
-                    label("627"){
-                        it.right()
-                        setFontScale(1.25f)
-                        setColor(0.2f, 1f, 0.1f, 1f)
-                    }
-
-                    row().padBottom(50f).expandX()
-                    label("4. Mark Zuckerberg") {
-                        it.left()
-                        setFontScale(1.25f)
-                    }
-                    label("524"){
-                        it.right()
-                        setFontScale(1.25f)
-                    }
-
-                    row().padBottom(50f).expandX()
-                    label("5. Elon Musk") {
-                        it.left()
-                        setFontScale(1.25f)
-                    }
-                    label("326"){
-                        it.right()
-                        setFontScale(1.25f)
-                    }
-                }
 
                 //CHECK IF ITS THE LAST ROUND
-                if(lastRound){
+                if(lastRound == null ){
+
+                    //DO NOTHING
+                    row()
+                }
+
+                else if(lastRound == true){
                     // Finish Game button
                     row().bottom()
                     textButton("Finish", "new_game") {
                     }.addListener(object : ClickListener() {
                         override fun clicked(event: InputEvent?, x: Float, y: Float) {
                             controller.handleChangeToMainView()
+                            localLastRound = false
+                            lastRound = null
                         }
                     })
 
@@ -125,21 +115,37 @@ class ResultView(val controller: MenuController): View() {
                     textButton("Play Again", "selection") {
                     }.addListener(object : ClickListener() {
                         override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                            //HANDLE NEW GAME
+                            val playerID = prefs.getString("playerID")
+                            var nickname =""
+                            for(p in players){
+                                if(playerID.equals(p.id)){
+                                    nickname = p.nickname
+                                }
+                            }
+                            localLastRound = false
+                            lastRound = null
+                            playAgain = false
+                            count = 0
+                            controller.playAgain()
+                            println("click play again")
                         }
                     })
 
                 }
-                else{
+                else if(!localLastRound){
                         // Resume Game button
                         row().bottom()
                         textButton("Next Round", "new_game") {
                         }.addListener(object : ClickListener() {
                             override fun clicked(event: InputEvent?, x: Float, y: Float) {
-
-                                //TODO HANDLE NEW ROUND
+                                controller.handleChangeToGameView()
                             }
                         })
+                }
+
+                else{
+                    row()
+                    label("Waiting for other players").setAlignment(1)
                 }
 
 
@@ -148,13 +154,6 @@ class ResultView(val controller: MenuController): View() {
                 pack()
             }
         }
-    }
-
-    private fun checkIfLastRound(lastRound:Boolean){
-            println(this.lastRound)
-            this.lastRound = lastRound
-            println(this.lastRound)
-            setupUI()
     }
 
     override fun update(dt: Float) {

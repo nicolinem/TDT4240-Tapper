@@ -19,7 +19,6 @@ class Puzzle {
         return list
     }
     fun createCoordinates(width:Int, height: Int, circleRadius:Float):  MutableList<Pair<Float, Float>>{
-        println(width.toString())
         val maxX: Float = width * 0.85.toFloat()
         val minX: Float = width * 0.05.toFloat()
         val maxY: Float = height * 0.6.toFloat()

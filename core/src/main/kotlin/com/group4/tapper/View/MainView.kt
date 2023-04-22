@@ -27,13 +27,27 @@ class MainView(val controller: MenuController) : View() {
                 defaults().fillX().expandX()
                 defaults().pad(50f)
 
-                row().width(screenWidth/2.5f).right()
-                textButton("How to play?") {
-                }.addListener(object : ClickListener() {
-                    override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                        controller.handleChangeToHowToView()
-                    }
-                })
+                row()
+                table {
+                    row().expandX()
+                    button("settings") {
+                        it.size(screenWidth/10f, screenWidth/10f)
+                        it.left()
+                    }.addListener(object : ClickListener() {
+                        override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                            controller.handleChangeToSettingsView()
+                        }
+                    })
+
+                    textButton("How to play?") {
+                        it.right()
+                        pad(25f, 50f, 25f, 50f)
+                    }.addListener(object : ClickListener() {
+                        override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                            controller.handleChangeToHowToView()
+                        }
+                    })
+                }
 
                 row().width(screenWidth/1.5f).height(screenWidth/1.5f).padTop(screenHeight/8f)
                 image(Texture(Gdx.files.internal("images/tapper_logo.png"))){

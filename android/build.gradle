@@ -65,6 +65,7 @@ configurations { natives }
 
 dependencies {
 
+
   implementation 'com.google.firebase:firebase-firestore-ktx:24.4.4'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
   implementation "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"

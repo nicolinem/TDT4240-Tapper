@@ -36,7 +36,7 @@ class JoinGameView(val controller: MenuController): View() {
                     }
                 })
 
-                row().expand()
+                row()
                 label("Pin").setAlignment(1)
                 row().width(screenWidth/2f)
                 textField(){
@@ -47,7 +47,7 @@ class JoinGameView(val controller: MenuController): View() {
                         prompt("")
                     }
                 })
-                row().expand()
+                row().padTop(screenHeight/20f)
                 label("Nickname").setAlignment(1)
                 row().width(screenWidth/2f)
                 textField()
@@ -60,7 +60,7 @@ class JoinGameView(val controller: MenuController): View() {
                 row()
                 feedback = label("")
 
-                row().padTop(screenHeight/3f)
+                row().padTop(screenHeight/4f)
                 textButton("Join Game", "selection")
                     .addListener(object : ClickListener() {
                         override fun clicked(event: InputEvent?, x: Float, y: Float) {

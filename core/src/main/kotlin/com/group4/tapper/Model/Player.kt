@@ -4,7 +4,7 @@ import java.lang.Integer.min
 import java.math.BigInteger
 import java.security.SecureRandom
 import java.util.concurrent.atomic.AtomicInteger
-class Player ( nickname:String, id: String = ""){
+class Player ( nickname:String){
 
     var nickname: String = nickname
         set(value) {
@@ -14,22 +14,15 @@ class Player ( nickname:String, id: String = ""){
             return field
         }
     var id: String = generateRandID()
-        get() = field
+        set(value){
+            field = value
+        }
 
 
    var score: Int = 0
+   var currentRound:Int = 0
 
 
-    init {
-        if (id.equals("")){
-            this.id = generateRandID()
-
-        }
-        else{
-            this.id = id
-
-        }
-    }
 
    /* var pair:Pair<String,Int> = Pair(nickname,score)
         get(){
@@ -46,8 +39,17 @@ class Player ( nickname:String, id: String = ""){
         return id.substring(0, min(id.length, 10))
     }
 
+    fun incrementRound(){
+        currentRound+=1
+    }
+
     fun updateScore(score: Int) {
         this.score += score
+    }
+
+    fun resetStats(){
+        this.score = 0
+        this.currentRound = 0
     }
 
 }
