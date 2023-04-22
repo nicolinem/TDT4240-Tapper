@@ -1,6 +1,5 @@
 package com.group4.tapper.android
 
-import android.app.Person
 import android.util.Log
 import com.google.firebase.firestore.*
 import com.google.firebase.ktx.Firebase
@@ -10,7 +9,7 @@ import com.group4.tapper.Model.Player
 
 data class Game(
     val gameId: String,
-    val playerScores: MutableMap<String, Map<String,Int>>,
+    val playerScores: MutableMap<String, Pair<String,Int>>,
     val rounds: Int,
     val difficulty: String
 )
@@ -25,7 +24,6 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
     override fun createGame(game: Game) {
         db.collection("games").document(game.gameID).set(game)
     }
-
 
 
     override fun joinGame(gameId: String, player: Player, ) {
@@ -101,6 +99,33 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
 
     override fun unsubscribeFromGame() {
     }
+
+    override fun checkIfGameExists(pin:String,method: (Boolean) -> Boolean) {
+        val gameRef = db.collection("games").document(pin)
+        gameRef.get().addOnSuccessListener { documentSnapshot ->
+            method(documentSnapshot.exists())
+        }
+            .addOnFailureListener{e ->
+                Log.w(TAG, "Listen failed.", e)
+            }
+    }
+
+    override fun checkIfLastRound(gameID:String, method: (Boolean) -> Unit) {
+        val gameRef = db.collection("games").document(gameID)
+        gameRef.get().addOnSuccessListener { documentSnapshot ->
+            val rounds = documentSnapshot.get("rounds")
+            val currentRound = documentSnapshot.get("currentRound")
+            println(rounds)
+            println(currentRound)
+            if (rounds == currentRound) {
+                    method(true)
+                } else {
+                    method(false)
+                }
+            }
+            .addOnFailureListener{e ->
+                Log.w(TAG, "Listen failed.", e)
+            }
+    }
+
 }
-
-

@@ -1,144 +1,151 @@
 
-tapper_skin_6.png
+tapper_skin_7.png
 size: 2048, 2048
 format: RGBA8888
 filter: Linear, Linear
 repeat: none
 fancy
   rotate: false
-  xy: 1, 1835
+  xy: 1, 138
   size: 854, 159
   orig: 854, 159
   offset: 0, 0
   index: -1
 join_game
   rotate: false
-  xy: 1, 1680
+  xy: 888, 1892
   size: 848, 153
   orig: 848, 153
   offset: 0, 0
   index: -1
 new_game
   rotate: false
-  xy: 857, 1841
+  xy: 888, 1737
   size: 848, 153
   orig: 848, 153
   offset: 0, 0
   index: -1
-return
-  rotate: false
-  xy: 1029, 299
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
 select
   rotate: false
-  xy: 1, 1543
+  xy: 1, 1
   size: 830, 135
   orig: 830, 135
   offset: 0, 0
   index: -1
-montserrat_better_0
+scrollpane
   rotate: false
-  xy: 1029, 1327
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-montserrat_better_1
-  rotate: false
-  xy: 1029, 813
-  size: 512, 512
-  orig: 512, 512
+  xy: 1, 299
+  size: 885, 1746
+  orig: 885, 1746
   offset: 0, 0
   index: -1
 Montserrat_big_0
   rotate: false
-  xy: 1, 1029
+  xy: 888, 1223
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 Montserrat_big_1
   rotate: false
-  xy: 1, 515
+  xy: 888, 709
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 Montserrat_bigger_0
   rotate: false
-  xy: 1, 1
+  xy: 888, 195
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 Montserrat_bigger_1
   rotate: false
-  xy: 515, 1029
+  xy: 1402, 1223
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 Montserrat_bigger_2
   rotate: false
-  xy: 515, 515
+  xy: 1402, 709
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 Montserrat_bigger_3
   rotate: false
-  xy: 515, 1
+  xy: 1402, 195
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 
-tapper_skin_6-2.png
-size: 1024, 1024
+tapper_skin_7-2.png
+size: 2048, 2048
 format: RGBA8888
 filter: Linear, Linear
 repeat: none
 button_ up
   rotate: false
-  xy: 515, 574
+  xy: 515, 599
   size: 267, 115
   orig: 267, 115
   offset: 0, 0
   index: -1
 button_down
   rotate: false
-  xy: 515, 691
+  xy: 1, 1
   size: 267, 115
   orig: 267, 115
   offset: 0, 0
   index: -1
 input
   rotate: false
-  xy: 515, 808
+  xy: 1029, 1523
   size: 415, 135
   orig: 415, 135
   offset: 0, 0
   index: -1
+return
+  rotate: false
+  xy: 515, 1146
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
 return_white
   rotate: false
-  xy: 1, 431
+  xy: 1, 118
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 rund_knapp
   rotate: false
-  xy: 784, 656
+  xy: 1029, 1371
   size: 150, 150
   orig: 150, 150
   offset: 0, 0
   index: -1
+montserrat_better_0
+  rotate: false
+  xy: 1, 1146
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+montserrat_better_1
+  rotate: false
+  xy: 1, 632
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
 Montserrat
   rotate: false
-  xy: 1, 1
+  xy: 515, 716
   size: 506, 428
   orig: 506, 428
   offset: 0, 0

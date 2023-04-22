@@ -11,6 +11,7 @@ import com.group4.tapper.Controller.MenuController
 import com.group4.tapper.Model.Player
 import com.group4.tapper.Tapper
 import ktx.scene2d.*
+import kotlin.properties.Delegates
 
 class JoinGameView(val controller: MenuController): View() {
 
@@ -69,8 +70,9 @@ class JoinGameView(val controller: MenuController): View() {
                         else if(nickname.equals("")){
                             prompt("You need to choose a nickname!")
                         }
-                            else{
-                            controller.joinGame(Player(nickname), pin)
+
+                        else{
+                            controller.sendRefresh(pin, ::refreshGoToGame)
                         }
                         }
                     })
@@ -80,6 +82,18 @@ class JoinGameView(val controller: MenuController): View() {
                 pack()
             }
         }
+    }
+
+
+
+    fun refreshGoToGame(exists:Boolean):Boolean{
+        if(exists){
+            controller.joinGame(Player(nickname), pin)
+        }
+        else{
+            prompt("This game does not exists, try again.")
+        }
+        return exists
     }
 
     private fun prompt(input:String){

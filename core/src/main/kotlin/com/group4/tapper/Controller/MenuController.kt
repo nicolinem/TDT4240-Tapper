@@ -1,10 +1,11 @@
 package com.group4.tapper.Controller
 
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Preferences
 import com.group4.tapper.Model.Game
 import com.group4.tapper.Model.Player
 import com.group4.tapper.Tapper
 import com.group4.tapper.View.*
-import java.time.Period
 
 class MenuController(tapper: Tapper) {
 
@@ -70,9 +71,18 @@ class MenuController(tapper: Tapper) {
         tapper.setScreen<GameView>()
     }
 
-    fun subscribeToPlayerScoreUpdates(gameId: String, onPlayerScoreUpdate: (List<Player>) -> Unit) {
-        game.subscribeToPlayerScoreUpdates(gameId, onPlayerScoreUpdate)
+    fun subscribeToPlayerScoreUpdates(onPlayerScoreUpdate: (List<Player>) -> Unit) {
+        game.subscribeToPlayerScoreUpdates(this.game.gameID, onPlayerScoreUpdate)
     }
+
+    fun sendRefresh(pin:String,refreshMethod:(Boolean) -> Boolean){
+        game.sendRefresh(pin, refreshMethod)
+    }
+
+    fun checkIfLastRound( method: (Boolean) -> Unit){
+        game.checkIfLastRound(method)
+    }
+
 
 
     fun handleChangeToNewGameView() {

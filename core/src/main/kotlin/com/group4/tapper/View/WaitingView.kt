@@ -1,7 +1,6 @@
 package com.group4.tapper.View
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.ui.Label
@@ -18,29 +17,24 @@ class WaitingView(val controller: MenuController) : View() {
 
 
 
-    private val prefs : Preferences = Gdx.app.getPreferences("prefs") // Replace this with the actual game id
-
-    private fun updatePlayerScoreList(players: List<Player>) {
+    fun updatePlayerScoreList(players: List<Player>) {
         stage.clear()
+        System.out.println("CALLED")
         tableN.clear()
 
         for (p in players){
-            System.out.println(p.nickname)
-            tableN.row()
-            tableN.add(Label(p.nickname, skin))
+            tableN.row().padBottom(20f)
+            tableN.add(Label("${p.nickname}", skin))
         }
         setupUI()
     }
 
-    private fun subscribeToPlayerScoreUpdates(gameId: String, updatePlayerScoreList: (List<Player>) -> Unit) {
-        controller.subscribeToPlayerScoreUpdates(gameId, updatePlayerScoreList)
+    fun subscribeToPlayerScoreUpdates(updatePlayerScoreList: (List<Player>) -> Unit) {
+        controller.subscribeToPlayerScoreUpdates(updatePlayerScoreList)
     }
-
     override fun show() {
-        System.out.println(prefs.get())
         super.show()
-        System.out.println("GAMEID:  ${prefs.getString("gameID")}")
-        subscribeToPlayerScoreUpdates(prefs.getString("gameID"), ::updatePlayerScoreList)
+        subscribeToPlayerScoreUpdates(::updatePlayerScoreList)
     }
 
 
@@ -51,8 +45,6 @@ class WaitingView(val controller: MenuController) : View() {
 
         val screenHeight = Gdx.graphics.height.toFloat()
         val screenWidth = Gdx.graphics.width.toFloat()
-
-
 
         stage.actors {
             // Start of table
@@ -72,8 +64,8 @@ class WaitingView(val controller: MenuController) : View() {
                 add(tableN)
 
                 // Join Game button
-                row()
-                textButton("Start Game", "join_game") {
+                row().bottom()
+                textButton("Start Game", "new_game") {
                 }.addListener(object : ClickListener() {
                     override fun clicked(event: InputEvent?, x: Float, y: Float) {
                         controller.handleChangeToGameView()

@@ -71,6 +71,14 @@ class Game(private val firebaseRepository:
         playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, it) }
     }
 
+    fun sendRefresh(pin:String,refreshMethod:(Boolean) -> Boolean){
+        firebaseRepository.checkIfGameExists(pin,refreshMethod)
+    }
+
+    fun checkIfLastRound(method:(Boolean) -> Unit){
+        firebaseRepository.checkIfLastRound(gameID,method)
+    }
+
 
 /**
     fun generateScore(time: Int, player: Player, amountWrong: Int, game: Game) {
