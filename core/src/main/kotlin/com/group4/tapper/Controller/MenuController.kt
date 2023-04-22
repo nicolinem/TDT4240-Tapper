@@ -14,6 +14,7 @@ class MenuController(tapper: Tapper) {
     private var difficulty:String
     internal lateinit var game:Game
     private val FB = tapper.getInterface()
+    private val prefs : Preferences = Gdx.app.getPreferences("prefs")
 
 
     init{
@@ -30,7 +31,11 @@ class MenuController(tapper: Tapper) {
             rounds = roundsNumber
             difficulty = difficultySetting
         }
-        game.addPlayer(Player(nickname))
+        val player = Player(nickname)
+        game.addPlayer(player)
+        prefs.putString("playerID",player.id)
+        prefs.flush()
+
         game.putGame()
     }
 
@@ -40,6 +45,8 @@ class MenuController(tapper: Tapper) {
 
         }
         game.joinGame(player)
+        prefs.putString("playerID",player.id)
+        prefs.flush()
         tapper.setScreen<WaitingView>()
 
     }

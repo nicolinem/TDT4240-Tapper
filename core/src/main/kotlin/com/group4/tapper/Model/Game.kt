@@ -56,8 +56,6 @@ class Game(private val firebaseRepository:
 
     fun addPlayer(player: Player){
         playerScores[player.id] = player
-        prefs.putString("playerID",player.id)
-        prefs.flush()
     }
 
     fun joinGame(player: Player) {
