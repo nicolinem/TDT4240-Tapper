@@ -80,7 +80,7 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
 
                 // Pass the list of players to the callback
                 onGameUpdate(rounds.toInt(),currentRound.toInt(),players)
-
+                updateGame(players)
 
 
             } else {

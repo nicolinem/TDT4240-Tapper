@@ -62,6 +62,7 @@ class MenuController(tapper: Tapper) {
     }
 
     fun handleChangeToWaitRoom(){
+        game.resetPlayerStats(prefs.getString("playerID"))
         tapper.setScreen<WaitingView>()
     }
 

@@ -59,7 +59,7 @@ class ResultView(val controller: MenuController): View() {
         //Check which buttons to load
         lastRound = roundsList.sum() == rounds*roundsList.size
         playAgain = scoreList.sum() == 0
-        if(playAgain && count > 3){
+        if(playAgain && count > rounds+1){
             count = 0
             controller.handleChangeToWaitRoom()
         }

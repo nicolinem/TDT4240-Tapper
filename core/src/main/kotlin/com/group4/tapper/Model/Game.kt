@@ -83,6 +83,7 @@ class Game(private val firebaseRepository:
         firebaseRepository.checkIfLastRound(gameID,method)
     }
     fun playAgain(){
+        println(playerScores)
         for ((key,value) in playerScores){
             println(key)
             println(value.nickname)
@@ -122,6 +123,7 @@ private fun getPlayers(players: List<Player>) {
 }
 
     fun subscribeToPlayerScoreUpdates(gameId: String, onPlayerScoreUpdate: (Int,Int, List<Player>) -> Unit) {
+
         firebaseRepository.subscribeToGame(gameId, onPlayerScoreUpdate, ::getPlayers)
     }
 
