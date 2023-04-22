@@ -7,14 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.group4.tapper.Controller.MenuController
 import com.group4.tapper.Model.Player
-import ktx.scene2d.actors
-import ktx.scene2d.label
-import ktx.scene2d.table
-import ktx.scene2d.textButton
+import ktx.scene2d.*
 
 class ResultView(val controller: MenuController): View() {
 
-    private val tableN = Table(skin)
+    private val tableN = Table(Scene2DSkin.defaultSkin)
 
     val gameId = "1exQ" // Replace this with the actual game id
     private var lastRound:Boolean = false
@@ -28,8 +25,8 @@ class ResultView(val controller: MenuController): View() {
         var num = 1
         for (p in players){
             tableN.row().padBottom(50f).expandX()
-            tableN.add(Label("${num}. ${p.nickname}", skin)).left()
-            tableN.add(Label("${p.score} pt", skin)).right()
+            tableN.add(Label("${num}. ${p.nickname}", Scene2DSkin.defaultSkin)).left()
+            tableN.add(Label("${p.score} pt", Scene2DSkin.defaultSkin)).right()
             num++
         }
         setupUI()
