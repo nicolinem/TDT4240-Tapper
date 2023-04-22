@@ -86,6 +86,7 @@ class Game(private val firebaseRepository:
         for ((key,value) in playerScores){
             playerScores[key]?.resetStats()
         }
+        putGame()
     }
 
 
