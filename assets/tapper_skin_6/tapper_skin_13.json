@@ -76,6 +76,13 @@ com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 	round: {
 		up: rund_knapp
 	}
+	settings: {
+		up: gear_pink
+	}
+	toggle_setting: {
+		up: toggle_off
+		checked: toggle_on
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {

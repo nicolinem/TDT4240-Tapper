@@ -89,7 +89,9 @@ class MenuController(tapper: Tapper) {
         tapper.setScreen<NewGameView>()
     }
 
-
+    fun handleChangeToSettingsView() {
+        tapper.setScreen<SettingsView>()
+    }
 
 
 }
