@@ -33,8 +33,8 @@ class GameView(private val controller: GameController) : View() {
     private lateinit var puzzle: Puzzle
 
     // Make lists of textbuttons and numberbuttons
-    private var textButtonList: MutableList<TextButton> = List(6) { TextButton("", skin) }.toMutableList()
-    private var numberButtonList: MutableList<TextButton> = List(6) { TextButton("", skin) }.toMutableList()
+    private var textButtonList: MutableList<TextButton> = List(6) { TextButton("", Scene2DSkin.defaultSkin) }.toMutableList()
+    private var numberButtonList: MutableList<TextButton> = List(6) { TextButton("", Scene2DSkin.defaultSkin) }.toMutableList()
 
     private lateinit var pointsLabel :Label
 

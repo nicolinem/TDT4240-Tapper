@@ -8,15 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.group4.tapper.Controller.MenuController
 import com.group4.tapper.Model.Player
-import ktx.scene2d.actors
-import ktx.scene2d.label
-import ktx.scene2d.table
-import ktx.scene2d.textButton
+import ktx.scene2d.*
 
 class ResultView(val controller: MenuController): View() {
 
-    private val tableN = Table(skin)
-    private val prefs : Preferences = Gdx.app.getPreferences("prefs")
+    private val tableN = Table(Scene2DSkin.defaultSkin)
+
 
 
     val gameId = "1exQ" // Replace this with the actual game id
@@ -26,6 +23,7 @@ class ResultView(val controller: MenuController): View() {
     private var playAgain:Boolean = false
     private var count:Int = 0
 
+    private val prefs : Preferences = Gdx.app.getPreferences("prefs")
 
 
     fun updatePlayerScoreList(rounds:Int,currentRound: Int, players: List<Player>) {
@@ -42,8 +40,8 @@ class ResultView(val controller: MenuController): View() {
 
         for (p in players){
             tableN.row().padBottom(50f).expandX()
-            tableN.add(Label("${num}. ${p.nickname}", skin)).left()
-            tableN.add(Label("${p.score} pt", skin)).right()
+            tableN.add(Label("${num}. ${p.nickname}", Scene2DSkin.defaultSkin)).left()
+            tableN.add(Label("${p.score} pt", Scene2DSkin.defaultSkin)).right()
             num++
             roundsList.add(p.currentRound)
             scoreList.add(p.score)
@@ -77,7 +75,6 @@ class ResultView(val controller: MenuController): View() {
     override fun show() {
         super.show()
         subscribeToPlayerScoreUpdates(::updatePlayerScoreList)
-
 
     }
     override fun setupUI(){

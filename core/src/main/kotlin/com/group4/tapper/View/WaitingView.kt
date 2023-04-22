@@ -1,7 +1,6 @@
 package com.group4.tapper.View
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Preferences
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.ui.Label
@@ -10,11 +9,19 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.group4.tapper.Controller.MenuController
 import com.group4.tapper.Model.Player
 import com.group4.tapper.Tapper
+import com.group4.tapper.assets.AudioService
+import com.group4.tapper.assets.DefaultAudioService
+import com.group4.tapper.assets.MusicAsset
+import com.group4.tapper.assets.TextureAtlasAsset
+import kotlinx.coroutines.launch
+import ktx.assets.async.AssetStorage
+import ktx.async.KtxAsync
 import ktx.scene2d.*
+import java.lang.System.currentTimeMillis
 
 class WaitingView(val controller: MenuController) : View() {
 
-    private val tableN = Table(skin)
+    private val tableN = Table(Scene2DSkin.defaultSkin)
     private var gameID:String = ""
 
 
@@ -22,12 +29,11 @@ class WaitingView(val controller: MenuController) : View() {
 
     fun updatePlayerScoreList(rounds:Int,currentRound:Int,players: List<Player>) {
         stage.clear()
-
         tableN.clear()
 
         for (p in players){
             tableN.row().padBottom(20f)
-            tableN.add(Label("${p.nickname}", skin))
+            tableN.add(Label("${p.nickname}", Scene2DSkin.defaultSkin))
         }
         setupUI()
     }
@@ -96,5 +102,8 @@ class WaitingView(val controller: MenuController) : View() {
     override fun update(dt: Float) {
         TODO("Not yet implemented")
     }
+
+
+
 
 }

@@ -12,8 +12,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.viewport.FitViewport
 import com.group4.tapper.Controller.MenuController
 import com.group4.tapper.Tapper
+import com.group4.tapper.assets.AudioService
+import com.group4.tapper.assets.MusicAsset
+import kotlinx.coroutines.launch
 import ktx.app.clearScreen
+import ktx.assets.async.AssetStorage
 import ktx.assets.disposeSafely
+import ktx.async.KtxAsync
 import ktx.scene2d.*
 
 
@@ -24,8 +29,7 @@ class NewGameView(val controller: MenuController): View() {
     private var difficulty: String = "easy"
     private lateinit var feedback: Label
 
-
-     override fun setupUI() {
+    override fun setupUI() {
         val screenWidth = Gdx.graphics.width.toFloat()
 
         stage.actors {
@@ -139,6 +143,8 @@ class NewGameView(val controller: MenuController): View() {
             }
         }
     }
+
+
 
     private fun prompt(input:String){
         feedback.setAlignment(1)

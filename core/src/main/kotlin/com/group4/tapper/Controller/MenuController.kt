@@ -6,10 +6,20 @@ import com.group4.tapper.Model.Game
 import com.group4.tapper.Model.Player
 import com.group4.tapper.Tapper
 import com.group4.tapper.View.*
+import com.group4.tapper.assets.AudioService
+import com.group4.tapper.assets.MusicAsset
+import kotlinx.coroutines.CoroutineScope
+import ktx.assets.async.AssetStorage
 
-class MenuController(tapper: Tapper) {
+class MenuController(tapper: Tapper,
+                     val assets: AssetStorage,
+                     val audioService: AudioService  ) {
 
-    private val tapper:Tapper
+    val tapper:Tapper
+        get() {
+            return field
+        }
+
     private var numberOfRounds: Int
     private var difficulty:String
     internal lateinit var game:Game
@@ -18,20 +28,16 @@ class MenuController(tapper: Tapper) {
 
 
     init{
-
-
         this.tapper = tapper
         numberOfRounds = 2
         difficulty = "easy"
         game = Game(FB)
-
     }
 
     fun createNewGame(nickname:String, roundsNumber:Int, difficultySetting:String){
         game = Game(FB).apply {
             rounds = roundsNumber
             difficulty = difficultySetting
-
         }
         val player = Player(nickname)
         game.addPlayer(player)
@@ -90,6 +96,7 @@ class MenuController(tapper: Tapper) {
     }
 
     fun handleChangeToGameView(){
+        audioService.play(MusicAsset.GAME)
         tapper.setScreen<GameView>()
     }
 

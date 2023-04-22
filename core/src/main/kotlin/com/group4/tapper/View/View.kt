@@ -20,7 +20,7 @@ import ktx.scene2d.Scene2DSkin
 
 
 abstract class View() : KtxScreen {
-    var skin: Skin = Skin(Gdx.files.internal("tapper_skin_6/tapper_skin_13.json"))
+/*   var skin: Skin = Skin(Gdx.files.internal("tapper_skin_6/tapper_skin_7.json"))*/
     val stage = Stage(FitViewport(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat()))
     var screenHeight = Gdx.graphics.height.toFloat()
     var screenWidth = Gdx.graphics.width.toFloat()
@@ -28,7 +28,6 @@ abstract class View() : KtxScreen {
     protected val batch = SpriteBatch()
 
     init {
-        Scene2DSkin.defaultSkin = skin
         setupUI()
     }
 
@@ -38,6 +37,10 @@ abstract class View() : KtxScreen {
         Gdx.input.inputProcessor = stage
     }
 
+    override fun hide() {
+        stage.clear()
+    }
+
     override fun render(delta: Float) {
         clearScreen(0.42f, 0.12f, 0.39f, 1f)
         stage.act()
@@ -45,7 +48,6 @@ abstract class View() : KtxScreen {
     }
 
     fun uiDispose(){
-        skin.dispose()
         stage.dispose()
     }
 

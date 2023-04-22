@@ -14,8 +14,6 @@ class Game(private val firebaseRepository:
 
     val playerScores:MutableMap<String,Player> = mutableMapOf()
 
-    var playerScoresList:List<Player> = listOf()
-
 
     var gameID:String = generatePin()
         set(value) {
@@ -36,7 +34,6 @@ class Game(private val firebaseRepository:
 
     fun putGame() {
         firebaseRepository.createGame(this)
-
     }
 
     fun addPlayer(player: Player){
