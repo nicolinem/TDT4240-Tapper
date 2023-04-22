@@ -84,6 +84,8 @@ class Game(private val firebaseRepository:
     }
     fun playAgain(){
         for ((key,value) in playerScores){
+            println(key)
+            println(value.nickname)
             playerScores[key]?.resetStats()
         }
         putGame()
