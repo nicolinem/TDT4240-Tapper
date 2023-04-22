@@ -83,7 +83,6 @@ class Game(private val firebaseRepository:
         firebaseRepository.checkIfLastRound(gameID,method)
     }
     fun playAgain(){
-        println(playerScores)
         for ((key,value) in playerScores){
             println(key)
             println(value.nickname)
@@ -114,10 +113,12 @@ class Game(private val firebaseRepository:
     }
 */
 
-private fun getPlayers(players: List<Player>) {
+private fun getPlayers(players: List<Player>, rounds:Int, diff:String) {
     for (p in players){
             playerScores[p.id] = p
     }
+    this.rounds = rounds
+    this.difficulty = diff
 }
 
     fun subscribeToPlayerScoreUpdates(gameId: String, onPlayerScoreUpdate: (Int,Int, List<Player>) -> Unit) {
@@ -130,7 +131,7 @@ private fun getPlayers(players: List<Player>) {
     //Static method in companion object.
     companion object{
         fun generatePin() : String{
-            val letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+            val letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
             val sb = StringBuilder()
             val random = Random()
 

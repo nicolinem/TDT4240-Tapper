@@ -51,7 +51,7 @@ class MenuController(tapper: Tapper) {
 
     }
 
-    fun playAgain(players:List<Player>,gamepin: String){
+    fun playAgain(){
         game.playAgain()
         tapper.setScreen<WaitingView>()
     }

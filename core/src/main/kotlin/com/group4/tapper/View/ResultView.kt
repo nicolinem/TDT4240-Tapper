@@ -132,7 +132,7 @@ class ResultView(val controller: MenuController): View() {
                             lastRound = null
                             playAgain = false
                             count = 0
-                            controller.playAgain(players,prefs.getString("gameID"))
+                            controller.playAgain()
                             println("click play again")
                         }
                     })

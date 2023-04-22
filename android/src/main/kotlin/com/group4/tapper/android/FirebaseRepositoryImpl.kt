@@ -52,7 +52,7 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
     }
 
 
-    override fun subscribeToGame(gameId: String, onGameUpdate: (Int,Int,List<Player>) -> Unit, updateGame: (List<Player>) -> Unit): Unit {
+    override fun subscribeToGame(gameId: String, onGameUpdate: (Int,Int,List<Player>) -> Unit, updateGame: (List<Player>,Int,String) -> Unit): Unit {
         val gameRef = db.collection("games").document(gameId)
         gameRef.addSnapshotListener { snapshot, e ->
             if (e != null) {
@@ -76,11 +76,12 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
                 }
                 val rounds = snapshot["rounds"] as Long
                 val currentRound = snapshot["currentRound"] as Long
+                val diff = snapshot["difficulty"] as String
 
 
                 // Pass the list of players to the callback
                 onGameUpdate(rounds.toInt(),currentRound.toInt(),players)
-                updateGame(players)
+                updateGame(players,rounds.toInt(),diff)
 
 
             } else {
