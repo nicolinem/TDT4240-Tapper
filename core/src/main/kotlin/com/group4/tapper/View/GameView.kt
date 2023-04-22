@@ -18,7 +18,12 @@ import com.badlogic.gdx.utils.viewport.FitViewport
 import com.group4.tapper.Controller.GameController
 import com.group4.tapper.Tapper
 import com.group4.tapper.View.Objects.Circle
+import com.group4.tapper.assets.AudioService
+import com.group4.tapper.assets.MusicAsset
+import kotlinx.coroutines.launch
 import ktx.app.clearScreen
+import ktx.assets.async.AssetStorage
+import ktx.async.KtxAsync
 import java.text.DecimalFormat
 import java.util.TimerTask
 import java.util.Timer
@@ -28,6 +33,8 @@ import kotlin.random.Random
 
 class GameView(private val controller: GameController) : View() {
 
+    val assets: AssetStorage = controller.tapper.assets
+    val audioService: AudioService = controller.tapper.audioService
 
     private var points: Int = 1000
     private var height:Int
@@ -71,7 +78,11 @@ class GameView(private val controller: GameController) : View() {
             timer.scheduleAtFixedRate(task,0L,25L)
             timerbool=true
         }
+
+
     }
+
+
 
     init {
 

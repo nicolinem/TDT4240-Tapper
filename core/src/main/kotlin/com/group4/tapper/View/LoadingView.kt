@@ -3,9 +3,6 @@ package com.group4.tapper.View
 import com.badlogic.gdx.assets.AssetManager
 import com.group4.tapper.Controller.MenuController
 import com.group4.tapper.Tapper
-import com.group4.tapper.assets.MusicAssets
-import com.group4.tapper.assets.TextureAtlasAssets
-import com.group4.tapper.assets.load
 import ktx.app.KtxScreen
 import ktx.scene2d.actors
 import ktx.scene2d.label
@@ -30,11 +27,7 @@ class LoadingView( val  controller: MenuController,
         }
     }
 
-    override fun show() {
-        MusicAssets.values().forEach { assets.load(it) }
-/*        SoundAssets.values().forEach { assets.load(it) }*/
-        TextureAtlasAssets.values().forEach { assets.load(it) }
-    }
+
 
 
 
