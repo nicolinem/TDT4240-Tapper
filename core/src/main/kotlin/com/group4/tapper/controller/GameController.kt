@@ -22,6 +22,8 @@ class GameController(
     val assets: AssetStorage,
     val audioService: AudioService,
 ) {
+
+
     private val prefs: Preferences = Gdx.app.getPreferences("prefs")
     internal lateinit var puzzle: Puzzle
 
@@ -32,6 +34,8 @@ class GameController(
 
     private val timer: Timer = Timer()
     private var task: TimerTask? = null
+
+
 
     fun start() {
         puzzle = Puzzle()
@@ -100,6 +104,8 @@ class GameController(
             handleVictory()
         }
     }
+
+
 
 
     fun handleVictory() {

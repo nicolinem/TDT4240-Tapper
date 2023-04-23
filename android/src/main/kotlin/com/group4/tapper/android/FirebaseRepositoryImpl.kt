@@ -14,10 +14,13 @@ data class Game(
     val difficulty: String
 )
 
+
 class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
     companion object {
         private const val TAG = "FirebaseRepositoryImpl"
     }
+
+    private lateinit var listener: ListenerRegistration
 
     val db = Firebase.firestore
 
@@ -26,35 +29,18 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
     }
 
 
-    override fun joinGame(gameId: String, player: Player ) {
+    override fun joinGame(gameId: String, players: MutableMap<String, Player> ) {
         val gameRef = db.collection("games").document(gameId)
 
-        gameRef.get()
-            .addOnSuccessListener { documentSnapshot ->
-                val playerScores = documentSnapshot.get("playerScores") as MutableMap<String, Player>?
-                    ?: mutableMapOf()
-                Log.d(TAG, "Current data: ${documentSnapshot.data}")
-
-
-                playerScores[player.id] = player
-
-                gameRef.set(hashMapOf("playerScores" to playerScores), SetOptions.merge())
-                    .addOnSuccessListener {
-                        Log.d(TAG, "Player added successfully")
-                    }
-                    .addOnFailureListener { e ->
-                        Log.w(TAG, "Error adding player", e)
-                    }
-            }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error getting document", e)
-            }
+        gameRef.update("playerScores", players)
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
     }
 
 
-    override fun subscribeToGame(gameId: String, onGameUpdate: (Int,Int,List<Player>) -> Unit, updateGame: (List<Player>,Int,String) -> Unit): Unit {
+    override fun subscribeToGame(gameId: String, onGameUpdate: (Int,Int,List<Player>) -> Unit, updateGame: (List<Player>,Int,String) -> Unit)  {
         val gameRef = db.collection("games").document(gameId)
-        gameRef.addSnapshotListener { snapshot, e ->
+        listener = gameRef.addSnapshotListener { snapshot, e ->
             if (e != null) {
                 Log.w(TAG, "Listen failed.", e)
                 return@addSnapshotListener
@@ -91,7 +77,17 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
 
     }
 
+    override fun removePlayer(gameId: String, players: MutableMap<String, Player> ) {
+        val gameRef = db.collection("games").document(gameId)
 
+        gameRef.update("playerScores", players)
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+    }
+
+    override fun unsubscribeFromGame(gameID: String) {
+        this.listener.remove()
+    }
 
 
 /*    override fun updatePlayerScore(gameId: String, playerID: String) {
@@ -106,8 +102,7 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
 
 
 
-    override fun unsubscribeFromGame() {
-    }
+
 
     override fun checkIfGameExists(pin:String,method: (Boolean) -> Boolean) {
         val gameRef = db.collection("games").document(pin)

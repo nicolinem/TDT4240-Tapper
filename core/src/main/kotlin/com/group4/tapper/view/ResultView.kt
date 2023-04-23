@@ -7,12 +7,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.group4.tapper.controller.MenuController
+import com.group4.tapper.controller.MenuController.GameState
 import com.group4.tapper.model.Player
 import ktx.scene2d.*
 
+
+
 class ResultView(val controller: MenuController): View() {
 
+
+
     private val tableN = Table(Scene2DSkin.defaultSkin)
+
     private var lastRound:Boolean? =null
     private var localLastRound:Boolean =false
     private lateinit var players:List<Player>
@@ -20,18 +26,22 @@ class ResultView(val controller: MenuController): View() {
     private var count:Int = 0
 
     private val prefs : Preferences = Gdx.app.getPreferences("prefs")
+    private var hidden: Boolean = true
+
+
 
 
     fun updatePlayerScoreList(rounds: Int, currentRound: Int, players: List<Player>) {
-        this.players = players
 
         Gdx.app.postRunnable {
             stage.clear()
             tableN.clear()
             var num = 1
 
-        var roundsList = mutableListOf<Int>()
-        var scoreList = mutableListOf<Int>()
+            var roundsList = mutableListOf<Int>()
+            var scoreList = mutableListOf<Int>()
+
+
 
         for (p in players){
             tableN.row().padBottom(50f).expandX()
@@ -48,18 +58,6 @@ class ResultView(val controller: MenuController): View() {
             }
         }
 
-
-        //Check which buttons to load
-        lastRound = roundsList.sum() == rounds*roundsList.size
-        playAgain = scoreList.sum() == 0
-        if(playAgain && count > rounds+1){
-            count = 0
-            controller.handleChangeToWaitRoom()
-            localLastRound = false
-            lastRound = null
-        }
-
-
             setupUI()
             count++
         }
@@ -71,11 +69,20 @@ class ResultView(val controller: MenuController): View() {
     override fun show() {
         super.show()
         subscribeToPlayerScoreUpdates(::updatePlayerScoreList)
+        hidden = false
 
     }
     override fun setupUI(){
         stage.actors {
             // Start of table
+            val gameState = controller.checkGameState()
+
+            if (gameState == GameState.PLAY_AGAIN && !hidden)
+            {
+            controller.handleChangeToWaitRoom()
+            resetStats()
+        }
+
             table {
                 defaults().fillX().expandX()
                 defaults().pad(50f)
@@ -95,15 +102,15 @@ class ResultView(val controller: MenuController): View() {
                     row()
                 }
 
-                else if(lastRound == true){
+                if(gameState == GameState.FINISHED){
                     // Finish Game button
                     row().bottom()
                     textButton("Finish", "new_game") {
                     }.addListener(object : ClickListener() {
                         override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                            controller.handleChangeToMainView()
-                            localLastRound = false
-                            lastRound = null
+                            println("FINISH")
+                            controller.handleFinishGame()
+                            resetStats()
                         }
                     })
 
@@ -111,34 +118,21 @@ class ResultView(val controller: MenuController): View() {
                     textButton("Play Again", "selection") {
                     }.addListener(object : ClickListener() {
                         override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                            val playerID = prefs.getString("playerID")
-                            var nickname =""
-                            for(p in players){
-                                if(playerID.equals(p.id)){
-                                    nickname = p.nickname
-                                }
-                            }
-                            localLastRound = false
-                            lastRound = null
-                            playAgain = false
-                            count = 0
+                            resetStats()
                             controller.playAgain()
-                            println("click play again")
                         }
                     })
 
                 }
-                else if(!localLastRound){
-                        // Resume Game button
-                        row().bottom()
-                        textButton("Next Round", "new_game") {
-                        }.addListener(object : ClickListener() {
-                            override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                                controller.handleChangeToGameView()
-                            }
-                        })
+                else if( gameState == GameState.IN_PROGRESS){
+                    row().bottom()
+                    textButton("Next Round", "new_game") {
+                    }.addListener(object : ClickListener() {
+                        override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                            controller.handleChangeToGameView()
+                        }
+                    })
                 }
-
                 else{
                     row()
                     label("Waiting for other players").setAlignment(1)
@@ -150,6 +144,18 @@ class ResultView(val controller: MenuController): View() {
                 pack()
             }
         }
+    }
+
+    fun resetStats(){
+        localLastRound = false
+        lastRound = null
+        playAgain = false
+        count = 0
+    }
+
+    override fun hide() {
+        super.hide()
+        hidden = true
     }
 
     override fun update(dt: Float) {
