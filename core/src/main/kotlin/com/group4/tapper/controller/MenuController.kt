@@ -127,5 +127,9 @@ class MenuController(tapper: Tapper,
         tapper.setScreen<SettingsView>()
     }
 
+    fun getPlayerID():String{
+        return prefs.getString("playerID")
+    }
+
 
 }

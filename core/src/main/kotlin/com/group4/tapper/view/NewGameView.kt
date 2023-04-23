@@ -35,11 +35,12 @@ class NewGameView(val controller: MenuController): View() {
                     }
                 })
 
-                row()
-
                 // Nickname-field
-                label("Nickname")
-                row().width(screenWidth/2f).left()
+                row()
+                label("Nickname").setAlignment(1)
+
+
+                row().width(screenWidth/2f)
                 textField {
                     style.background.leftWidth += 40
 
@@ -53,12 +54,11 @@ class NewGameView(val controller: MenuController): View() {
 
                 // Rounds-label
                 row()
-                label("Rounds")
+                label("Rounds").setAlignment(1)
 
                 // Rounds-buttons
-                row().left()
+                row()
                 buttonGroup(1,1){
-                    it.fillX().expandX()
                     textButton("2", "toggle") {
                         pad(25f, 50f, 25f, 50f)
                     }
@@ -81,7 +81,7 @@ class NewGameView(val controller: MenuController): View() {
 
                 // Difficulty-label
                 row().left()
-                label("Difficulty")
+                label("Difficulty").setAlignment(1)
 
                 // Difficulty-buttons
                 row().left()
@@ -128,7 +128,7 @@ class NewGameView(val controller: MenuController): View() {
 
                 // Table-options
                 setFillParent(true)
-                top()
+                bottom()
                 pack()
             }
         }

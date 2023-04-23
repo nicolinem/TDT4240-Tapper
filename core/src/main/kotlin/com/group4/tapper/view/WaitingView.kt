@@ -22,10 +22,12 @@ class WaitingView(val controller: MenuController) : View() {
         Gdx.app.postRunnable {
             stage.clear()
             tableN.clear()
-
             for (p in players) {
-                tableN.row().padBottom(20f)
-                tableN.add(Label("${p.nickname}", Scene2DSkin.defaultSkin))
+              tableN.row().padBottom(20f).expandX()
+              var label = Label(p.nickname, Scene2DSkin.defaultSkin)
+              label.setFontScale(1.5f)
+              if (p.id == controller.getPlayerID()) label.setColor(124/255f, 252/255f, 0f, 1f)
+              tableN.add(label)
             }
             setupUI()
         }
@@ -57,19 +59,29 @@ class WaitingView(val controller: MenuController) : View() {
                 defaults().pad(50f)
 
                 row().padTop(100f)
-                if(gameID!=null){
-                    label("Pin: $gameID", "white_bigger").setAlignment(1    )
+                table {
+                    row().expandX()
+                    if(gameID!=null){
+                        label("Pin", "pink_bigger"){
+                            it.left()
+                        }
+                    }
+                    label(gameID, "white_bigger"){
+                        it.right()
+                    }
                 }
 
                 row().padTop(100f)
 
-                label("Players")
+                label("Players", "white_bigger"){
+                    setFontScale(0.7f)
+                }
 
                 row().pad(0f)
                /* image(Texture(Gdx.files.internal("images/line.png")))*/
 
 
-                row().expand().top()
+                row().expand()
                 add(tableN)
 
                 // Join Game button
