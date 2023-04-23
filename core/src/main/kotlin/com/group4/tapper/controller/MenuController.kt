@@ -24,6 +24,7 @@ class MenuController(tapper: Tapper,
     internal lateinit var game:Game
     private val FB = tapper.getInterface()
     private val prefs : Preferences = Gdx.app.getPreferences("prefs")
+    var localLastRound: Boolean = false
 
 
     init{
@@ -75,6 +76,8 @@ class MenuController(tapper: Tapper,
     }
 
     fun handleChangeToMainView(){
+        prefs.remove("gameID")
+        prefs.flush()
         tapper.setScreen<MainView>()
     }
 
@@ -129,6 +132,40 @@ class MenuController(tapper: Tapper,
 
     fun getPlayerID():String{
         return prefs.getString("playerID")
+    }
+
+    fun removePlayer(string: String) {
+        game.removePlayer(string)
+    }
+
+    enum class GameState {
+        IN_PROGRESS, WAITING, FINISHED, PLAY_AGAIN
+    }
+
+    fun checkGameState(): GameState {
+        val players = game.playerScores.values
+
+        val allPlayersFinished = players.all { it.currentRound >= game.rounds }
+        val allPlayersHaveZeroScore = players.all { it.score == 0 }
+
+        return when {
+            allPlayersFinished && allPlayersHaveZeroScore -> GameState.PLAY_AGAIN
+            allPlayersFinished -> GameState.FINISHED
+            localLastRound -> GameState.WAITING
+            else -> GameState.IN_PROGRESS
+        }
+
+
+    }
+
+    fun updateLocalLastRound(value: Boolean) {
+        localLastRound = value
+    }
+
+    fun handleFinishGame() {
+        game.stopListeningToGameUpdates()
+        game.removePlayer(prefs.getString("playerID"))
+        tapper.setScreen<MainView>()
     }
 
 

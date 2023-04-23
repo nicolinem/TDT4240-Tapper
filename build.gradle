@@ -20,6 +20,9 @@ buildscript {
 allprojects {
   apply plugin: 'eclipse'
   apply plugin: 'idea'
+  repositories {
+    google()
+  }
 }
 
 configure(subprojects - project(':android')) {
