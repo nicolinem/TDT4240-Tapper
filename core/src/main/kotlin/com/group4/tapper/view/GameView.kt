@@ -48,6 +48,7 @@ class GameView(private val controller: GameController) : View() {
 
     // Update the render function
     override fun render(delta: Float) {
+        controller.audioService.update()
         clearScreen(0.42f, 0.12f, 0.39f, 1f)
         pointsLabel.setText(df.format(controller.points).toString())
         stage.act()

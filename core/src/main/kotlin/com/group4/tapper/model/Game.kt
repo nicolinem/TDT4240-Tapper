@@ -23,6 +23,7 @@ class Game(private val firebaseRepository:
 
 
     var rounds: Int = 3
+    var currentRound:Int = 1
 
     var difficulty:String = "medium"
 
