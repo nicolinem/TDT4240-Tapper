@@ -19,17 +19,18 @@ class WaitingView(val controller: MenuController) : View() {
 
 
     fun updatePlayerScoreList(rounds:Int,currentRound:Int,players: List<Player>) {
-        stage.clear()
-        tableN.clear()
-
-        for (p in players){
-            tableN.row().padBottom(20f).expandX()
-            var label = Label(p.nickname, Scene2DSkin.defaultSkin)
-            label.setFontScale(1.5f)
-            if (p.id == controller.getPlayerID()) label.setColor(124/255f, 252/255f, 0f, 1f)
-            tableN.add(label)
+        Gdx.app.postRunnable {
+            stage.clear()
+            tableN.clear()
+            for (p in players) {
+              tableN.row().padBottom(20f).expandX()
+              var label = Label(p.nickname, Scene2DSkin.defaultSkin)
+              label.setFontScale(1.5f)
+              if (p.id == controller.getPlayerID()) label.setColor(124/255f, 252/255f, 0f, 1f)
+              tableN.add(label)
+            }
+            setupUI()
         }
-        setupUI()
     }
 
     fun subscribeToPlayerScoreUpdates(updatePlayerScoreList: (Int,Int,List<Player>) -> Unit) {
@@ -39,6 +40,7 @@ class WaitingView(val controller: MenuController) : View() {
         super.show()
         subscribeToPlayerScoreUpdates(::updatePlayerScoreList)
         controller.getGameID(::updateGameID)
+
     }
 
 
@@ -76,7 +78,7 @@ class WaitingView(val controller: MenuController) : View() {
                 }
 
                 row().pad(0f)
-                image(Texture(Gdx.files.internal("images/line.png")))
+               /* image(Texture(Gdx.files.internal("images/line.png")))*/
 
 
                 row().expand()

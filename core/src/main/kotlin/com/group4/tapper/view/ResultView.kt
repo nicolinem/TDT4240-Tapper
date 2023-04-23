@@ -13,10 +13,6 @@ import ktx.scene2d.*
 class ResultView(val controller: MenuController): View() {
 
     private val tableN = Table(Scene2DSkin.defaultSkin)
-
-
-
-    val gameId = "1exQ" // Replace this with the actual game id
     private var lastRound:Boolean? =null
     private var localLastRound:Boolean =false
     private lateinit var players:List<Player>
@@ -26,14 +22,13 @@ class ResultView(val controller: MenuController): View() {
     private val prefs : Preferences = Gdx.app.getPreferences("prefs")
 
 
-    fun updatePlayerScoreList(rounds:Int,currentRound: Int, players: List<Player>) {
-        println("count")
-        println(count)
+    fun updatePlayerScoreList(rounds: Int, currentRound: Int, players: List<Player>) {
         this.players = players
-        stage.clear()
-        System.out.println(players)
-        tableN.clear()
-        var num = 1
+
+        Gdx.app.postRunnable {
+            stage.clear()
+            tableN.clear()
+            var num = 1
 
         var roundsList = mutableListOf<Int>()
         var scoreList = mutableListOf<Int>()
@@ -65,8 +60,9 @@ class ResultView(val controller: MenuController): View() {
         }
 
 
-        setupUI()
-        count++
+            setupUI()
+            count++
+        }
     }
 
     fun subscribeToPlayerScoreUpdates( updatePlayerScoreList: (Int,Int,List<Player>) -> Unit) {
