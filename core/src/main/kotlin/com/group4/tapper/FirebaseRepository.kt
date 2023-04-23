@@ -1,7 +1,7 @@
 package com.group4.tapper
 
-import com.group4.tapper.Model.Game
-import com.group4.tapper.Model.Player
+import com.group4.tapper.model.Game
+import com.group4.tapper.model.Player
 
 
 interface FirebaseRepository {
