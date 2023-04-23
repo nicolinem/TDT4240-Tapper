@@ -111,11 +111,11 @@ class GameView(private val controller: GameController) : View() {
         stage.actors {
             table {
                 setFillParent(true)
-                defaults().pad(50f)
+                defaults().pad(50f).fillX().expandX()
                 top()
 
                 // Add Round and Pin text
-                row().expandX().fillX().pad(150f,75f, 75f, 75f)
+                row().pad(150f,75f, 75f, 75f)
                 table {
                     row().expandX()
                     label("Round: 1", "white_bigger"){

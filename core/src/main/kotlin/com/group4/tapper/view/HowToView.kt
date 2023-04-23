@@ -10,39 +10,6 @@ import ktx.scene2d.*
 
 class HowToView(val controller: MenuController): View() {
     override fun setupUI() {
-        val screenHeight = Gdx.graphics.height.toFloat()
-        val screenWidth = Gdx.graphics.width.toFloat()
-
-        /*stage.actors {
-            table {
-                defaults().fillX().expandX()
-                defaults().pad(50f)
-
-                row().width(screenWidth / 10f).height(screenWidth / 10f).left().top()
-                button("return_white").addListener(object : ClickListener() {
-                    override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                        controller.handleChangeToMainView()
-                    }
-                })
-
-                row()
-                label("How to create game", "white_bigger")
-
-                row().pad(0f, 0f, 0f, 0f).fill().expand()
-                scrollPane {
-                    table {
-
-                        defaults().fillX().expandX()
-                        pad(50f)
-                    }
-                }
-
-
-                setFillParent(true)
-                top()
-                pack()
-            }
-        }*/
 
         stage.actors {
             scrollPane("transparent") {

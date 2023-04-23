@@ -30,7 +30,7 @@ class SettingsView(val controller: MenuController): View() {
                 label("Settings", "white_bigger") {
                 }
 
-                row()
+                row().padTop(screenHeight / 20f)
                 table {
                     row().expandX()
                     label("Music", "white_bigger") {
