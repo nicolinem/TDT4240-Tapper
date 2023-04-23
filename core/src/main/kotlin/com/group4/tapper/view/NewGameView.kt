@@ -108,7 +108,7 @@ class NewGameView(val controller: MenuController): View() {
                 feedback = label("")
 
                 // Create game-button
-                row().padTop(screenHeight/3f)
+                row().expand()
                 textButton("Create Game", "selection") {
                     it.bottom()
                     it.height(150f)
@@ -128,7 +128,7 @@ class NewGameView(val controller: MenuController): View() {
 
                 // Table-options
                 setFillParent(true)
-                top()
+                bottom()
                 pack()
             }
         }

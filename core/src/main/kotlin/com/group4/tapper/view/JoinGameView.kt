@@ -61,8 +61,10 @@ class JoinGameView(val controller: MenuController): View() {
                 row()
                 feedback = label("")
 
-                row().padTop(screenHeight/3f)
-                textButton("Join Game", "selection")
+                row().expand()
+                textButton("Join Game", "selection"){
+                    it.bottom()
+                }
                     .addListener(object : ClickListener() {
                         override fun clicked(event: InputEvent?, x: Float, y: Float) {
                         if(pin.equals("")){
