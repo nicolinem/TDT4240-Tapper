@@ -19,14 +19,16 @@ class WaitingView(val controller: MenuController) : View() {
 
 
     fun updatePlayerScoreList(rounds:Int,currentRound:Int,players: List<Player>) {
-        stage.clear()
-        tableN.clear()
+        Gdx.app.postRunnable {
+            stage.clear()
+            tableN.clear()
 
-        for (p in players){
-            tableN.row().padBottom(20f)
-            tableN.add(Label("${p.nickname}", Scene2DSkin.defaultSkin))
+            for (p in players) {
+                tableN.row().padBottom(20f)
+                tableN.add(Label("${p.nickname}", Scene2DSkin.defaultSkin))
+            }
+            setupUI()
         }
-        setupUI()
     }
 
     fun subscribeToPlayerScoreUpdates(updatePlayerScoreList: (Int,Int,List<Player>) -> Unit) {
@@ -36,6 +38,7 @@ class WaitingView(val controller: MenuController) : View() {
         super.show()
         subscribeToPlayerScoreUpdates(::updatePlayerScoreList)
         controller.getGameID(::updateGameID)
+
     }
 
 
@@ -63,7 +66,7 @@ class WaitingView(val controller: MenuController) : View() {
                 label("Players")
 
                 row().pad(0f)
-                image(Texture(Gdx.files.internal("images/line.png")))
+               /* image(Texture(Gdx.files.internal("images/line.png")))*/
 
 
                 row().expand().top()
