@@ -36,6 +36,7 @@ class JoinGameView(val controller: MenuController): View() {
 
                 row()
                 label("Pin").setAlignment(1)
+
                 row().width(screenWidth/2f)
                 textField(){
                     style.background.leftWidth += 40
@@ -45,8 +46,10 @@ class JoinGameView(val controller: MenuController): View() {
                         prompt("")
                     }
                 })
+
                 row().padTop(screenHeight/20f)
                 label("Nickname").setAlignment(1)
+
                 row().width(screenWidth/2f)
                 textField()
                     .addListener(object : ChangeListener() {
@@ -58,8 +61,10 @@ class JoinGameView(val controller: MenuController): View() {
                 row()
                 feedback = label("")
 
-                row().padTop(screenHeight/4f)
-                textButton("Join Game", "selection")
+                row().expand()
+                textButton("Join Game", "selection"){
+                    it.bottom()
+                }
                     .addListener(object : ClickListener() {
                         override fun clicked(event: InputEvent?, x: Float, y: Float) {
                         if(pin.equals("")){
