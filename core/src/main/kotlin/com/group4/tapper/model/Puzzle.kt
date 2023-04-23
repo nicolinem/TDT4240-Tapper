@@ -4,49 +4,50 @@ import kotlin.math.sqrt
 import kotlin.random.Random
 class Puzzle {
 
-    private var randomNumbers : MutableList<Int> = createRandomNumbers()
-    private val coordinates: MutableList<Pair<Float, Float>> = mutableListOf()
+    private var _randomNumbers : MutableList<Int> = createRandomNumbers()
+    val randomNumbers: List<Int> get() = _randomNumbers
 
     fun createRandomNumbers(): MutableList<Int> {
-        val list = mutableListOf<Int>()
-        while (list.size < 6) {
-            val number = (1..9).random()
-            if (!list.contains(number)) {
-                list.add(number)
-            }
-        }
-
-        return list
+        return (1..9).shuffled().take(6).toMutableList()
     }
-    fun createCoordinates(width:Int, height: Int, circleRadius:Float):  MutableList<Pair<Float, Float>>{
+
+
+    private fun generateRandomCoordinate(minX: Float, maxX: Float, minY: Float, maxY: Float, circleRadius: Float, coordinates: MutableList<Pair<Float, Float>>): Pair<Float, Float> {
+        var randomX: Float
+        var randomY: Float
+        var overlapping: Boolean
+
+        do {
+            overlapping = false
+            randomX = minX + (maxX - minX) * Random.nextFloat()
+            randomY = minY + (maxY - minY) * Random.nextFloat()
+
+            // Check if the generated coordinates overlap with any already drawn circles
+            for (coordinate in coordinates) {
+                if (distance(randomX, randomY, coordinate.first, coordinate.second) <= 2 * circleRadius) {
+                    overlapping = true
+                    break
+                }
+            }
+        } while (overlapping)
+
+        return Pair(randomX, randomY)
+    }
+
+    fun createCoordinates(width: Int, height: Int, circleRadius: Float): MutableList<Pair<Float, Float>> {
         val maxX: Float = width * 0.85.toFloat()
         val minX: Float = width * 0.05.toFloat()
         val maxY: Float = height * 0.6.toFloat()
         val minY: Float = height * 0.05.toFloat()
-        for (i in randomNumbers) {
-            var randomX: Float
-            var randomY: Float
-            var overlapping: Boolean
+        val coordinates: MutableList<Pair<Float, Float>> = mutableListOf()
 
-            do {
-                overlapping = false
-                randomX = minX + (maxX - minX) * Random.nextFloat()
-                randomY = minY + (maxY - minY) * Random.nextFloat()
-
-                // Check if the generated coordinates overlap with any already drawn circles
-                for (coordinate in coordinates) {
-                    if (distance(randomX, randomY, coordinate.first, coordinate.second) <= 2 * circleRadius) {
-                        overlapping = true
-                        break
-                    }
-                }
-            } while (overlapping)
-
-            val pair: Pair<Float, Float> = Pair(randomX, randomY)
-            coordinates.add(pair)
+        repeat(createRandomNumbers().size) {
+            coordinates.add(generateRandomCoordinate(minX, maxX, minY, maxY, circleRadius, coordinates))
         }
+
         return coordinates
     }
+
     private fun distance(x1: Float, y1: Float, x2: Float, y2: Float): Float {
         return sqrt((x1 - x2).pow(2) + (y1 - y2).pow(2))
     }

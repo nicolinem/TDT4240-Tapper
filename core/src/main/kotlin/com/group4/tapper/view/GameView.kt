@@ -2,108 +2,60 @@ package com.group4.tapper.view
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
-import com.group4.tapper.model.Puzzle
-import ktx.assets.disposeSafely
-import ktx.scene2d.*
 import com.group4.tapper.controller.GameController
+import ktx.scene2d.*
 import ktx.app.clearScreen
 import java.text.DecimalFormat
-import java.util.TimerTask
-import java.util.Timer
 import kotlin.properties.Delegates
-import kotlin.concurrent.schedule
 
 
 
 class GameView(private val controller: GameController) : View() {
 
 
-    private var points by Delegates.notNull<Int>()
-    private var height by Delegates.notNull<Int>()
-    private var width by Delegates.notNull<Int>()
+    internal var height by Delegates.notNull<Int>()
+    internal var width by Delegates.notNull<Int>()
 
-    private var circleRadius by Delegates.notNull<Float>()
-    private lateinit var puzzleList: MutableList<Int>
-    private lateinit var puzzleListCopy: MutableList<Int>
-    private lateinit var coordinates: MutableList<Pair<Float, Float>>
-    private lateinit var puzzle: Puzzle
+    internal var circleRadius by Delegates.notNull<Float>()
+    internal lateinit var puzzleListCopy: MutableList<Int>
+    internal lateinit var coordinates: MutableList<Pair<Float, Float>>
+
 
     // Make lists of textbuttons and numberbuttons
-    private var textButtonList: MutableList<TextButton> = List(6) { TextButton("", Scene2DSkin.defaultSkin) }.toMutableList()
-    private var numberButtonList: MutableList<TextButton> = List(6) { TextButton("", Scene2DSkin.defaultSkin) }.toMutableList()
+    internal var textButtonList: MutableList<TextButton> = List(6) { TextButton("", Scene2DSkin.defaultSkin) }.toMutableList()
+    internal var numberButtonList: MutableList<TextButton> = List(6) { TextButton("", Scene2DSkin.defaultSkin) }.toMutableList()
 
-    private lateinit var pointsLabel :Label
+    internal lateinit var pointsLabel :Label
 
-    private val df = DecimalFormat("#.##")
+    internal val df = DecimalFormat("#.##")
 
-    private var timerbool:Boolean = false
-    private var timer :Timer = Timer()
+    internal var timerbool:Boolean = false
 
+    init {
+        this.controller.gameView = this
+    }
     override fun show() {
         super.show()
-        start()
-        timer = Timer()
-        val task = object :TimerTask(){
-            override fun run() {
-                points -= 1
-            }
-        }
+        controller.start()
+    }
 
-        //Start timer
-        if(!timerbool){
-            timer.scheduleAtFixedRate(task,0L,25L)
-            timerbool=true
-        }
+    // Remove start(), triggerError(), and checkVictory() functions here.
+    // These methods are moved to GameController.
+
+    // ... (the rest of the code)
+
+    // Update the render function
+    override fun render(delta: Float) {
+        clearScreen(0.42f, 0.12f, 0.39f, 1f)
+        pointsLabel.setText(df.format(controller.points).toString())
+        stage.act()
+        stage.draw()
     }
 
 
-    fun start() {
-        points = 1000
 
-
-        // Get a list of random numbers
-        puzzle = Puzzle()
-        puzzleList = puzzle.createRandomNumbers()
-
-        puzzleListCopy = puzzleList.toMutableList()
-        println(puzzleList)
-
-        //Create coordinates for buttons
-        height = Gdx.graphics.height
-        width = Gdx.graphics.width
-        circleRadius = 75f
-        coordinates = puzzle.createCoordinates(width, height, circleRadius)
-
-        // Draw UI
-        makeUI()
-
-        //Add listeners to buttons. Make them clickable.
-        for (i in 0..5) {
-            numberButtonList[i].addListener(object : ChangeListener() {
-                override fun changed(event: ChangeEvent?, actor: Actor?) {
-                    if (numberButtonList[i].text.toString() == puzzleList[0].toString()) {
-                        puzzleList.removeAt(0)
-                        stage.actors.removeValue(numberButtonList[i], true)
-                        checkVictory()
-                        textButtonList[i].isDisabled = false
-                        if (i < 5) {
-                            textButtonList[i + 1].isDisabled = true
-                        }
-                    } else {
-                        numberButtonList[i].isDisabled = true
-                        triggerError()
-                        Timer().schedule(500) {
-                            numberButtonList[i].isDisabled = false
-                        }
-                    }
-                }
-            })
-        }
-    }
 
         fun makeUI() {
         stage.clear()
@@ -121,7 +73,7 @@ class GameView(private val controller: GameController) : View() {
                     label("Round: 1", "white_bigger"){
                         it.left()
                     }
-                    pointsLabel = label(df.format(points).toString(), "pink_bigger"){
+                    pointsLabel = label(df.format(controller.points).toString(), "pink_bigger"){
                         it.right()
                     }
                 }
@@ -164,31 +116,10 @@ class GameView(private val controller: GameController) : View() {
         TODO("Not yet implemented")
     }
 
-    override fun render(delta: Float) {
-        clearScreen(0.42f, 0.12f, 0.39f, 1f)
-        pointsLabel.setText(df.format(points).toString()    )
-        stage.act()
-        stage.draw()
-    }
 
 
-    fun triggerError(){
-        Gdx.input.vibrate(500)
-        points-= 10
-    }
-
-    private fun checkVictory(){
-
-        if(puzzleList.isEmpty()){
-            timer.cancel()
-            timerbool = false
-            controller.handleVictory(points)
-        }
-
-    }
 
     override fun dispose() {
-        batch.disposeSafely()
         uiDispose()
     }
 
