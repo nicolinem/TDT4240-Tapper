@@ -23,7 +23,6 @@ class Game(private val firebaseRepository:
 
 
     var rounds: Int = 3
-    var currentRound:Int = 1
 
     var difficulty:String = "medium"
 
@@ -64,9 +63,7 @@ class Game(private val firebaseRepository:
         firebaseRepository.checkIfLastRound(gameID,method)
     }
     fun playAgain(){
-        for ((key,value) in playerScores){
-            println(key)
-            println(value.nickname)
+        for ((key) in playerScores){
             playerScores[key]?.resetStats()
         }
         putGame()
