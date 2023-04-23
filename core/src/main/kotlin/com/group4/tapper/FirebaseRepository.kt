@@ -12,8 +12,12 @@ interface FirebaseRepository {
     fun updatePlayerScore(gameId: String, playerID: String)
 */
 
+
+  
+    fun checkIfGameExists(pin:String,method:(Int,Boolean) -> Boolean)
     fun removePlayer(gameId: String, players: MutableMap<String, Player> )
     fun unsubscribeFromGame(gameID: String)
-    fun checkIfGameExists(pin:String,method:(Boolean) -> Boolean)
+    
+
     fun checkIfLastRound(gameID:String, method:(Boolean) -> Unit)
 }

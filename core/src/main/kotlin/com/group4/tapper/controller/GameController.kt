@@ -16,6 +16,7 @@ import kotlin.properties.Delegates
 import java.util.TimerTask
 import java.util.Timer
 import kotlin.concurrent.schedule
+import com.group4.tapper.controller.MenuController
 
 class GameController(
     val tapper: Tapper,
@@ -28,16 +29,21 @@ class GameController(
     internal lateinit var puzzle: Puzzle
 
     lateinit var gameView: GameView
+    private var pointsReductionPerTick: Int =1 //default is easy mode
+    private var pointsReductionPerError:Int = 10 //defualt is easy mode
 
     var points by Delegates.notNull<Int>()
     private lateinit var puzzleList: MutableList<Int>
 
-    private val timer: Timer = Timer()
+    private var timer: Timer = Timer()
     private var task: TimerTask? = null
 
 
 
     fun start() {
+        setDifficulty()
+
+
         puzzle = Puzzle()
         points = 1000
 
@@ -46,7 +52,8 @@ class GameController(
         // Create a new timer task
         task = object : TimerTask() {
             override fun run() {
-                points -= 1
+                points -= pointsReductionPerTick
+                checkVictory()
             }
         }
 
@@ -93,13 +100,17 @@ class GameController(
     }
 
 
-        fun triggerError() {
+    fun triggerError() {
         Gdx.input.vibrate(500)
-        points -= 10
+        points -= pointsReductionPerError
     }
 
     private fun checkVictory() {
         if (puzzleList.isEmpty()) {
+            gameView.timerbool = false
+            handleVictory()
+        }
+        if(points==0){
             gameView.timerbool = false
             handleVictory()
         }
@@ -110,11 +121,29 @@ class GameController(
 
     fun handleVictory() {
         println("handleVictory")
+        timer.cancel()
+        timer = Timer()
         audioService.play(MusicAsset.MENU)
         System.out.println(prefs.getString("playerID"))
         println("Points: $points")
         tapper.menuController.game.updatePlayerScore(points, prefs.getString("playerID"))
         tapper.setScreen<ResultView>()
+    }
+
+    fun setDifficulty(){
+        if(tapper.menuController.game.difficulty.equals("easy")){
+            pointsReductionPerError = 10
+            pointsReductionPerTick=1
+        }
+        else if(tapper.menuController.game.difficulty.equals("medium")){
+            pointsReductionPerError=25
+            pointsReductionPerTick=2
+        }
+
+        else{
+            pointsReductionPerError=50
+            pointsReductionPerTick=4
+        }
     }
 
 
