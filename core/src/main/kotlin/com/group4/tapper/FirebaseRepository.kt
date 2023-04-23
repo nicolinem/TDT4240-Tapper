@@ -13,6 +13,6 @@ interface FirebaseRepository {
 */
 
     fun unsubscribeFromGame()
-    fun checkIfGameExists(pin:String,method:(Boolean) -> Boolean)
+    fun checkIfGameExists(pin:String,method:(Int,Boolean) -> Boolean)
     fun checkIfLastRound(gameID:String, method:(Boolean) -> Unit)
 }

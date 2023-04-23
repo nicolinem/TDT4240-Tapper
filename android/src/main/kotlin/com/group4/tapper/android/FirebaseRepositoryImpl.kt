@@ -109,10 +109,12 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
     override fun unsubscribeFromGame() {
     }
 
-    override fun checkIfGameExists(pin:String,method: (Boolean) -> Boolean) {
+    override fun checkIfGameExists(pin:String,method: (Int,Boolean) -> Boolean) {
         val gameRef = db.collection("games").document(pin)
         gameRef.get().addOnSuccessListener { documentSnapshot ->
-            method(documentSnapshot.exists())
+            val playerScores = documentSnapshot.get("playerScores") as MutableMap<String, Player>?
+                ?: mutableMapOf()
+            method(playerScores.size,documentSnapshot.exists())
         }
             .addOnFailureListener{e ->
                 Log.w(TAG, "Listen failed.", e)

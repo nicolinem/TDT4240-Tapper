@@ -56,7 +56,7 @@ class Game(private val firebaseRepository:
         playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, it) }
     }
 
-    fun sendRefresh(pin:String,refreshMethod:(Boolean) -> Boolean){
+    fun sendRefresh(pin:String,refreshMethod:(Int,Boolean) -> Boolean){
         firebaseRepository.checkIfGameExists(pin,refreshMethod)
     }
 

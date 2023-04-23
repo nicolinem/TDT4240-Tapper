@@ -17,6 +17,9 @@ class JoinGameView(val controller: MenuController): View() {
     private var nickname : String =""
     private lateinit var feedback: Label
 
+    //CHANGE THIS TO SET MAX PLAYERS PER GAME
+    private val maxPlayersPerGame:Int = 8
+
 
     override fun setupUI() {
         val screenHeight = Gdx.graphics.height.toFloat()
@@ -89,9 +92,14 @@ class JoinGameView(val controller: MenuController): View() {
 
 
 
-    fun refreshGoToGame(exists:Boolean):Boolean{
+    fun refreshGoToGame(numOfPlayers:Int,exists:Boolean):Boolean{
         if(exists){
-            controller.joinGame(Player(nickname), pin)
+            if(numOfPlayers>=maxPlayersPerGame){
+                prompt("Max 8 players per game. Game is full.")
+            }
+            else{
+                controller.joinGame(Player(nickname), pin)
+            }
         }
         else{
             prompt("This game does not exists, try again.")

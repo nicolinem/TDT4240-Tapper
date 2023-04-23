@@ -103,7 +103,7 @@ class MenuController(tapper: Tapper,
         game.subscribeToPlayerScoreUpdates(this.game.gameID, onPlayerScoreUpdate)
     }
 
-    fun sendRefresh(pin:String,refreshMethod:(Boolean) -> Boolean){
+    fun sendRefresh(pin:String,refreshMethod:(Int,Boolean) -> Boolean){
         game.sendRefresh(pin, refreshMethod)
     }
 
