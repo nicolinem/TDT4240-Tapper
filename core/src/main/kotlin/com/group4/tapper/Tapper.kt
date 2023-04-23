@@ -1,8 +1,8 @@
 package com.group4.tapper
 
-import com.group4.tapper.Controller.GameController
-import com.group4.tapper.Controller.MenuController
-import com.group4.tapper.View.*
+import com.group4.tapper.controller.GameController
+import com.group4.tapper.controller.MenuController
+import com.group4.tapper.view.*
 import com.group4.tapper.assets.DefaultAudioService
 import com.group4.tapper.assets.MusicAsset
 import com.group4.tapper.assets.TextureAtlasAsset
@@ -59,6 +59,7 @@ class Tapper(IF: FirebaseRepository) : KtxGame<KtxScreen>() {
             addScreen(WaitingView(menuController))
             addScreen(JoinGameView(menuController))
             addScreen(GameView(gameController))
+            addScreen(SettingsView(menuController))
 
             audioService.play(MusicAsset.MENU)
 

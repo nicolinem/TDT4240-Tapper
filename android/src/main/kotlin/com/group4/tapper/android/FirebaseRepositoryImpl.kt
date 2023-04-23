@@ -4,8 +4,8 @@ import android.util.Log
 import com.google.firebase.firestore.*
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.firestore.ktx.firestore
-import com.group4.tapper.Model.Game
-import com.group4.tapper.Model.Player
+import com.group4.tapper.model.Game
+import com.group4.tapper.model.Player
 
 data class Game(
     val gameId: String,
