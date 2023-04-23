@@ -28,7 +28,7 @@ abstract class View() : KtxScreen {
     }
 
     override fun render(delta: Float) {
-        clearScreen(0.42f, 0.12f, 0.39f, 1f)
+        clearScreen(0.31f, 0.10f, 0.29f, 1f)
         stage.act()
         stage.draw()
     }
