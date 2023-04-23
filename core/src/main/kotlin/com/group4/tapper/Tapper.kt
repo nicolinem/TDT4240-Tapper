@@ -1,12 +1,9 @@
 package com.group4.tapper
 
+import com.group4.tapper.assets.*
 import com.group4.tapper.controller.GameController
 import com.group4.tapper.controller.MenuController
 import com.group4.tapper.view.*
-import com.group4.tapper.assets.DefaultAudioService
-import com.group4.tapper.assets.MusicAsset
-import com.group4.tapper.assets.TextureAtlasAsset
-import com.group4.tapper.assets.createSkin
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import ktx.app.KtxGame
@@ -40,16 +37,16 @@ class Tapper(IF: FirebaseRepository) : KtxGame<KtxScreen>() {
         gameController = GameController(this, assets, audioService)
 
 
-        var old = System.currentTimeMillis()
         val assetRefs = gdxArrayOf(
             TextureAtlasAsset.values().filter { it.isSkinAtlas }.map { assets.loadAsync(it.descriptor) },
-            MusicAsset.values().map { assets.loadAsync(it.descriptor) }
+            MusicAsset.values().map { assets.loadAsync(it.descriptor) },
+            SoundAsset.values().map { assets.loadAsync(it.descriptor) },
 
         ).flatten()
         KtxAsync.launch {
             assetRefs.joinAll()
 
-            old = System.currentTimeMillis()
+
             createSkin(assets)
 
             addScreen(MainView(menuController))

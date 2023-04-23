@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.group4.tapper.Tapper
 import com.group4.tapper.assets.AudioService
 import com.group4.tapper.assets.MusicAsset
+import com.group4.tapper.assets.SoundAsset
 import com.group4.tapper.model.Puzzle
 import com.group4.tapper.view.GameView
 import com.group4.tapper.view.ResultView
@@ -71,12 +72,14 @@ class GameController(
                         if (i < 5) {
                             gameView.textButtonList[i + 1].isDisabled = true
                         }
+                        audioService.play(SoundAsset.CORRECT)
                     } else {
                         button.isDisabled = true
                         triggerError()
                         Timer().schedule(500) {
                             button.isDisabled = false
                         }
+                        audioService.play(SoundAsset.INCORRECT)
                     }
                 }
             })

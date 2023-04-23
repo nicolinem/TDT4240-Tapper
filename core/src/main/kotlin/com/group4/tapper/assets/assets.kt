@@ -2,20 +2,9 @@ package com.group4.tapper.assets
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.assets.AssetDescriptor
-import com.badlogic.gdx.assets.AssetManager
-import com.badlogic.gdx.assets.loaders.BitmapFontLoader
-import com.badlogic.gdx.assets.loaders.FileHandleResolver
-import com.badlogic.gdx.assets.loaders.ShaderProgramLoader
 import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.audio.Sound
-import com.badlogic.gdx.files.FileHandle
-import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.g2d.BitmapFont
-import com.badlogic.gdx.graphics.g2d.TextureAtlas
-import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
-import com.badlogic.gdx.utils.I18NBundle
-import com.badlogic.gdx.utils.Json
 import ktx.assets.async.AssetStorage
 import ktx.scene2d.Scene2DSkin
 import ktx.style.skin
@@ -23,17 +12,12 @@ import java.io.File
 
 enum class SoundAsset(
     fileName: String,
-    directory: String = "sound",
+    directory: String = "sounds",
     val descriptor: AssetDescriptor<Sound> = AssetDescriptor("$directory/$fileName", Sound::class.java)
 ) {
-    BOOST_1("boost1.wav"),
-    BOOST_2("boost2.wav"),
-    EXPLOSION("explosion.wav"),
-    LIFE("life.wav"),
-    SHIELD("shield.wav"),
-    DAMAGE("damage.wav"),
-    BLOCK("block.wav"),
-    SPAWN("spawn.wav")
+    CORRECT("incorrect.wav"),
+    INCORRECT("correct.wav"),
+
 }
 
 enum class MusicAsset(
