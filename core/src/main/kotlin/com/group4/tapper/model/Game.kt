@@ -14,6 +14,7 @@ class Game(private val firebaseRepository:
     val playerScores:MutableMap<String,Player> = mutableMapOf()
 
 
+
     var gameID:String = generatePin()
         set(value) {
             field = value
@@ -29,6 +30,11 @@ class Game(private val firebaseRepository:
 
 
 
+    fun removePlayer(playerID: String){
+        playerScores.remove(playerID)
+        println(playerScores)
+        firebaseRepository.removePlayer(gameID, playerScores)
+    }
 
 
     fun putGame() {
@@ -41,7 +47,7 @@ class Game(private val firebaseRepository:
 
     fun joinGame(player: Player) {
         playerScores[player.id] = player
-        firebaseRepository.joinGame(this.gameID, player)
+        firebaseRepository.joinGame(this.gameID, playerScores)
         prefs.putString("playerID",player.id)
         prefs.flush()
     }
@@ -49,11 +55,11 @@ class Game(private val firebaseRepository:
     fun updatePlayerScore(points:Int, playerID: String){
         playerScores[playerID]?.incrementRound()
         playerScores[playerID]?.updateScore(points)
-        playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, it) }
+        playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, playerScores) }
     }
     fun resetPlayerStats(playerID: String){
         playerScores[playerID]?.resetStats()
-        playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, it) }
+        playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, playerScores) }
     }
 
     fun sendRefresh(pin:String,refreshMethod:(Boolean) -> Boolean){
@@ -101,11 +107,14 @@ private fun getPlayers(players: List<Player>, rounds:Int, diff:String) {
 }
 
     fun subscribeToPlayerScoreUpdates(gameId: String, onPlayerScoreUpdate: (Int,Int, List<Player>) -> Unit) {
+         firebaseRepository.subscribeToGame(gameID, onPlayerScoreUpdate, ::getPlayers)
 
-        firebaseRepository.subscribeToGame(gameId, onPlayerScoreUpdate, ::getPlayers)
+/*        firebaseRepository.subscribeToGame(gameId, onPlayerScoreUpdate, ::getPlayers)*/
     }
 
-
+    fun stopListeningToGameUpdates() {
+        firebaseRepository.unsubscribeFromGame(gameID)
+    }
 
     //Static method in companion object.
     companion object{
