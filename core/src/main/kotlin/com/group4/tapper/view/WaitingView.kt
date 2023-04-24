@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.group4.tapper.assets.TextureAsset
 import com.group4.tapper.controller.MenuController
 import com.group4.tapper.model.Player
+import ktx.actors.onClick
 import ktx.scene2d.*
 
 class WaitingView(val controller: MenuController) : View() {
@@ -44,10 +45,6 @@ class WaitingView(val controller: MenuController) : View() {
 
     }
 
-
-
-
-
     override fun setupUI() {
 
         val screenHeight = Gdx.graphics.height.toFloat()
@@ -59,6 +56,7 @@ class WaitingView(val controller: MenuController) : View() {
                 defaults().fillX().expandX()
                 defaults().pad(50f)
 
+                // Pin-code label
                 row().padTop(100f)
                 table {
                     row().expandX()
@@ -66,33 +64,32 @@ class WaitingView(val controller: MenuController) : View() {
                         label("Pin", "pink_bigger"){
                             it.left()
                         }
-                    }
-                    label(gameID, "white_bigger"){
-                        it.right()
+                        label(gameID, "white_bigger"){
+                            it.right()
+                        }
                     }
                 }
 
+                // "Players" label
                 row().padTop(100f)
-
                 label("Players", "white_bigger"){
                     setFontScale(0.7f)
                 }
 
+                // Line
                 row().pad(0f)
                 image(controller.assets[TextureAsset.LINE.descriptor])
 
-
+                // Player list
                 row().expand()
                 add(tableN)
 
                 // Join Game button
                 row().bottom()
                 textButton("Start Game", "new_game") {
-                }.addListener(object : ClickListener() {
-                    override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                        controller.handleChangeToGameView()
-                    }
-                })
+                    onClick { controller.handleChangeToGameView() }
+                }
+
                 setFillParent(true)
                 top()
                 pack()

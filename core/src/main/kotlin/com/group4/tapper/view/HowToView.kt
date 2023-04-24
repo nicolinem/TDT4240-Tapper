@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Align.*
 import com.group4.tapper.assets.TextureAsset
 import com.group4.tapper.controller.MenuController
+import ktx.actors.onClick
 import ktx.scene2d.*
 
 class HowToView(val controller: MenuController): View() {
@@ -22,11 +23,9 @@ class HowToView(val controller: MenuController): View() {
                     top()
 
                     row().width(screenWidth / 10f).height(screenWidth / 10f).left().top()
-                    button("return_white").addListener(object : ClickListener() {
-                        override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                            controller.handleChangeToMainView()
-                        }
-                    })
+                    button("return_white"){
+                        onClick { controller.handleChangeToMainView()}
+                    }
 
                     row().pad(25f, 0f, 50f, 0f)
                     label("How to create game", "white_bigger"){

@@ -42,12 +42,6 @@ class GameView(private val controller: GameController) : View() {
         controller.start()
     }
 
-    // Remove start(), triggerError(), and checkVictory() functions here.
-    // These methods are moved to GameController.
-
-    // ... (the rest of the code)
-
-    // Update the render function
     override fun render(delta: Float) {
         controller.audioService.update()
         clearScreen(0.42f, 0.12f, 0.39f, 1f)
