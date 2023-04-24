@@ -180,7 +180,7 @@ class MenuController(tapper: Tapper,
         audioService.musicEnabled = !audioService.musicEnabled
     }
     fun toggleSound(){
-        audioService.musicEnabled = !audioService.musicEnabled
+        audioService.soundsEnabled = !audioService.soundsEnabled
     }
 
 
