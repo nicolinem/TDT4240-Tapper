@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
+import com.group4.tapper.assets.MusicAsset
 import com.group4.tapper.assets.TextureAsset
 import com.group4.tapper.controller.MenuController
 import ktx.scene2d.*
@@ -11,6 +12,7 @@ import ktx.scene2d.*
 class MainView(val controller: MenuController) : View() {
 
     override fun setupUI() {
+
 
         val screenHeight = Gdx.graphics.height.toFloat()
         val screenWidth = Gdx.graphics.width.toFloat()
