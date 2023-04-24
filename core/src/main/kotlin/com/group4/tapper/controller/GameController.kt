@@ -158,6 +158,34 @@ class GameController(
         }
     }
 
+    override fun getPuzzleList(): MutableList<Int> {
+        return puzzle.randomNumbers.toMutableList()
+    }
+
+    override fun getCoordinates(): MutableList<Pair<Float, Float>> {
+        return puzzle.createCoordinates(Gdx.graphics.width, Gdx.graphics.height, 75f)
+    }
+
+    override fun handleButtonClick(i: Int, buttonText: String) {
+        if (buttonText == puzzleList[0].toString()) {
+            puzzleList.removeAt(0)
+            gameView.removeNumberButton(i)
+            checkVictory()
+            gameView.setTopButtonDisabled(i, false)
+            if (i < 5) {
+                gameView.setTopButtonDisabled(i + 1, true)
+            }
+            audioService.play(SoundAsset.CORRECT)
+        } else {
+            gameView.setNumberButtonDisabled(i, true)
+            triggerError()
+            Timer().schedule(500) {
+                gameView.setNumberButtonDisabled(i, false)
+            }
+            audioService.play(SoundAsset.INCORRECT)
+        }
+    }
+
     override fun updateAudioService() {
         audioService.update()
     }

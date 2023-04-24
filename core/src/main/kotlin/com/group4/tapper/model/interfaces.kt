@@ -36,4 +36,7 @@ interface GameControllerInterface {
     fun setDifficulty()
     fun updateAudioService()
     fun getRemainingPoints(): String
+    fun getPuzzleList(): MutableList<Int>
+    fun getCoordinates(): MutableList<Pair<Float, Float>>
+    fun handleButtonClick(i: Int, buttonText: String)
 }

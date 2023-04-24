@@ -1,7 +1,10 @@
 package com.group4.tapper.view
 
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.group4.tapper.assets.TextureAsset
 import com.group4.tapper.controller.GameController
 import com.group4.tapper.model.GameControllerInterface
@@ -36,7 +39,7 @@ class GameView(private val controller: GameControllerInterface) : View() {
         controller.gameView = this
     }
     override fun show() {
-        super.show()
+        Gdx.input.inputProcessor = stage
         controller.start()
     }
 
@@ -106,8 +109,34 @@ class GameView(private val controller: GameControllerInterface) : View() {
         puzzleListCopy = list
     }
 
+    fun removeNumberButton(index: Int) {
+        stage.actors.removeValue(numberButtonList[index], true)
+    }
+
+    fun setTopButtonDisabled(index: Int, disabled: Boolean) {
+        textButtonList[index].isDisabled = disabled
+    }
+
+    fun setNumberButtonDisabled(index: Int, disabled: Boolean) {
+        numberButtonList[index].isDisabled = disabled
+    }
+
+
     override fun setupUI() {
-       // TODO("Not yet implemented")
+        puzzleListCopy = controller.getPuzzleList()
+        coordinates = controller.getCoordinates()
+
+        // Draw UI
+        makeUI()
+
+        // Add listeners to buttons. Make them clickable.
+        numberButtonList.forEachIndexed { i, button ->
+            button.addListener(object : ChangeListener() {
+                override fun changed(event: ChangeEvent?, actor: Actor?) {
+                    controller.handleButtonClick(i, button.text.toString())
+                }
+            })
+        }
     }
 
     override fun update(dt: Float) {
