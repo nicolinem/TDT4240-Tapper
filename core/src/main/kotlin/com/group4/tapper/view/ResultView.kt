@@ -105,7 +105,7 @@ class ResultView(val controller: MenuController): View() {
                 if(gameState == GameState.FINISHED){
                     // Finish Game button
                     row().bottom()
-                    textButton("Finish", "new_game") {
+                    textButton("Finish", "selection") {
                     }.addListener(object : ClickListener() {
                         override fun clicked(event: InputEvent?, x: Float, y: Float) {
                             println("FINISH")

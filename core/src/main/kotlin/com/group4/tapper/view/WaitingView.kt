@@ -78,7 +78,7 @@ class WaitingView(val controller: MenuController) : View() {
                 }
 
                 row().pad(0f)
-               /* image(Texture(Gdx.files.internal("images/line.png")))*/
+                image(Texture(Gdx.files.internal("images/line.png")))
 
 
                 row().expand()
