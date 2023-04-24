@@ -12,6 +12,8 @@ private const val MAX_SOUND_INSTANCES = 16
 
 interface AudioService {
     var enabled: Boolean
+    var soundsEnabled: Boolean
+    var musicEnabled: Boolean
     fun play(soundAsset: SoundAsset, volume: Float = 1f) = Unit
     fun play(musicAsset: MusicAsset, volume: Float = 1f, loop: Boolean = true) = Unit
     fun pause() = Unit
@@ -34,6 +36,17 @@ private class SoundRequestPool : Pool<SoundRequest>() {
 }
 
 class DefaultAudioService(private val assets: AssetStorage) : AudioService {
+    override var  musicEnabled = true
+        set(value) {
+            when (value) {
+                true -> currentMusic?.play()
+                false -> currentMusic?.pause()
+            }
+            field = value
+        }
+    override var soundsEnabled = true
+
+
     override var enabled = true
         set(value) {
             when (value) {
@@ -48,7 +61,7 @@ class DefaultAudioService(private val assets: AssetStorage) : AudioService {
     private var currentMusic: Music? = null
 
     override fun play(soundAsset: SoundAsset, volume: Float) {
-        if (!enabled) return
+        if (!soundsEnabled) return
 
         when {
             soundAsset in soundRequests -> {
@@ -95,7 +108,7 @@ class DefaultAudioService(private val assets: AssetStorage) : AudioService {
         }
 
         currentMusic = assets[musicAsset.descriptor]
-        if (!enabled) return
+        if (!musicEnabled) return
 
         currentMusic?.apply {
             this.volume = volume
@@ -117,18 +130,22 @@ class DefaultAudioService(private val assets: AssetStorage) : AudioService {
     }
 
     override fun pause() {
-        currentMusic?.pause()
+        if (musicEnabled) {
+            currentMusic?.pause()
+        }
     }
 
     override fun resume() {
-        if (!enabled) return
-
-        currentMusic?.play()
+        if (musicEnabled) {
+            currentMusic?.play()
+        }
     }
 
     override fun stop(clearSounds: Boolean) {
-        currentMusic?.stop()
-        if (clearSounds) {
+        if (musicEnabled) {
+            currentMusic?.stop()
+        }
+        if (soundsEnabled && clearSounds) {
             soundRequests.clear()
         }
     }

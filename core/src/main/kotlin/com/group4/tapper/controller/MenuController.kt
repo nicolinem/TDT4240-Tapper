@@ -2,12 +2,14 @@ package com.group4.tapper.controller
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Preferences
+import com.badlogic.gdx.audio.Sound
 import com.group4.tapper.model.Game
 import com.group4.tapper.model.Player
 import com.group4.tapper.Tapper
 import com.group4.tapper.view.*
 import com.group4.tapper.assets.AudioService
 import com.group4.tapper.assets.MusicAsset
+import com.group4.tapper.assets.SoundAsset
 import ktx.assets.async.AssetStorage
 
 class MenuController(tapper: Tapper,
@@ -98,7 +100,7 @@ class MenuController(tapper: Tapper,
     }
 
     fun handleChangeToGameView(){
-        audioService.play(MusicAsset.GAME)
+        playMusic(MusicAsset.GAME)
         tapper.setScreen<GameView>()
     }
 
@@ -166,6 +168,19 @@ class MenuController(tapper: Tapper,
         game.stopListeningToGameUpdates()
         game.removePlayer(prefs.getString("playerID"))
         tapper.setScreen<MainView>()
+    }
+
+
+
+    fun playMusic(asset: MusicAsset) {
+        audioService.play(asset)
+    }
+
+    fun toggleMusic(){
+        audioService.musicEnabled = !audioService.musicEnabled
+    }
+    fun toggleSound(){
+        audioService.musicEnabled = !audioService.musicEnabled
     }
 
 

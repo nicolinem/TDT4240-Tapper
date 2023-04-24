@@ -11,7 +11,6 @@ import ktx.scene2d.*
 class SettingsView(val controller: MenuController): View() {
     override fun setupUI() {
 
-
         stage.actors {
             table {
                 setFillParent(true)
@@ -43,7 +42,7 @@ class SettingsView(val controller: MenuController): View() {
                         toggle()
                     }.addListener(object : ChangeListener() {
                         override fun changed(event: ChangeEvent?, actor: Actor?) {
-                            controller.audioService.enabled = !controller.audioService.enabled
+                           controller.toggleMusic()
                         }
                     })
                 }
@@ -59,7 +58,11 @@ class SettingsView(val controller: MenuController): View() {
                         it.right()
                         it.size(screenWidth/5f, screenWidth/10f)
                         toggle()
-                    }
+                    }.addListener(object : ChangeListener() {
+                        override fun changed(event: ChangeEvent?, actor: Actor?) {
+                            controller.toggleSound()
+                        }
+                    })
                 }
 
                 pack()

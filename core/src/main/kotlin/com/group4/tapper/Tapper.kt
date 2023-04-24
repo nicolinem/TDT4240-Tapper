@@ -59,8 +59,9 @@ class Tapper(IF: FirebaseRepository) : KtxGame<KtxScreen>() {
             addScreen(GameView(gameController))
             addScreen(SettingsView(menuController))
 
-            audioService.play(MusicAsset.MENU)
 
+
+            menuController.playMusic(MusicAsset.GAME)
             setScreen<MainView>()
 
 
