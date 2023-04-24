@@ -162,5 +162,9 @@ class MenuController(tapper: Tapper,
         audioService.soundsEnabled = !audioService.soundsEnabled
     }
 
+    fun checkGameState(): GameState {
+        return game.checkGameState(prefs.getString("playerID"))
+    }
+
 
 }

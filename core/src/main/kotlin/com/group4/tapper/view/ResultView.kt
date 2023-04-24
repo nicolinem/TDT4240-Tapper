@@ -6,8 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
+import com.group4.tapper.assets.GameState
 import com.group4.tapper.controller.MenuController
-import com.group4.tapper.controller.MenuController.GameState
 import com.group4.tapper.model.Player
 import ktx.scene2d.*
 

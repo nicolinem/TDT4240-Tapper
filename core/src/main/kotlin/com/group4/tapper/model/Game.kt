@@ -17,6 +17,7 @@ class Game(private val firebaseRepository:
 
 
 
+
     override var gameID: String = generatePin()
         set(value) {
             field = value
@@ -28,8 +29,8 @@ class Game(private val firebaseRepository:
     var rounds: Int = 3
     var currentRound:Int = 1
 
-    var difficulty:String = "medium"
-
+    override var difficulty: String = ""
+        get() = field
 
 
     override fun removePlayer(playerID: String){
@@ -108,16 +109,16 @@ private fun getPlayers(players: List<Player>, rounds:Int, diff:String) {
     this.difficulty = diff
 }
 
-    fun checkGameState(isLocalPlayer: (Player) -> Boolean): GameState {
-        val players = playerScores.values.filterNot { isLocalPlayer(it) }
-        val localPlayer = playerScores.values.find { isLocalPlayer(it) }
+    override fun checkGameState(playerID: String): GameState {
+        val localPlayer = playerScores[playerID]
+        val players = playerScores.filterKeys { it != playerID }.values
 
-        val allPlayersFinished = players.all { it.currentRound >= rounds }
-        val allPlayersHaveZeroScore = players.all { it.score == 0 }
+        val allPlayersFinished = playerScores.values.all { it.currentRound >= rounds }
+        val allPlayersHaveZeroScore = playerScores.values.all { it.score == 0 }
 
         return when {
             allPlayersFinished && allPlayersHaveZeroScore -> GameState.PLAY_AGAIN
-            allPlayersFinished && localPlayer?.currentRound == rounds -> GameState.WAITING
+            !allPlayersFinished && localPlayer?.currentRound == rounds -> GameState.WAITING
             allPlayersFinished -> GameState.FINISHED
             else -> GameState.IN_PROGRESS
         }

@@ -132,16 +132,15 @@ class GameController(
     }
 
     fun setDifficulty(){
-        if(tapper.menuController.game.difficulty.equals("easy")){
+        val gameDifficulty = tapper.menuController.game.difficulty
+
+        if(gameDifficulty.equals("easy")){
             pointsReductionPerError = 10
             pointsReductionPerTick=1
-        }
-        else if(tapper.menuController.game.difficulty.equals("medium")){
+        } else if(gameDifficulty.equals("medium")){
             pointsReductionPerError=25
             pointsReductionPerTick=2
-        }
-
-        else{
+        } else {
             pointsReductionPerError=50
             pointsReductionPerTick=4
         }
