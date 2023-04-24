@@ -2,10 +2,10 @@ package com.group4.tapper.model
 import kotlin.math.pow
 import kotlin.math.sqrt
 import kotlin.random.Random
-class Puzzle {
+class Puzzle: PuzzleModel {
 
     private var _randomNumbers : MutableList<Int> = createRandomNumbers()
-    val randomNumbers: List<Int> get() = _randomNumbers
+    override val randomNumbers: List<Int> get() = _randomNumbers
 
     fun createRandomNumbers(): MutableList<Int> {
         return (1..9).shuffled().take(6).toMutableList()
@@ -34,7 +34,7 @@ class Puzzle {
         return Pair(randomX, randomY)
     }
 
-    fun createCoordinates(width: Int, height: Int, circleRadius: Float): MutableList<Pair<Float, Float>> {
+    override fun createCoordinates(width: Int, height: Int, circleRadius: Float): MutableList<Pair<Float, Float>> {
         val maxX: Float = width * 0.85.toFloat()
         val minX: Float = width * 0.05.toFloat()
         val maxY: Float = height * 0.6.toFloat()

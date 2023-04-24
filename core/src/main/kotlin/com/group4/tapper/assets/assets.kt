@@ -21,6 +21,10 @@ enum class SoundAsset(
 
 }
 
+enum class GameState {
+    IN_PROGRESS, WAITING, FINISHED, PLAY_AGAIN
+}
+
 enum class MusicAsset(
     fileName: String,
     directory: String = "music",

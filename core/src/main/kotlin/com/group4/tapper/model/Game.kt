@@ -3,11 +3,13 @@ package com.group4.tapper.model
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Preferences
 import com.group4.tapper.FirebaseRepository
+import com.group4.tapper.assets.GameState
+import com.group4.tapper.controller.MenuController
 import java.util.*
 
 class Game(private val firebaseRepository:
            FirebaseRepository,
-           ) {
+           ): GameModel {
 
     private val prefs : Preferences = Gdx.app.getPreferences("prefs")
 
@@ -15,7 +17,8 @@ class Game(private val firebaseRepository:
 
 
 
-    var gameID:String = generatePin()
+
+    override var gameID: String = generatePin()
         set(value) {
             field = value
             prefs.putString("gameID", value)
@@ -26,50 +29,50 @@ class Game(private val firebaseRepository:
     var rounds: Int = 3
     var currentRound:Int = 1
 
-    var difficulty:String = "medium"
+    override var difficulty: String = ""
+        get() = field
 
 
-
-    fun removePlayer(playerID: String){
+    override fun removePlayer(playerID: String){
         playerScores.remove(playerID)
         println(playerScores)
         firebaseRepository.removePlayer(gameID, playerScores)
     }
 
 
-    fun putGame() {
+    override fun putGame() {
         firebaseRepository.createGame(this)
     }
 
-    fun addPlayer(player: Player){
+    override fun addPlayer(player: Player){
         playerScores[player.id] = player
     }
 
-    fun joinGame(player: Player) {
+    override fun joinGame(player: Player) {
         playerScores[player.id] = player
         firebaseRepository.joinGame(this.gameID, player)
         prefs.putString("playerID",player.id)
         prefs.flush()
     }
 
-    fun updatePlayerScore(points:Int, playerID: String){
+    override fun updatePlayerScore(points:Int, playerID: String){
         playerScores[playerID]?.incrementRound()
         playerScores[playerID]?.updateScore(points)
         playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, it) }
     }
-    fun resetPlayerStats(playerID: String){
+    override fun resetPlayerStats(playerID: String){
         playerScores[playerID]?.resetStats()
         playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, it) }
     }
 
-    fun sendRefresh(pin:String,refreshMethod:(Int,Boolean) -> Boolean){
+    override fun sendRefresh(pin:String, refreshMethod:(Int, Boolean) -> Boolean){
         firebaseRepository.checkIfGameExists(pin,refreshMethod)
     }
 
-    fun checkIfLastRound(method:(Boolean) -> Unit){
+    override fun checkIfLastRound(method:(Boolean) -> Unit){
         firebaseRepository.checkIfLastRound(gameID,method)
     }
-    fun playAgain(){
+    override fun playAgain(){
         for ((key) in playerScores){
             playerScores[key]?.resetStats()
         }
@@ -106,13 +109,28 @@ private fun getPlayers(players: List<Player>, rounds:Int, diff:String) {
     this.difficulty = diff
 }
 
-    fun subscribeToPlayerScoreUpdates(gameId: String, onPlayerScoreUpdate: (Int,Int, List<Player>) -> Unit) {
+    override fun checkGameState(playerID: String): GameState {
+        val localPlayer = playerScores[playerID]
+        val players = playerScores.filterKeys { it != playerID }.values
+
+        val allPlayersFinished = playerScores.values.all { it.currentRound >= rounds }
+        val allPlayersHaveZeroScore = playerScores.values.all { it.score == 0 }
+
+        return when {
+            allPlayersFinished && allPlayersHaveZeroScore -> GameState.PLAY_AGAIN
+            !allPlayersFinished && localPlayer?.currentRound == rounds -> GameState.WAITING
+            allPlayersFinished -> GameState.FINISHED
+            else -> GameState.IN_PROGRESS
+        }
+    }
+
+    override fun subscribeToPlayerScoreUpdates(gameId: String, onPlayerScoreUpdate: (Int, Int, List<Player>) -> Unit) {
          firebaseRepository.subscribeToGame(gameID, onPlayerScoreUpdate, ::getPlayers)
 
 /*        firebaseRepository.subscribeToGame(gameId, onPlayerScoreUpdate, ::getPlayers)*/
     }
 
-    fun stopListeningToGameUpdates() {
+    override fun stopListeningToGameUpdates() {
         firebaseRepository.unsubscribeFromGame(gameID)
     }
 

@@ -2,37 +2,43 @@ package com.group4.tapper.controller
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Preferences
+import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.group4.tapper.Tapper
 import com.group4.tapper.assets.AudioService
 import com.group4.tapper.assets.MusicAsset
 import com.group4.tapper.assets.SoundAsset
+import com.group4.tapper.assets.TextureAsset
+import com.group4.tapper.model.GameControllerInterface
 import com.group4.tapper.model.Puzzle
 import com.group4.tapper.view.GameView
 import com.group4.tapper.view.ResultView
 import ktx.assets.async.AssetStorage
+import java.text.DecimalFormat
 import kotlin.properties.Delegates
 import java.util.TimerTask
 import java.util.Timer
 import kotlin.concurrent.schedule
-import com.group4.tapper.controller.MenuController
 
 class GameController(
     val tapper: Tapper,
     val assets: AssetStorage,
     val audioService: AudioService,
-) {
+): GameControllerInterface {
 
 
     private val prefs: Preferences = Gdx.app.getPreferences("prefs")
     internal lateinit var puzzle: Puzzle
 
-    lateinit var gameView: GameView
+    override lateinit var gameView: GameView
+
+    internal val df = DecimalFormat("#.##")
+
     private var pointsReductionPerTick: Int =1 //default is easy mode
     private var pointsReductionPerError:Int = 10 //defualt is easy mode
 
-    var points by Delegates.notNull<Int>()
+    var remainingPoints by Delegates.notNull<Int>()
     private lateinit var puzzleList: MutableList<Int>
 
     private var timer: Timer = Timer()
@@ -40,25 +46,31 @@ class GameController(
 
 
 
-    fun start() {
+
+    // Add a setter for the gameView
+
+
+    override fun start() {
         setDifficulty()
 
-
         puzzle = Puzzle()
-        points = 1000
-
+        remainingPoints = 1000
         task?.cancel()
 
         // Create a new timer task
         task = object : TimerTask() {
             override fun run() {
-                points -= pointsReductionPerTick
+                remainingPoints -= pointsReductionPerTick
                 checkVictory()
             }
         }
 
+        setupGameView()
+        timer.scheduleAtFixedRate(task, 0L, 25)
+    }
+    private fun setupGameView() {
         puzzleList = puzzle.randomNumbers.toMutableList()
-        gameView.puzzleListCopy = puzzleList
+        gameView.setPuzzleList(puzzleList)
 
         // Create coordinates for buttons
         gameView.apply {
@@ -95,55 +107,92 @@ class GameController(
                 }
             })
         }
-
-        timer.scheduleAtFixedRate(task, 0L, 25)
     }
 
 
-    fun triggerError() {
+    override fun triggerError() {
         Gdx.input.vibrate(500)
-        points -= pointsReductionPerError
+        remainingPoints -= pointsReductionPerError
     }
 
-    private fun checkVictory() {
+    override fun checkVictory() {
         if (puzzleList.isEmpty()) {
-            gameView.timerbool = false
             handleVictory()
         }
-        if(points==0){
-            gameView.timerbool = false
+        if(remainingPoints==0){
             handleVictory()
         }
     }
 
+    override fun getTextureAsset(asset: TextureAsset): Texture {
+        return assets[asset.descriptor]
+    }
 
-
-
-    fun handleVictory() {
+    override fun handleVictory() {
         println("handleVictory")
         timer.cancel()
         timer = Timer()
         audioService.play(MusicAsset.MENU)
         System.out.println(prefs.getString("playerID"))
-        println("Points: $points")
-        tapper.menuController.game.updatePlayerScore(points, prefs.getString("playerID"))
+        println("Points: $remainingPoints")
+        tapper.menuController.game.updatePlayerScore(remainingPoints, prefs.getString("playerID"))
         tapper.setScreen<ResultView>()
     }
 
-    fun setDifficulty(){
-        if(tapper.menuController.game.difficulty.equals("easy")){
-            pointsReductionPerError = 10
-            pointsReductionPerTick=1
-        }
-        else if(tapper.menuController.game.difficulty.equals("medium")){
-            pointsReductionPerError=25
-            pointsReductionPerTick=2
-        }
+    override fun setDifficulty(){
+        val gameDifficulty = tapper.menuController.game.difficulty
 
-        else{
-            pointsReductionPerError=50
-            pointsReductionPerTick=4
+        when (gameDifficulty) {
+            "easy" -> {
+                pointsReductionPerError = 10
+                pointsReductionPerTick = 1
+            }
+            "medium" -> {
+                pointsReductionPerError = 25
+                pointsReductionPerTick = 2
+            }
+            "hard" -> {
+                pointsReductionPerError = 50
+                pointsReductionPerTick = 4
+            }
         }
+    }
+
+    override fun getPuzzleList(): MutableList<Int> {
+        return puzzle.randomNumbers.toMutableList()
+    }
+
+    override fun getCoordinates(): MutableList<Pair<Float, Float>> {
+        return puzzle.createCoordinates(Gdx.graphics.width, Gdx.graphics.height, 75f)
+    }
+
+    override fun handleButtonClick(i: Int, buttonText: String) {
+        if (buttonText == puzzleList[0].toString()) {
+            puzzleList.removeAt(0)
+            gameView.removeNumberButton(i)
+            checkVictory()
+            gameView.setTopButtonDisabled(i, false)
+            if (i < 5) {
+                gameView.setTopButtonDisabled(i + 1, true)
+            }
+            audioService.play(SoundAsset.CORRECT)
+        } else {
+            gameView.setNumberButtonDisabled(i, true)
+            triggerError()
+            Timer().schedule(500) {
+                gameView.setNumberButtonDisabled(i, false)
+            }
+            audioService.play(SoundAsset.INCORRECT)
+        }
+    }
+
+    override fun updateAudioService() {
+        audioService.update()
+    }
+
+
+    override fun getRemainingPoints(): String {
+        return df.format(remainingPoints).toString()
     }
 
 
