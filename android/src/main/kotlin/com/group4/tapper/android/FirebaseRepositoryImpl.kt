@@ -29,13 +29,27 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
     }
 
 
-    override fun joinGame(gameId: String, players: MutableMap<String, Player> ) {
+    override fun joinGame(gameId: String, player: Player) {
         val gameRef = db.collection("games").document(gameId)
 
-        gameRef.update("playerScores", players)
-            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
-            .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+        var playerScores: MutableMap<String, Player>
+
+        gameRef.get().addOnSuccessListener { documentSnapshot ->
+            playerScores = documentSnapshot.get("playerScores") as MutableMap<String, Player>?
+                ?: mutableMapOf()
+
+            playerScores[player.id] = player
+            gameRef.update("playerScores", playerScores)
+                .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
+                .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+        }
+            .addOnFailureListener{e ->
+                Log.w(TAG, "Listen failed.", e)
+            }
+
     }
+
+
 
 
     override fun subscribeToGame(gameId: String, onGameUpdate: (Int,Int,List<Player>) -> Unit, updateGame: (List<Player>,Int,String) -> Unit)  {

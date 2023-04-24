@@ -47,7 +47,7 @@ class Game(private val firebaseRepository:
 
     fun joinGame(player: Player) {
         playerScores[player.id] = player
-        firebaseRepository.joinGame(this.gameID, playerScores)
+        firebaseRepository.joinGame(this.gameID, player)
         prefs.putString("playerID",player.id)
         prefs.flush()
     }
@@ -55,11 +55,11 @@ class Game(private val firebaseRepository:
     fun updatePlayerScore(points:Int, playerID: String){
         playerScores[playerID]?.incrementRound()
         playerScores[playerID]?.updateScore(points)
-        playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, playerScores) }
+        playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, it) }
     }
     fun resetPlayerStats(playerID: String){
         playerScores[playerID]?.resetStats()
-        playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, playerScores) }
+        playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, it) }
     }
 
     fun sendRefresh(pin:String,refreshMethod:(Int,Boolean) -> Boolean){
