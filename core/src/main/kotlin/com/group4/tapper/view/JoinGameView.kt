@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.group4.tapper.controller.MenuController
 import com.group4.tapper.model.Player
+import ktx.actors.onChange
+import ktx.actors.onClick
 import ktx.scene2d.*
 
 class JoinGameView(val controller: MenuController): View() {
@@ -30,46 +32,48 @@ class JoinGameView(val controller: MenuController): View() {
                 defaults().fillX().expandX()
                 defaults().pad(50f)
 
+                // Return button
                 row().width(screenWidth/10f).height(screenWidth/10f).expand().left().top()
-                button("return_white").addListener(object : ClickListener() {
-                    override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                       controller.handleChangeToMainView()
-                    }
-                })
+                button("return_white"){
+                    onClick { controller.handleChangeToMainView() }
+                }
 
+                // Pin-label
                 row()
                 label("Pin").setAlignment(1)
 
+                // Pin-textfield
                 row().width(screenWidth/2f)
                 textField(){
                     style.background.leftWidth += 40
-                }.addListener(object : ChangeListener() {
-                    override fun changed(event: ChangeEvent?, actor: Actor?) {
-                        pin = actor?.let { (it as TextField).text }.toString()
+                    onChange {
+                        pin = text
                         prompt("")
                     }
-                })
+                }
 
+                // Nickname-label
                 row().padTop(screenHeight/20f)
                 label("Nickname").setAlignment(1)
 
+                // Nickname-textfield
                 row().width(screenWidth/2f)
-                textField()
-                    .addListener(object : ChangeListener() {
-                    override fun changed(event: ChangeEvent?, actor: Actor?) {
-                        nickname = actor?.let { (it as TextField).text }.toString()
+                textField(){
+                    onChange {
+                        pin = text
                         prompt("")
                     }
-                })
+                }
+
+                // Feedback if error
                 row()
                 feedback = label("")
 
+                // Join game button with logic
                 row().expand()
                 textButton("Join Game", "selection"){
                     it.bottom()
-                }
-                    .addListener(object : ClickListener() {
-                        override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                    onClick {
                         if(pin.equals("")){
                             prompt("You need to insert a game pin!")
                         }
@@ -80,8 +84,8 @@ class JoinGameView(val controller: MenuController): View() {
                         else{
                             controller.sendRefresh(pin, ::refreshGoToGame)
                         }
-                        }
-                    })
+                    }
+                }
 
                 setFillParent(true)
                 bottom()

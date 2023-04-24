@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.group4.tapper.controller.MenuController
 import com.group4.tapper.controller.MenuController.GameState
 import com.group4.tapper.model.Player
+import ktx.actors.onClick
 import ktx.scene2d.*
 
 
@@ -113,38 +114,31 @@ class ResultView(val controller: MenuController): View() {
                     // Finish Game button
                     row().bottom()
                     textButton("Finish", "selection") {
-                    }.addListener(object : ClickListener() {
-                        override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                            println("FINISH")
+                        onClick {
                             controller.handleFinishGame()
                             resetStats()
                         }
-                    })
+                    }
 
                     row()
                     textButton("Play Again", "selection") {
-                    }.addListener(object : ClickListener() {
-                        override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                        onClick {
                             resetStats()
                             controller.playAgain()
                         }
-                    })
+                    }
 
                 }
                 else if( gameState == GameState.IN_PROGRESS){
                     row().bottom()
                     textButton("Next Round", "new_game") {
-                    }.addListener(object : ClickListener() {
-                        override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                            controller.handleChangeToGameView()
-                        }
-                    })
+                        onClick { controller.handleChangeToGameView() }
+                    }
                 }
                 else{
                     row()
                     label("Waiting for other players").setAlignment(1)
                 }
-
 
                 setFillParent(true)
                 top()

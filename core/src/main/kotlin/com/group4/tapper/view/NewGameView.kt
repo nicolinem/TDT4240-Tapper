@@ -8,6 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.group4.tapper.controller.MenuController
+import ktx.actors.onChange
+import ktx.actors.onChangeEvent
+import ktx.actors.onClick
 import ktx.assets.disposeSafely
 import ktx.scene2d.*
 
@@ -28,29 +31,25 @@ class NewGameView(val controller: MenuController): View() {
                 defaults().fillX().expandX()
                 defaults().pad(50f)
 
+                // Return button
                 row().expand().width(screenWidth/10f).height(screenWidth/10f).left().top()
-                button("return_white").addListener(object : ClickListener() {
-                    override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                        controller.handleChangeToMainView()
-                    }
-                })
+                button("return_white"){
+                    onClick { controller.handleChangeToMainView() }
+                }
 
                 // Nickname-field
                 row()
                 label("Nickname").setAlignment(1)
 
-
+                // Nickname-textfield
                 row().width(screenWidth/2f)
                 textField {
                     style.background.leftWidth += 40
-
-
-                }.addListener(object : ChangeListener() {
-                    override fun changed(event: ChangeEvent?, actor: Actor?) {
-                            nickname = actor?.let { (it as TextField).text }.toString()
-                            prompt("")
+                    onChange {
+                        nickname = text
+                        prompt("")
                     }
-                })
+                }
 
                 // Rounds-label
                 row()
@@ -58,7 +57,7 @@ class NewGameView(val controller: MenuController): View() {
 
                 // Rounds-buttons
                 row()
-                buttonGroup(1,1){
+                buttonGroup(1,1) {
                     textButton("2", "toggle") {
                         pad(25f, 50f, 25f, 50f)
                     }
@@ -68,14 +67,14 @@ class NewGameView(val controller: MenuController): View() {
                         it.padRight(50f)
                     }
                     textButton("4", "toggle") {
-                        pad(25f, 50f, 25f,
-                            50f)
+                        pad(
+                            25f, 50f, 25f,
+                            50f
+                        )
                     }
                 }.addListener(object : ChangeListener() {
                     override fun changed(event: ChangeEvent?, actor: Actor?) {
-                        rounds =  actor.toString().split(" ").get(1).toInt()
-
-
+                        rounds = actor.toString().split(" ")[1].toInt()
                     }
                 })
 
@@ -112,19 +111,16 @@ class NewGameView(val controller: MenuController): View() {
                 textButton("Create Game", "selection") {
                     it.bottom()
                     it.height(150f)
-                }.addListener(object : ClickListener() {
-                    override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                        //System.out.println(actor.toString())
+                    onClick {
                         if(nickname.equals("")){
                             prompt("You need to choose a nickname!")
                         }
 
                         else{
                             controller.handleNewGame(nickname, rounds, difficulty)
-
                         }
                     }
-                })
+                }
 
                 // Table-options
                 setFillParent(true)
