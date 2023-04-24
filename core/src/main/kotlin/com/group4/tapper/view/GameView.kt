@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
+import com.group4.tapper.assets.TextureAsset
 import com.group4.tapper.controller.GameController
 import ktx.scene2d.*
 import ktx.app.clearScreen
@@ -55,9 +56,6 @@ class GameView(private val controller: GameController) : View() {
         stage.draw()
     }
 
-
-
-
         fun makeUI() {
         stage.clear()
 
@@ -82,7 +80,7 @@ class GameView(private val controller: GameController) : View() {
 
                 // Add upper line
                 row().pad(0f)
-                image(Texture(Gdx.files.internal("images/line.png")))
+                image(controller.assets[TextureAsset.LINE.descriptor])
 
                 // Add textButtons
                 row()
@@ -96,7 +94,7 @@ class GameView(private val controller: GameController) : View() {
 
                 // Add lower line
                 row().pad(0f)
-                image(Texture(Gdx.files.internal("images/line.png")))
+                image(controller.assets[TextureAsset.LINE.descriptor])
             }
 
             // Add numberButtons
@@ -116,9 +114,6 @@ class GameView(private val controller: GameController) : View() {
     override fun update(dt: Float) {
         TODO("Not yet implemented")
     }
-
-
-
 
     override fun dispose() {
         uiDispose()

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Align.*
+import com.group4.tapper.assets.TextureAsset
 import com.group4.tapper.controller.MenuController
 import ktx.scene2d.*
 
@@ -41,7 +42,7 @@ class HowToView(val controller: MenuController): View() {
                     }
 
                     row().fill(false, false)
-                    image(Texture(Gdx.files.internal("images/create_game.png")))
+                    image(controller.assets[TextureAsset.CREATE_GAME.descriptor])
 
                     row()
                     label("2. Choose a nickname, number and difficulty", "white_bigger"){
@@ -51,7 +52,7 @@ class HowToView(val controller: MenuController): View() {
                     }
 
                     row().fill(false, false)
-                    image(Texture(Gdx.files.internal("images/number_of_rounds.png")))
+                    image(controller.assets[TextureAsset.NUMBER_OF_ROUNDS.descriptor])
 
                     row().pad(50f, 0f, 50f, 0f)
                     label("How to join game", "white_bigger"){
@@ -67,7 +68,7 @@ class HowToView(val controller: MenuController): View() {
                     }
 
                     row().fill(false, false)
-                    image(Texture(Gdx.files.internal("images/join_game.png")))
+                    image(controller.assets[TextureAsset.JOIN_GAME.descriptor])
 
                     row()
                     label("2. Enter game pin and nickname", "white_bigger"){
@@ -77,7 +78,7 @@ class HowToView(val controller: MenuController): View() {
                     }
 
                     row().fill(false, false)
-                    image(Texture(Gdx.files.internal("images/pin-input.png")))
+                    image(controller.assets[TextureAsset.PIN_INPUT.descriptor])
 
                     row().pad(50f, 0f, 50f, 0f)
                     label("How to play", "white_bigger"){
@@ -93,7 +94,7 @@ class HowToView(val controller: MenuController): View() {
                     }
 
                     row().fill(false, false).pad(0f)
-                    image(Texture(Gdx.files.internal("images/game_tutorial.png")))
+                    image(controller.assets[TextureAsset.GAME_TUTORIAL.descriptor])
 
                     row().pad(100f, 0f, 100f, 0f)
                     label("Happy tapping!", "white_bigger"){
