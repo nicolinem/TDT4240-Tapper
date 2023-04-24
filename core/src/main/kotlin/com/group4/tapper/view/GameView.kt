@@ -1,11 +1,10 @@
 package com.group4.tapper.view
 
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.group4.tapper.assets.TextureAsset
 import com.group4.tapper.controller.GameController
+import com.group4.tapper.model.GameControllerInterface
 import ktx.scene2d.*
 import ktx.app.clearScreen
 import java.text.DecimalFormat
@@ -13,7 +12,7 @@ import kotlin.properties.Delegates
 
 
 
-class GameView(private val controller: GameController) : View() {
+class GameView(private val controller: GameControllerInterface) : View() {
 
 
     internal var height by Delegates.notNull<Int>()
@@ -34,23 +33,18 @@ class GameView(private val controller: GameController) : View() {
 
 
     init {
-        this.controller.gameView = this
+        controller.gameView = this
     }
     override fun show() {
         super.show()
         controller.start()
     }
 
-    // Remove start(), triggerError(), and checkVictory() functions here.
-    // These methods are moved to GameController.
 
-    // ... (the rest of the code)
-
-    // Update the render function
     override fun render(delta: Float) {
-        controller.audioService.update()
+        controller.updateAudioService()
         clearScreen(0.42f, 0.12f, 0.39f, 1f)
-        pointsLabel.setText(df.format(controller.points).toString())
+        pointsLabel.setText(controller.getRemainingPoints())
         stage.act()
         stage.draw()
     }
@@ -71,7 +65,7 @@ class GameView(private val controller: GameController) : View() {
                     label("Round: 1", "white_bigger"){
                         it.left()
                     }
-                    pointsLabel = label(df.format(controller.points).toString(), "pink_bigger"){
+                    pointsLabel = label(controller.getRemainingPoints(), "pink_bigger"){
                         it.right()
                     }
                 }

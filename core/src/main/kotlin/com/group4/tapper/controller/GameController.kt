@@ -10,31 +10,35 @@ import com.group4.tapper.assets.AudioService
 import com.group4.tapper.assets.MusicAsset
 import com.group4.tapper.assets.SoundAsset
 import com.group4.tapper.assets.TextureAsset
+import com.group4.tapper.model.GameControllerInterface
 import com.group4.tapper.model.Puzzle
 import com.group4.tapper.view.GameView
 import com.group4.tapper.view.ResultView
 import ktx.assets.async.AssetStorage
+import java.text.DecimalFormat
 import kotlin.properties.Delegates
 import java.util.TimerTask
 import java.util.Timer
 import kotlin.concurrent.schedule
-import com.group4.tapper.controller.MenuController
 
 class GameController(
     val tapper: Tapper,
     val assets: AssetStorage,
     val audioService: AudioService,
-) {
+): GameControllerInterface {
 
 
     private val prefs: Preferences = Gdx.app.getPreferences("prefs")
     internal lateinit var puzzle: Puzzle
 
-    lateinit var gameView: GameView
+    override lateinit var gameView: GameView
+
+    internal val df = DecimalFormat("#.##")
+
     private var pointsReductionPerTick: Int =1 //default is easy mode
     private var pointsReductionPerError:Int = 10 //defualt is easy mode
 
-    var points by Delegates.notNull<Int>()
+    var remainingPoints by Delegates.notNull<Int>()
     private lateinit var puzzleList: MutableList<Int>
 
     private var timer: Timer = Timer()
@@ -42,23 +46,29 @@ class GameController(
 
 
 
-    fun start() {
+
+    // Add a setter for the gameView
+
+
+    override fun start() {
         setDifficulty()
 
-
         puzzle = Puzzle()
-        points = 1000
-
+        remainingPoints = 1000
         task?.cancel()
 
         // Create a new timer task
         task = object : TimerTask() {
             override fun run() {
-                points -= pointsReductionPerTick
+                remainingPoints -= pointsReductionPerTick
                 checkVictory()
             }
         }
 
+        setupGameView()
+        timer.scheduleAtFixedRate(task, 0L, 25)
+    }
+    private fun setupGameView() {
         puzzleList = puzzle.randomNumbers.toMutableList()
         gameView.setPuzzleList(puzzleList)
 
@@ -97,53 +107,64 @@ class GameController(
                 }
             })
         }
-
-        timer.scheduleAtFixedRate(task, 0L, 25)
     }
 
 
-    fun triggerError() {
+    override fun triggerError() {
         Gdx.input.vibrate(500)
-        points -= pointsReductionPerError
+        remainingPoints -= pointsReductionPerError
     }
 
-    private fun checkVictory() {
+    override fun checkVictory() {
         if (puzzleList.isEmpty()) {
             handleVictory()
         }
-        if(points==0){
+        if(remainingPoints==0){
             handleVictory()
         }
     }
 
-    fun getTextureAsset(asset: TextureAsset): Texture {
+    override fun getTextureAsset(asset: TextureAsset): Texture {
         return assets[asset.descriptor]
     }
 
-    fun handleVictory() {
+    override fun handleVictory() {
         println("handleVictory")
         timer.cancel()
         timer = Timer()
         audioService.play(MusicAsset.MENU)
         System.out.println(prefs.getString("playerID"))
-        println("Points: $points")
-        tapper.menuController.game.updatePlayerScore(points, prefs.getString("playerID"))
+        println("Points: $remainingPoints")
+        tapper.menuController.game.updatePlayerScore(remainingPoints, prefs.getString("playerID"))
         tapper.setScreen<ResultView>()
     }
 
-    fun setDifficulty(){
+    override fun setDifficulty(){
         val gameDifficulty = tapper.menuController.game.difficulty
 
-        if(gameDifficulty.equals("easy")){
-            pointsReductionPerError = 10
-            pointsReductionPerTick=1
-        } else if(gameDifficulty.equals("medium")){
-            pointsReductionPerError=25
-            pointsReductionPerTick=2
-        } else {
-            pointsReductionPerError=50
-            pointsReductionPerTick=4
+        when (gameDifficulty) {
+            "easy" -> {
+                pointsReductionPerError = 10
+                pointsReductionPerTick = 1
+            }
+            "medium" -> {
+                pointsReductionPerError = 25
+                pointsReductionPerTick = 2
+            }
+            "hard" -> {
+                pointsReductionPerError = 50
+                pointsReductionPerTick = 4
+            }
         }
+    }
+
+    override fun updateAudioService() {
+        audioService.update()
+    }
+
+
+    override fun getRemainingPoints(): String {
+        return df.format(remainingPoints).toString()
     }
 
 
