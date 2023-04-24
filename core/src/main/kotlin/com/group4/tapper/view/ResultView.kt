@@ -76,6 +76,7 @@ class ResultView(val controller: MenuController): View() {
         stage.actors {
             // Start of table
             val gameState = controller.checkGameState()
+            println(gameState.toString())
 
             if (gameState == GameState.PLAY_AGAIN && !hidden)
             {
