@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.group4.tapper.assets.MusicAsset
 import com.group4.tapper.assets.TextureAsset
 import com.group4.tapper.controller.MenuController
+import ktx.actors.onClick
 import ktx.scene2d.*
 
 class MainView(val controller: MenuController) : View() {
@@ -25,46 +26,39 @@ class MainView(val controller: MenuController) : View() {
 
                 row()
                 table {
+
+                    // Settings button
                     row().expandX()
                     button("settings") {
                         it.size(screenWidth/10f, screenWidth/10f)
                         it.left()
-                    }.addListener(object : ClickListener() {
-                        override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                            controller.handleChangeToSettingsView()
-                        }
-                    })
+                        onClick { controller.handleChangeToSettingsView() }
+                    }
 
+                    // How to play button
                     textButton("How to play?") {
                         it.right()
                         pad(25f, 50f, 25f, 50f)
-                    }.addListener(object : ClickListener() {
-                        override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                            controller.handleChangeToHowToView()
-                        }
-                    })
+                        onClick { controller.handleChangeToHowToView() }
+                    }
                 }
 
+                // Tapper logo
                 row().width(screenWidth/1.5f).height(screenWidth/1.5f).padTop(screenHeight/8f)
                 image(controller.assets[TextureAsset.TAPPER_LOGO.descriptor])
 
                 // New Game button
-                row()/*.padTop(screenHeight/3f)*/
+                row()
                 textButton("New Game", "new_game"){
-                }.addListener(object : ClickListener() {
-                    override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                        controller.handleChangeToNewGameView()
-                    }
-                })
+                    onClick { controller.handleChangeToNewGameView() }
+                }
 
                 // Join Game button
                 row()
                 textButton("Join Game", "join_game") {
-                }.addListener(object : ClickListener() {
-                    override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                      controller.handleChangeToJoinGameView()
-                    }
-                })
+                    onClick { controller.handleChangeToJoinGameView() }
+                }
+
                 setFillParent(true)
                 top()
                 pack()

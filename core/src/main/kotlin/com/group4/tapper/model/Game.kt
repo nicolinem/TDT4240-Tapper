@@ -153,5 +153,4 @@ private fun getPlayers(players: List<Player>, rounds:Int, diff:String) {
             return sb.toString()
         }
     }
-
 }

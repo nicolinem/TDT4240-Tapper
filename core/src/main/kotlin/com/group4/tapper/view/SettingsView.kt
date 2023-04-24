@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.group4.tapper.assets.AudioService
 import com.group4.tapper.controller.MenuController
 import ktx.actors.onChangeEvent
+import ktx.actors.onClick
 import ktx.scene2d.*
 
 class SettingsView(val controller: MenuController): View() {
@@ -22,11 +23,7 @@ class SettingsView(val controller: MenuController): View() {
                 defaults().pad(50f)
 
                 row().width(screenWidth / 10f).height(screenWidth / 10f).left().top()
-                button("return_white").addListener(object : ClickListener() {
-                    override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                        controller.handleChangeToMainView()
-                    }
-                })
+                button("return_white"){onClick { controller.handleChangeToMainView() }}
 
                 row()
                 label("Settings", "white_bigger") {
