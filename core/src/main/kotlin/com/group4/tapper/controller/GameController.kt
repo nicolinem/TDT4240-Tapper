@@ -2,12 +2,14 @@ package com.group4.tapper.controller
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Preferences
+import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.group4.tapper.Tapper
 import com.group4.tapper.assets.AudioService
 import com.group4.tapper.assets.MusicAsset
 import com.group4.tapper.assets.SoundAsset
+import com.group4.tapper.assets.TextureAsset
 import com.group4.tapper.model.Puzzle
 import com.group4.tapper.view.GameView
 import com.group4.tapper.view.ResultView
@@ -58,7 +60,7 @@ class GameController(
         }
 
         puzzleList = puzzle.randomNumbers.toMutableList()
-        gameView.puzzleListCopy = puzzleList
+        gameView.setPuzzleList(puzzleList)
 
         // Create coordinates for buttons
         gameView.apply {
@@ -107,17 +109,16 @@ class GameController(
 
     private fun checkVictory() {
         if (puzzleList.isEmpty()) {
-            gameView.timerbool = false
             handleVictory()
         }
         if(points==0){
-            gameView.timerbool = false
             handleVictory()
         }
     }
 
-
-
+    fun getTextureAsset(asset: TextureAsset): Texture {
+        return assets[asset.descriptor]
+    }
 
     fun handleVictory() {
         println("handleVictory")

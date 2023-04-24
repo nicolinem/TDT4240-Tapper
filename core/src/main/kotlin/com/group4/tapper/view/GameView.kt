@@ -32,7 +32,6 @@ class GameView(private val controller: GameController) : View() {
 
     internal val df = DecimalFormat("#.##")
 
-    internal var timerbool:Boolean = false
 
     init {
         this.controller.gameView = this
@@ -80,7 +79,8 @@ class GameView(private val controller: GameController) : View() {
 
                 // Add upper line
                 row().pad(0f)
-                image(controller.assets[TextureAsset.LINE.descriptor])
+                image(controller.getTextureAsset(TextureAsset.LINE))
+
 
                 // Add textButtons
                 row()
@@ -94,7 +94,8 @@ class GameView(private val controller: GameController) : View() {
 
                 // Add lower line
                 row().pad(0f)
-                image(controller.assets[TextureAsset.LINE.descriptor])
+                image(controller.getTextureAsset(TextureAsset.LINE))
+
             }
 
             // Add numberButtons
@@ -105,6 +106,10 @@ class GameView(private val controller: GameController) : View() {
             }
 
         }
+    }
+
+    fun setPuzzleList(list: MutableList<Int>) {
+        puzzleListCopy = list
     }
 
     override fun setupUI() {

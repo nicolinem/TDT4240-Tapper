@@ -8,8 +8,10 @@ import com.group4.tapper.model.Player
 import com.group4.tapper.Tapper
 import com.group4.tapper.view.*
 import com.group4.tapper.assets.AudioService
+import com.group4.tapper.assets.GameState
 import com.group4.tapper.assets.MusicAsset
 import com.group4.tapper.assets.SoundAsset
+import com.group4.tapper.model.GameModel
 import ktx.assets.async.AssetStorage
 
 class MenuController(tapper: Tapper,
@@ -23,10 +25,9 @@ class MenuController(tapper: Tapper,
 
     private var numberOfRounds: Int
     private var difficulty:String
-    internal lateinit var game:Game
+    internal lateinit var game:GameModel
     private val FB = tapper.getInterface()
     private val prefs : Preferences = Gdx.app.getPreferences("prefs")
-    var localLastRound: Boolean = false
 
 
     init{
@@ -52,14 +53,12 @@ class MenuController(tapper: Tapper,
 
     fun joinGame(player: Player, gamepin: String) {
         game.apply {
-            gameID = gamepin
-
+            this.gameID = gamepin
         }
         game.joinGame(player)
-        prefs.putString("playerID",player.id)
+        prefs.putString("playerID", player.id)
         prefs.flush()
         tapper.setScreen<WaitingView>()
-
     }
 
     fun playAgain(){
@@ -140,29 +139,9 @@ class MenuController(tapper: Tapper,
         game.removePlayer(string)
     }
 
-    enum class GameState {
-        IN_PROGRESS, WAITING, FINISHED, PLAY_AGAIN
-    }
-
-    fun checkGameState(): GameState {
-        val players = game.playerScores.values
-
-        val allPlayersFinished = players.all { it.currentRound >= game.rounds }
-        val allPlayersHaveZeroScore = players.all { it.score == 0 }
-
-        return when {
-            allPlayersFinished && allPlayersHaveZeroScore -> GameState.PLAY_AGAIN
-            allPlayersFinished -> GameState.FINISHED
-            localLastRound -> GameState.WAITING
-            else -> GameState.IN_PROGRESS
-        }
 
 
-    }
 
-    fun updateLocalLastRound(value: Boolean) {
-        localLastRound = value
-    }
 
     fun handleFinishGame() {
         game.stopListeningToGameUpdates()

@@ -12,7 +12,6 @@ import ktx.assets.async.AssetStorage
 import ktx.async.KtxAsync
 import ktx.collections.gdxArrayOf
 
-
 class Tapper(IF: FirebaseRepository) : KtxGame<KtxScreen>() {
 
     lateinit var menuController: MenuController
@@ -27,53 +26,47 @@ class Tapper(IF: FirebaseRepository) : KtxGame<KtxScreen>() {
 
     val FBIF = IF
 
-
     fun getInterface(): FirebaseRepository {
-            return FBIF
-        }
+        return FBIF
+    }
 
     override fun create() {
+        createControllers()
+        loadAssets()
+    }
+
+    private fun createControllers() {
         menuController = MenuController(this, assets, audioService)
         gameController = GameController(this, assets, audioService)
+    }
 
-
+    private fun loadAssets() {
         val assetRefs = gdxArrayOf(
             TextureAtlasAsset.values().filter { it.isSkinAtlas }.map { assets.loadAsync(it.descriptor) },
             MusicAsset.values().map { assets.loadAsync(it.descriptor) },
             SoundAsset.values().map { assets.loadAsync(it.descriptor) },
             TextureAsset.values().map { assets.loadAsync(it.descriptor) }
-
         ).flatten()
+
         KtxAsync.launch {
             assetRefs.joinAll()
 
-
             createSkin(assets)
-
-            addScreen(MainView(menuController))
-            addScreen(HowToView(menuController))
-            addScreen(NewGameView(menuController))
-            addScreen(ResultView(menuController))
-            addScreen(WaitingView(menuController))
-            addScreen(JoinGameView(menuController))
-            addScreen(GameView(gameController))
-            addScreen(SettingsView(menuController))
-
-
+            createScreens()
 
             menuController.playMusic(MusicAsset.GAME)
             setScreen<MainView>()
-
-
         }
     }
 
-
-
-
+    private fun createScreens() {
+        addScreen(MainView(menuController))
+        addScreen(HowToView(menuController))
+        addScreen(NewGameView(menuController))
+        addScreen(ResultView(menuController))
+        addScreen(WaitingView(menuController))
+        addScreen(JoinGameView(menuController))
+        addScreen(GameView(gameController))
+        addScreen(SettingsView(menuController))
     }
-
-
-
-
-
+}
