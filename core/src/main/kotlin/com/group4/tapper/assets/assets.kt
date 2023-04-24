@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.assets.AssetDescriptor
 import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.audio.Sound
+import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import ktx.assets.async.AssetStorage
 import ktx.scene2d.Scene2DSkin
@@ -27,8 +28,6 @@ enum class MusicAsset(
 ) {
     MENU("meny.mp3"),
     GAME("gameplay.mp3")
-/*    GAME_OVER("gameOver.mp3"),
-    MENU("menu.mp3")*/
 }
 
 enum class TextureAtlasAsset(
@@ -46,49 +45,18 @@ fun createSkin(assets: AssetStorage) {
     }
 
 
-/*
 enum class TextureAsset(
     fileName: String,
-    directory: String = "graphics",
+    directory: String = "images",
     val descriptor: AssetDescriptor<Texture> = AssetDescriptor("$directory/$fileName", Texture::class.java)
 ) {
-    BACKGROUND("background.png")
+    CREATE_GAME("create_game.png"),
+    GAME_TUTORIAL("game_tutorial.png"),
+    JOIN_GAME("join_game.png"),
+    LINE("line.png"),
+    NUMBER_OF_ROUNDS("number_of_rounds.png"),
+    PIN_INPUT("pin-input.png"),
+    RETURN("return.png"),
+    RETURN_WHITE("return_white.png"),
+    TAPPER_LOGO("tapper_logo.png")
 }
-*/
-
-/*enum class ShaderProgramAsset(
-    vertexFileName: String,
-    fragmentFileName: String,
-    directory: String = "shader",
-    val descriptor: AssetDescriptor<ShaderProgram> = AssetDescriptor(
-        "$directory/$vertexFileName/$fragmentFileName",
-        ShaderProgram::class.java,
-        ShaderProgramLoader.ShaderProgramParameter().apply {
-            vertexFile = "$directory/$vertexFileName"
-            fragmentFile = "$directory/$fragmentFileName"
-        })
-) {
-    OUTLINE("default.vert", "outline.frag")
-}*/
-
-/*enum class BitmapFontAsset(
-    fileName: String,
-    directory: String = "ui",
-    val descriptor: AssetDescriptor<BitmapFont> = AssetDescriptor(
-        "$directory/$fileName",
-        BitmapFont::class.java,
-        BitmapFontLoader.BitmapFontParameter().apply {
-            atlasName = TextureAtlasAsset.UI.descriptor.fileName
-        })
-) {
-    FONT_LARGE_GRADIENT("font11_gradient.fnt"),
-    FONT_DEFAULT("font8.fnt")
-}*/
-
-/*enum class I18NBundleAsset(
-    fileName: String,
-    directory: String = "i18n",
-    val descriptor: AssetDescriptor<I18NBundle> = AssetDescriptor("$directory/$fileName", I18NBundle::class.java)
-) {
-    DEFAULT("i18n")
-}*/

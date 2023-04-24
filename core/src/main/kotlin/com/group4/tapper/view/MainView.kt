@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
+import com.group4.tapper.assets.TextureAsset
 import com.group4.tapper.controller.MenuController
 import ktx.scene2d.*
 
@@ -43,9 +44,7 @@ class MainView(val controller: MenuController) : View() {
                 }
 
                 row().width(screenWidth/1.5f).height(screenWidth/1.5f).padTop(screenHeight/8f)
-                image(Texture(Gdx.files.internal("images/tapper_logo.png"))){
-
-                }
+                image(controller.assets[TextureAsset.TAPPER_LOGO.descriptor])
 
                 // New Game button
                 row()/*.padTop(screenHeight/3f)*/

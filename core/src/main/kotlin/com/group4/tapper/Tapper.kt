@@ -41,6 +41,7 @@ class Tapper(IF: FirebaseRepository) : KtxGame<KtxScreen>() {
             TextureAtlasAsset.values().filter { it.isSkinAtlas }.map { assets.loadAsync(it.descriptor) },
             MusicAsset.values().map { assets.loadAsync(it.descriptor) },
             SoundAsset.values().map { assets.loadAsync(it.descriptor) },
+            TextureAsset.values().map { assets.loadAsync(it.descriptor) }
 
         ).flatten()
         KtxAsync.launch {

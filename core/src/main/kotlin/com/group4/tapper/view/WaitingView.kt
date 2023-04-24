@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
+import com.group4.tapper.assets.TextureAsset
 import com.group4.tapper.controller.MenuController
 import com.group4.tapper.model.Player
 import ktx.scene2d.*
@@ -78,7 +79,7 @@ class WaitingView(val controller: MenuController) : View() {
                 }
 
                 row().pad(0f)
-                image(Texture(Gdx.files.internal("images/line.png")))
+                image(controller.assets[TextureAsset.LINE.descriptor])
 
 
                 row().expand()
