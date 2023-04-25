@@ -2,8 +2,6 @@
 
 Tapper is inspired by one of the mini games from the app TikTok. The goal is to test and enhance your responsiveness by challenging you to tap circles in the same order as displayed on the screen. 
 
-
-
 Welcome to MyLibktxGame! This is a game project built using the LibKTX library, which is an extension of the LibGDX game framework for Kotlin developers. This README file will provide you with an overview of the project structure and instructions on how to compile and run the game.
 
 ## Table of Contents
@@ -41,9 +39,7 @@ MyLibktxGame/
 
 - `android/`: Contains the Android-specific source code and resources.
 - `core/`: Holds the core game logic and assets, which are shared among all platforms.
-- `desktop/`: Contains the desktop-specific source code and resources.
-- `gradle/`: Holds the Gradle wrapper files.
-- `ios/`: Contains the iOS-specific source code and resources.
+- `lwjgl3/`: Holds desktop-specific code, resources, and LWJGL3 config for Windows, macOS, and Linux.
 - `build.gradle`: The main Gradle build file for the entire project.
 - `gradle.properties`: Gradle properties file for the project.
 - `gradlew` and `gradlew.bat`: Gradle wrapper scripts for Unix and Windows, respectively.
