@@ -104,16 +104,6 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
     }
 
 
-/*    override fun updatePlayerScore(gameId: String, playerID: String) {
-        val gameRef = db.collection("games").document(gameId)
-
-        gameRef.update(playerID, player.nickname, player.score)
-            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
-            .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
-    }*/
-
-
-
 
 
 
@@ -123,28 +113,10 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
         gameRef.get().addOnSuccessListener { documentSnapshot ->
             val playerScores = documentSnapshot.get("playerScores") as MutableMap<String, Player>?
                 ?: mutableMapOf()
-            method(playerScores.size,documentSnapshot.exists())
+            method(playerScores.size, documentSnapshot.exists())
         }
-            .addOnFailureListener{e ->
+            .addOnFailureListener { e ->
                 Log.w(TAG, "Listen failed.", e)
             }
     }
-
-    override fun checkIfLastRound(gameID:String, method: (Boolean) -> Unit) {
-        val gameRef = db.collection("games").document(gameID)
-            gameRef.get().addOnSuccessListener { documentSnapshot ->
-            val rounds = documentSnapshot.get("rounds")
-            val currentRound = documentSnapshot.get("currentRound")
-
-            if (rounds == currentRound) {
-                    method(true)
-                } else {
-                    method(false)
-                }
-            }
-            .addOnFailureListener{e ->
-                Log.w(TAG, "Listen failed.", e)
-            }
-    }
-
 }

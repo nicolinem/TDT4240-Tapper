@@ -17,6 +17,9 @@ class Game(private val firebaseRepository:
     var rounds: Int = 3
     var currentRound:Int = 1
 
+    override var difficulty: String = ""
+        get() = field
+
 
 
     override var gameID: String = generatePin()
@@ -28,8 +31,6 @@ class Game(private val firebaseRepository:
 
 
 
-    override var difficulty: String = ""
-        get() = field
 
 
     override fun removePlayer(playerID: String){
@@ -60,7 +61,7 @@ class Game(private val firebaseRepository:
         playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, it) }
     }
     override fun resetPlayerStats(playerID: String){
-        playerScores[playerID]?.resetStats()
+        playerScores[playerID]?.resetRounds()
         playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, it) }
     }
 
@@ -75,11 +76,11 @@ class Game(private val firebaseRepository:
             method(false)
         }
 
-       /* firebaseRepository.checkIfLastRound(gameID,method)*/
+
     }
     override fun playAgain(){
         for ((key) in playerScores){
-            playerScores[key]?.resetStats()
+            playerScores[key]?.resetScore()
         }
         putGame()
     }
@@ -96,10 +97,9 @@ private fun getGame(players: List<Player>, rounds:Int, diff:String, currentRound
 
     override fun checkGameState(playerID: String): GameState {
         val localPlayer = playerScores[playerID]
-        val players = playerScores.filterKeys { it != playerID }.values
-
         val allPlayersFinished = playerScores.values.all { it.currentRound >= rounds }
         val allPlayersHaveZeroScore = playerScores.values.all { it.score == 0 }
+
 
         return when {
             allPlayersFinished && allPlayersHaveZeroScore -> GameState.PLAY_AGAIN
