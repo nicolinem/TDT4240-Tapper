@@ -54,11 +54,13 @@ class Game(private val firebaseRepository:
         prefs.flush()
     }
 
+
     override fun updatePlayerScore(points:Int, playerID: String){
         playerScores[playerID]?.incrementRound()
         playerScores[playerID]?.updateScore(points)
-        playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, it) }
+        firebaseRepository.updatePlayers(this.gameID, playerScores)
     }
+
     override fun resetPlayerStats(playerID: String){
         playerScores[playerID]?.resetRounds()
         playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, it) }

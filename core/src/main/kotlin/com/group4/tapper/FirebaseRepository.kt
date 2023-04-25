@@ -14,4 +14,6 @@ interface FirebaseRepository {
     fun unsubscribeFromGame(gameID: String)
 
     fun checkIfLastRound(gameID:String, method:(Boolean) -> Unit)
+
+    fun updatePlayers(gameID: String, players: Map<String, Player>)
 }
