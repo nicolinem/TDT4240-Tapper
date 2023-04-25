@@ -75,6 +75,8 @@ class JoinGameView(val controller: IMenuController): View() {
                 textButton("Join Game", "selection"){
                     it.bottom()
                     onClick {
+                        println(pin)
+                        println(nickname)
                         if(pin.equals("")){
                             prompt("You need to insert a game pin!")
                         }
@@ -98,11 +100,15 @@ class JoinGameView(val controller: IMenuController): View() {
 
 
     fun refreshGoToGame(numOfPlayers:Int,exists:Boolean):Boolean{
+        println(exists)
         if(exists){
             if(numOfPlayers>=maxPlayersPerGame){
                 prompt("Max 8 players per game. Game is full.")
             }
             else{
+                println("JOININGGAME")
+                println(nickname)
+                println(pin)
                 controller.joinGame(Player(nickname), pin)
             }
         }

@@ -41,12 +41,12 @@ class Player ( nickname:String){
         this.score += score
     }
 
+    fun resetRounds(){
+        this.currentRound = 0
+    }
     fun resetScore(){
         this.score = 0
-    }
 
-    fun resetRounds() {
-        this.currentRound = 0
     }
 
 }

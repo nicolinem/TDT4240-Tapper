@@ -55,11 +55,13 @@ class Game(private val firebaseRepository:
         prefs.flush()
     }
 
+
     override fun updatePlayerScore(points:Int, playerID: String){
         playerScores[playerID]?.incrementRound()
         playerScores[playerID]?.updateScore(points)
         playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, it) }
     }
+
     override fun resetPlayerStats(playerID: String){
         playerScores[playerID]?.resetRounds()
         playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, it) }
@@ -87,6 +89,7 @@ class Game(private val firebaseRepository:
 
 
 private fun getGame(players: List<Player>, rounds:Int, diff:String, currentRound: Int) {
+    playerScores.clear()
     for (p in players){
             playerScores[p.id] = p
     }
@@ -118,6 +121,7 @@ private fun getGame(players: List<Player>, rounds:Int, diff:String, currentRound
     }
 
     override fun initateGame(roundsNumber: Int, difficultySetting: String, player: Player) {
+        this.gameID = generatePin()
         this.rounds = roundsNumber
         this.difficulty = difficultySetting
         addPlayer(player)
