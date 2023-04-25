@@ -24,12 +24,6 @@ class Player ( nickname:String){
 
 
 
-   /* var pair:Pair<String,Int> = Pair(nickname,score)
-        get(){
-            return field
-        }*/
-
-
 
 
     private fun generateRandID(): String {
@@ -47,8 +41,11 @@ class Player ( nickname:String){
         this.score += score
     }
 
-    fun resetStats(){
+    fun resetScore(){
         this.score = 0
+    }
+
+    fun resetRounds() {
         this.currentRound = 0
     }
 

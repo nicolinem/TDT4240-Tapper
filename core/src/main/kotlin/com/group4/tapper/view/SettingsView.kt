@@ -6,11 +6,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.group4.tapper.assets.AudioService
 import com.group4.tapper.controller.MenuController
+import com.group4.tapper.model.IMenuController
 import ktx.actors.onChangeEvent
 import ktx.actors.onClick
 import ktx.scene2d.*
 
-class SettingsView(val controller: MenuController): View() {
+class SettingsView(val controller: IMenuController): View() {
     private var isCheckedSound = true
     private var isCheckedMusic = true
     override fun setupUI() {
@@ -68,8 +69,6 @@ class SettingsView(val controller: MenuController): View() {
         }
     }
 
-    override fun update(dt: Float) {
-        TODO("Not yet implemented")
-    }
+
 
 }

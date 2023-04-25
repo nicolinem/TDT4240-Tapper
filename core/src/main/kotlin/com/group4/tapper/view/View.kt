@@ -37,6 +37,6 @@ abstract class View() : KtxScreen {
         stage.dispose()
     }
 
-    abstract fun update(dt: Float)
+     fun update(dt: Float) {}
 
 }

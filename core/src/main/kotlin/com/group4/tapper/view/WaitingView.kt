@@ -8,15 +8,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.group4.tapper.assets.TextureAsset
 import com.group4.tapper.controller.MenuController
+import com.group4.tapper.model.IMenuController
 import com.group4.tapper.model.Player
 import ktx.actors.onClick
 import ktx.scene2d.*
 
-class WaitingView(val controller: MenuController) : View() {
+class WaitingView(val controller: IMenuController) : View() {
 
     private val tableN = Table(Scene2DSkin.defaultSkin)
     private var gameID:String = ""
-
 
 
 
@@ -46,10 +46,6 @@ class WaitingView(val controller: MenuController) : View() {
     }
 
     override fun setupUI() {
-
-        val screenHeight = Gdx.graphics.height.toFloat()
-        val screenWidth = Gdx.graphics.width.toFloat()
-
         stage.actors {
             // Start of table
             table {
@@ -78,7 +74,7 @@ class WaitingView(val controller: MenuController) : View() {
 
                 // Line
                 row().pad(0f)
-                image(controller.assets[TextureAsset.LINE.descriptor])
+                image(controller.getTextureAsset(TextureAsset.LINE))
 
                 // Player list
                 row().expand()
@@ -100,11 +96,6 @@ class WaitingView(val controller: MenuController) : View() {
 
     fun updateGameID(gameID:String){
         this.gameID=gameID
-    }
-
-
-    override fun update(dt: Float) {
-        TODO("Not yet implemented")
     }
 
 
