@@ -60,7 +60,7 @@ class Game(private val firebaseRepository:
         playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, it) }
     }
     override fun resetPlayerStats(playerID: String){
-        playerScores[playerID]?.resetStats()
+        playerScores[playerID]?.resetRounds()
         playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, it) }
     }
 
@@ -79,7 +79,7 @@ class Game(private val firebaseRepository:
     }
     override fun playAgain(){
         for ((key) in playerScores){
-            playerScores[key]?.resetStats()
+            playerScores[key]?.resetScore()
         }
         putGame()
     }
