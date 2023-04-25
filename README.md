@@ -2,7 +2,9 @@
 
 Tapper is inspired by one of the mini games from the app TikTok. The goal is to test and enhance your responsiveness by challenging you to tap circles in the same order as displayed on the screen. 
 
-Welcome to MyLibktxGame! This is a game project built using the LibKTX library, which is an extension of the LibGDX game framework for Kotlin developers. This README file will provide you with an overview of the project structure and instructions on how to compile and run the game.
+This is a game project generated with gdx-liftoff and built using the LibKTX library, which is an extension of the LibGDX game framework for Kotlin developers. This README file will provide you with an overview of the project structure and instructions on how to compile and run the game. 
+
+This project was generated with a Kotlin project template that includes Kotlin application launchers and KTX utilities.
 
 ## Table of Contents
 
@@ -10,8 +12,8 @@ Welcome to MyLibktxGame! This is a game project built using the LibKTX library, 
 2. [Prerequisites](#prerequisites)
 3. [How to Compile](#how-to-compile)
 4. [How to Run](#how-to-run)
-5. [Contributing](#contributing)
-6. [License](#license)
+5. [Platforms](#platforms)
+6. [Gradle](#gradle)
 
 ## Project Structure
 
@@ -62,11 +64,11 @@ To compile and run this project, you will need:
 
 On Unix-based systems:
 
-./gradlew build
+`./gradlew build`
 
 On Windows:
 
-gradlew.bat build
+`gradlew.bat build`
 
 
 
@@ -108,3 +110,28 @@ To run the iOS version, follow these steps:
 2. Connect an iOS device or start an iOS simulator.
 3. Select the device/simulator from the target device list.
 4. Press the "Run" button
+
+
+## Platforms
+* `core:` Main module with the application logic shared by all platforms.
+* `lwjgl3:` Primary desktop platform using LWJGL3.
+* `android:` Android mobile platform. Needs Android SDK.
+
+## Gradle
+This project uses Gradle to manage dependencies. The Gradle wrapper was included, so you can run Gradle tasks using gradlew.bat or ./gradlew commands. Useful Gradle tasks and flags:
+
+* `--continue:` when using this flag, errors will not stop the tasks from running.
+* `--daemon:` thanks to this flag, Gradle daemon will be used to run chosen tasks.
+* `--offline:` when using this flag, cached dependency archives will be used.
+* `--refresh-dependencies:` this flag forces validation of all dependencies. Useful for snapshot versions.
+* `android:lint:` performs Android project validation.
+* `build:` builds sources and archives of every project.
+* `cleanEclipse:` removes Eclipse project data.
+* `cleanIdea:` removes IntelliJ project data.
+* `clean:` removes build folders, which store compiled classes and built archives.
+* `eclipse:` generates Eclipse project data.
+* `idea:` generates IntelliJ project data.
+* `lwjgl3:jar:` builds application's runnable jar, which can be found at lwjgl3/build/libs.
+* `lwjgl3:run:` starts the application.
+* `test:` runs unit tests (if any).
+Note that most tasks that are not specific to a single project can be run with name: prefix, where the name should be replaced with the ID of a specific project. For example, core:clean removes build folder only from the core project.
