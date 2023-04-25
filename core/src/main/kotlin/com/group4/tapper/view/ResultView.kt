@@ -94,6 +94,9 @@ class ResultView(val controller: IMenuController): View() {
                 defaults().fillX().expandX()
                 defaults().pad(50f)
 
+                row().width(screenWidth / 10f).height(screenWidth / 10f).left().top()
+                button("return_white"){onClick { controller.handleChangeToMainView() }}
+
                 row().top().left().pad(100f, 100f, 100f, 0f)
                 label("Results", "white_bigger")
 

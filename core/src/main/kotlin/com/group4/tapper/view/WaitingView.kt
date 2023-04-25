@@ -52,13 +52,20 @@ class WaitingView(val controller: IMenuController) : View() {
                 defaults().fillX().expandX()
                 defaults().pad(50f)
 
+
                 // Pin-code label
                 row().padTop(100f)
                 table {
                     row().expandX()
                     if(gameID!=null){
-                        label("Pin", "pink_bigger"){
+                        button("return_white"){
                             it.left()
+                            it.width(screenWidth / 10f)
+                            it.height(screenWidth / 10f)
+                            it.padRight(0f)
+                            onClick { controller.handleChangeToMainView() }}
+                        label("Pin", "pink_bigger"){
+                            it.padLeft(20f)
                         }
                         label(gameID, "white_bigger"){
                             it.right()
