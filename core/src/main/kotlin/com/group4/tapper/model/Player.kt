@@ -24,12 +24,6 @@ class Player ( nickname:String){
 
 
 
-   /* var pair:Pair<String,Int> = Pair(nickname,score)
-        get(){
-            return field
-        }*/
-
-
 
 
     private fun generateRandID(): String {

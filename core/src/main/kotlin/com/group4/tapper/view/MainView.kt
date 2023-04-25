@@ -7,10 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.group4.tapper.assets.MusicAsset
 import com.group4.tapper.assets.TextureAsset
 import com.group4.tapper.controller.MenuController
+import com.group4.tapper.model.IMenuController
 import ktx.actors.onClick
 import ktx.scene2d.*
 
-class MainView(val controller: MenuController) : View() {
+class MainView(val controller: IMenuController) : View() {
 
     override fun setupUI() {
 
@@ -45,7 +46,7 @@ class MainView(val controller: MenuController) : View() {
 
                 // Tapper logo
                 row().width(screenWidth/1.5f).height(screenWidth/1.5f).padTop(screenHeight/8f)
-                image(controller.assets[TextureAsset.TAPPER_LOGO.descriptor])
+                image(controller.getTextureAsset(TextureAsset.TAPPER_LOGO))
 
                 // New Game button
                 row()
@@ -68,8 +69,6 @@ class MainView(val controller: MenuController) : View() {
     }
 
 
-    override fun update(dt: Float) {
-        TODO("Not yet implemented")
-    }
+
 
 }

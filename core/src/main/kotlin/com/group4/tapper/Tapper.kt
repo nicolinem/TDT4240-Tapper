@@ -3,6 +3,9 @@ package com.group4.tapper
 import com.group4.tapper.assets.*
 import com.group4.tapper.controller.GameController
 import com.group4.tapper.controller.MenuController
+import com.group4.tapper.model.Game
+import com.group4.tapper.model.IGameController
+import com.group4.tapper.model.IMenuController
 import com.group4.tapper.view.*
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
@@ -12,10 +15,10 @@ import ktx.assets.async.AssetStorage
 import ktx.async.KtxAsync
 import ktx.collections.gdxArrayOf
 
-class Tapper(IF: FirebaseRepository) : KtxGame<KtxScreen>() {
+class Tapper(val IF: FirebaseRepository) : KtxGame<KtxScreen>() {
 
-    lateinit var menuController: MenuController
-    lateinit var gameController: GameController
+    lateinit var menuController: IMenuController
+    lateinit var gameController: IGameController
 
     val assets: AssetStorage by lazy {
         KtxAsync.initiate()
@@ -23,11 +26,11 @@ class Tapper(IF: FirebaseRepository) : KtxGame<KtxScreen>() {
     }
 
     val audioService by lazy { DefaultAudioService(assets) }
+    val game by lazy { Game(IF) }
 
-    val FBIF = IF
 
     fun getInterface(): FirebaseRepository {
-        return FBIF
+        return IF
     }
 
     override fun create() {
@@ -36,8 +39,8 @@ class Tapper(IF: FirebaseRepository) : KtxGame<KtxScreen>() {
     }
 
     private fun createControllers() {
-        menuController = MenuController(this, assets, audioService)
-        gameController = GameController(this, assets, audioService)
+        menuController = MenuController(this, game, assets, audioService)
+        gameController = GameController(this, game, assets, audioService)
     }
 
     private fun loadAssets() {
