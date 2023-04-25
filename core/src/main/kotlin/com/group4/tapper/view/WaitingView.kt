@@ -63,7 +63,7 @@ class WaitingView(val controller: IMenuController) : View() {
                             it.width(screenWidth / 10f)
                             it.height(screenWidth / 10f)
                             it.padRight(0f)
-                            onClick { controller.handleChangeToMainView() }}
+                            onClick { controller.handleFinishGame() }}
                         label("Pin", "pink_bigger"){
                             it.padLeft(20f)
                         }
