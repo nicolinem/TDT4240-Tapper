@@ -11,7 +11,6 @@ import kotlin.math.max
 private const val MAX_SOUND_INSTANCES = 16
 
 interface AudioService {
-    var enabled: Boolean
     var soundsEnabled: Boolean
     var musicEnabled: Boolean
     fun play(soundAsset: SoundAsset, volume: Float = 1f) = Unit
@@ -47,14 +46,6 @@ class DefaultAudioService(private val assets: AssetStorage) : AudioService {
     override var soundsEnabled = true
 
 
-    override var enabled = true
-        set(value) {
-            when (value) {
-                true -> currentMusic?.play()
-                false -> currentMusic?.pause()
-            }
-            field = value
-        }
     private val soundCache = EnumMap<SoundAsset, Sound>(SoundAsset::class.java)
     private val soundRequestPool = SoundRequestPool()
     private val soundRequests = EnumMap<SoundAsset, SoundRequest>(SoundAsset::class.java)
