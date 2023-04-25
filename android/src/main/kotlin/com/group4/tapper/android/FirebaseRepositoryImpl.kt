@@ -52,8 +52,6 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
 
 
 
-
-
     override fun subscribeToGame(gameId: String, onGameUpdate: (Int,Int,List<Player>) -> Unit, updateGame: (List<Player>,Int,String, Int) -> Unit)  {
         val gameRef = db.collection("games").document(gameId)
         listener = gameRef.addSnapshotListener { snapshot, e ->
@@ -149,14 +147,4 @@ class FirebaseRepositoryImpl : com.group4.tapper.FirebaseRepository {
             }
     }
 
-    override fun updatePlayers(gameID: String, players: Map<String, Player>) {
-        val gameRef = db.collection("games").document(gameID)
-
-        gameRef.update("playerScores", players)
-            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
-            .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
-    }
-
-    }
-
-
+}
