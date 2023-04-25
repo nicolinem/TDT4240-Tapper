@@ -61,7 +61,7 @@ class JoinGameView(val controller: IMenuController): View() {
                 row().width(screenWidth/2f)
                 textField(){
                     onChange {
-                        pin = text
+                        nickname = text
                         prompt("")
                     }
                 }
