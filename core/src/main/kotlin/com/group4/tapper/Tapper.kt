@@ -29,9 +29,6 @@ class Tapper(val IF: FirebaseRepository) : KtxGame<KtxScreen>() {
     val game by lazy { Game(IF) }
 
 
-    fun getInterface(): FirebaseRepository {
-        return IF
-    }
 
     override fun create() {
         createControllers()
