@@ -35,9 +35,9 @@ class JoinGameView(val controller: IMenuController): View() {
 
                 // Return button
                 row().width(screenWidth/10f).height(screenWidth/10f).expand().left().top()
-                /*button("return_white"){
+                button("return_white"){
                     onClick { controller.handleChangeToMainView() }
-                }*/
+                }
 
                 // Pin-label
                 row()

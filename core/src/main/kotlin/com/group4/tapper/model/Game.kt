@@ -119,6 +119,7 @@ private fun getGame(players: List<Player>, rounds:Int, diff:String, currentRound
     }
 
     override fun initateGame(roundsNumber: Int, difficultySetting: String, player: Player) {
+        this.gameID = generatePin()
         this.rounds = roundsNumber
         this.difficulty = difficultySetting
         addPlayer(player)
