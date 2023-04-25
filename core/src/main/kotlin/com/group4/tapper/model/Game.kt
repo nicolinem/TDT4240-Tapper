@@ -86,6 +86,7 @@ class Game(private val firebaseRepository:
 
 
 private fun getGame(players: List<Player>, rounds:Int, diff:String, currentRound: Int) {
+    playerScores.clear()
     for (p in players){
             playerScores[p.id] = p
     }
