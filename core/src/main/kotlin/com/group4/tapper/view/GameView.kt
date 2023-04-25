@@ -6,8 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.group4.tapper.assets.TextureAsset
-import com.group4.tapper.controller.GameController
-import com.group4.tapper.model.GameControllerInterface
+import com.group4.tapper.model.IGameController
 import ktx.scene2d.*
 import ktx.app.clearScreen
 import java.text.DecimalFormat
@@ -15,7 +14,7 @@ import kotlin.properties.Delegates
 
 
 
-class GameView(private val controller: GameControllerInterface) : View() {
+class GameView(private val controller: IGameController) : View() {
 
 
     internal var height by Delegates.notNull<Int>()
@@ -139,9 +138,6 @@ class GameView(private val controller: GameControllerInterface) : View() {
         }
     }
 
-    override fun update(dt: Float) {
-        TODO("Not yet implemented")
-    }
 
     override fun dispose() {
         uiDispose()

@@ -8,12 +8,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.group4.tapper.controller.MenuController
+import com.group4.tapper.model.IMenuController
 import com.group4.tapper.model.Player
 import ktx.actors.onChange
 import ktx.actors.onClick
 import ktx.scene2d.*
 
-class JoinGameView(val controller: MenuController): View() {
+class JoinGameView(val controller: IMenuController): View() {
 
     private var pin: String = ""
     private var nickname : String =""
@@ -82,7 +83,7 @@ class JoinGameView(val controller: MenuController): View() {
                         }
 
                         else{
-                            controller.sendRefresh(pin, ::refreshGoToGame)
+                            controller.doesGameExist(pin, ::refreshGoToGame)
                         }
                     }
                 }
@@ -116,7 +117,5 @@ class JoinGameView(val controller: MenuController): View() {
         feedback.setText(input)
     }
 
-    override fun update(dt: Float) {
-        TODO("Not yet implemented")
-    }
+
 }

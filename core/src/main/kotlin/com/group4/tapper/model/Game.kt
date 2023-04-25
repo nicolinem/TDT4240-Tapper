@@ -14,7 +14,8 @@ class Game(private val firebaseRepository:
     private val prefs : Preferences = Gdx.app.getPreferences("prefs")
 
     val playerScores:MutableMap<String,Player> = mutableMapOf()
-
+    var rounds: Int = 3
+    var currentRound:Int = 1
 
 
 
@@ -26,8 +27,6 @@ class Game(private val firebaseRepository:
         }
 
 
-    var rounds: Int = 3
-    var currentRound:Int = 1
 
     override var difficulty: String = ""
         get() = field
@@ -65,12 +64,18 @@ class Game(private val firebaseRepository:
         playerScores[playerID]?.let { firebaseRepository.joinGame(this.gameID, it) }
     }
 
-    override fun sendRefresh(pin:String, refreshMethod:(Int, Boolean) -> Boolean){
-        firebaseRepository.checkIfGameExists(pin,refreshMethod)
+    override fun doesGameExist(pin:String, callback:(Int, Boolean) -> Boolean){
+        firebaseRepository.checkIfGameExists(pin,callback)
     }
 
     override fun checkIfLastRound(method:(Boolean) -> Unit){
-        firebaseRepository.checkIfLastRound(gameID,method)
+        if (rounds == currentRound) {
+            method(true)
+        } else {
+            method(false)
+        }
+
+       /* firebaseRepository.checkIfLastRound(gameID,method)*/
     }
     override fun playAgain(){
         for ((key) in playerScores){
@@ -80,33 +85,13 @@ class Game(private val firebaseRepository:
     }
 
 
-/**
-    fun generateScore(time: Int, player: Player, amountWrong: Int, game: Game) {
-        val maxPoint = 100
-        val maxSeconds = 30
-
-        val timePoints = maxPoint/maxSeconds
-        val score = 100 - (time * timePoints).coerceAtMost(100.0) - 10 * amountWrong
-
-        player.score = score.coerceAtLeast(0.0)
-        FirebaseRepository.updatePlayerScore(game.gameID, player.id, player.score)
-    }
-
-
-
-    // Sorterer spillere fra høyest til lavest.
-    fun generateWinner(players: Array<Player>): Array<Player> {
-        val sortedPlayers = players.sortedByDescending { it.score }
-        return sortedPlayers.toTypedArray()
-    }
-*/
-
-private fun getPlayers(players: List<Player>, rounds:Int, diff:String) {
+private fun getGame(players: List<Player>, rounds:Int, diff:String, currentRound: Int) {
     for (p in players){
             playerScores[p.id] = p
     }
     this.rounds = rounds
     this.difficulty = diff
+    this.currentRound = currentRound
 }
 
     override fun checkGameState(playerID: String): GameState {
@@ -125,13 +110,19 @@ private fun getPlayers(players: List<Player>, rounds:Int, diff:String) {
     }
 
     override fun subscribeToPlayerScoreUpdates(gameId: String, onPlayerScoreUpdate: (Int, Int, List<Player>) -> Unit) {
-         firebaseRepository.subscribeToGame(gameID, onPlayerScoreUpdate, ::getPlayers)
-
-/*        firebaseRepository.subscribeToGame(gameId, onPlayerScoreUpdate, ::getPlayers)*/
+         firebaseRepository.subscribeToGame(gameID, onPlayerScoreUpdate, ::getGame)
     }
 
     override fun stopListeningToGameUpdates() {
         firebaseRepository.unsubscribeFromGame(gameID)
+    }
+
+    override fun initateGame(roundsNumber: Int, difficultySetting: String, player: Player) {
+        this.rounds = roundsNumber
+        this.difficulty = difficultySetting
+        addPlayer(player)
+        prefs.putString("playerID", player.id).flush()
+        putGame()
     }
 
     //Static method in companion object.

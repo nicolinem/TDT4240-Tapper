@@ -8,13 +8,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.group4.tapper.assets.GameState
 import com.group4.tapper.controller.MenuController
+import com.group4.tapper.model.IMenuController
 import com.group4.tapper.model.Player
 import ktx.actors.onClick
 import ktx.scene2d.*
 
 
 
-class ResultView(val controller: MenuController): View() {
+class ResultView(val controller: IMenuController): View() {
 
 
 
@@ -25,10 +26,8 @@ class ResultView(val controller: MenuController): View() {
     private lateinit var players:List<Player>
     private var playAgain:Boolean = false
     private var count:Int = 0
-
     private val prefs : Preferences = Gdx.app.getPreferences("prefs")
     private var hidden: Boolean = true
-
 
 
 
@@ -159,7 +158,5 @@ class ResultView(val controller: MenuController): View() {
         hidden = true
     }
 
-    override fun update(dt: Float) {
-        TODO("Not yet implemented")
-    }
+
 }

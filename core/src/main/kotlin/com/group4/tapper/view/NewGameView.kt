@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.group4.tapper.controller.MenuController
+import com.group4.tapper.model.IMenuController
 import ktx.actors.onChange
 import ktx.actors.onChangeEvent
 import ktx.actors.onClick
@@ -15,7 +16,7 @@ import ktx.assets.disposeSafely
 import ktx.scene2d.*
 
 
-class NewGameView(val controller: MenuController): View() {
+class NewGameView(val controller: IMenuController): View() {
 
     private var rounds: Int = 2
     private var nickname: String = ""
@@ -137,9 +138,7 @@ class NewGameView(val controller: MenuController): View() {
         feedback.setText(input)
     }
 
-    override fun update(dt: Float) {
-        TODO("Not yet implemented")
-    }
+
 
     override fun dispose() {
         stage.disposeSafely()
